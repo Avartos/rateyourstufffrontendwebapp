@@ -1,0 +1,18 @@
+@import "./variables";
+
+nav{
+    grid-area: header;
+    padding: 1em;
+    font-family: 'Reem Kufi';
+    color: $fontHeaderColor;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    background: $headerBackgroundColor;
+    position: sticky;
+    z-index: 999;
+    border-bottom-style: solid;
+    border-bottom-width: $headerBottomWidth;
+    border-bottom-color: $headerBottomColor;
+}

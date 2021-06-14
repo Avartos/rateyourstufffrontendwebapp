@@ -1,0 +1,38 @@
+@import "./variables";
+@import "./headerBar";
+
+.App {
+    text-align: center;
+    height: 100vw;
+    display: grid;
+    grid-template-columns: 1fr;
+    background-color: $backgroundColor;
+    grid-template-rows: $headerHeight auto;
+    grid-template-areas: 
+    "header"
+    "content";
+  }
+  
+  @media (min-width: 1024px) {
+    .App {
+      grid-template-columns: $favBarWidth 5fr $favBarWidth;
+      grid-template-areas: 
+      "header  header header"
+      "sidebar content ."
+    }
+  }
+  
+  html,
+  body {
+    height: 100%;
+    margin: 0;
+    * {
+      font-family: Arial, Helvetica, sans-serif;
+    }
+  }
+  
+  body {
+    padding: 0;
+    margin: 0;
+    // height: 100%;
+  }
