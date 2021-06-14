@@ -1,0 +1,2 @@
+# rateyourstufffrontendwebapp
+webfrontend with react 
