@@ -1,11 +1,12 @@
 const SeriesList = () => {
     return ( 
-    <div>
-
-    </div> 
+    <div class='mediaList'>
+        <div class="mediaListHeader">
+            ----- Series -----
+        </div>
+    </div>
     )
     ;
 }
  
-export default SeriesLi<div>
-</div>st;
+export default SeriesList;

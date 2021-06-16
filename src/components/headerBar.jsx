@@ -1,4 +1,3 @@
-import "../assets/css/_headerBar.scss";
 
 const HeaderBar = () => {
     return ( 
