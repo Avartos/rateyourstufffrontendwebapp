@@ -9,7 +9,11 @@ const HeaderBar = () => {
             
             <p>
                 home
+                <Link className="link" to="/signup">
+                    SignUp
+                </Link>
             </p>
+
             <div className="gradient"></div>
         </nav>
      );
