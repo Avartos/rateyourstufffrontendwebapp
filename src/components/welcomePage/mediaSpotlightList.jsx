@@ -1,0 +1,30 @@
+import useFetch from '../../hooks/useFetch';
+import MediaEntry from './mediaEntry';
+import { CircularProgress } from "@material-ui/core";
+import React from 'react';
+
+const MediaSpotlightList = ({fetchURL, title}) => {
+    
+    const {data: media, isPending, error} = useFetch(fetchURL);
+
+    return ( 
+        <div className="spotlightList">
+            <h3 className="listTitle"><span>{title}</span></h3>
+            {isPending && 
+            <div className="loading">
+                <CircularProgress/>
+                <p>Lade...</p>
+            </div>
+                
+
+            }
+            {!isPending && media != null &&
+                media.map(medium => {
+                    return <MediaEntry key={medium.id} medium={medium}/>
+                })
+            }
+        </div>
+     );
+}
+ 
+export default MediaSpotlightList;

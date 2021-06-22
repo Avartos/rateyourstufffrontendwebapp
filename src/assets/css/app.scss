@@ -1,12 +1,13 @@
 // @import url('https://fonts.googleapis.com/css2?family=Reem+Kufi&display=swap%27');
 @import "./variables";
 @import "./headerBar";
-@import "./mediaList";
+@import "./mediaSpotlightList";
 
 .App {
     text-align: center;
     height: 100vw;
     display: grid;
+    width: 100%;
     grid-template-columns: 1fr;
     background-color: $backgroundColor;
     grid-template-rows: $headerHeight auto;
@@ -17,7 +18,7 @@
   
   @media (min-width: 1024px) {
     .App {
-      grid-template-columns: $favBarWidth 5fr $favBarWidth;
+      grid-template-columns: 5fr;
       grid-template-areas: 
       "header  header header"
       "sidebar content ."
@@ -36,5 +37,25 @@
   body {
     padding: 0;
     margin: 0;
+    width: 100%;
     // height: 100%;
+  }
+
+  .MuiCircularProgress-colorPrimary {
+    color: $headerBottomColor !important;
+  }
+
+  .link {
+    text-decoration: none;
+    color: white;
+    transition: ease-in-out .2s;
+
+    &:hover {
+      color: $headerBottomColor !important;
+    }
+
+    &:visited, &:active {
+      color: white;
+    }
+
   }

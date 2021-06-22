@@ -1,0 +1,117 @@
+@import './variables';
+
+.spotlightWrapper {
+    display: flex;
+    flex-wrap: wrap;
+    flex-grow: 1;
+    justify-content: space-evenly;
+    margin-top: 50px;
+}
+
+.spotlightList {
+    flex-basis: 350px;
+    margin: 5px;
+    border: 1px solid black;
+    padding: 5px;
+    border-radius: 5px;
+    background-color: $backgroundColor;
+    width: 300px !important;
+    display: block;
+    height: 783px;
+    box-shadow: 5px 5px #07070798;
+    position: relative;
+    z-index: 0;
+    overflow: hidden;
+
+    &:after {
+        margin: 0 auto; /* this centers the line to the full width specified */
+        position: absolute; /* positioning must be absolute here, and relative positioning must be applied to the parent */
+        height: 20px;
+        left: 0; right: 0; bottom: 0;
+        width: 100%;
+        z-index: -1;
+
+        content:"";
+        background: #454545;
+    }
+
+    .loading {
+        position: absolute;
+        top: 50%;
+        left: 0; right: 0; bottom: 0;
+        font-weight: bold;
+        font-size: 1.3em;
+        color: white;
+    }
+
+    .listTitle {
+        text-align:center;
+        color: white;
+        margin-top: 40px;
+        margin-bottom: 20px;
+        position: relative;
+        z-index: 1;
+        
+        &:before {
+            margin: 0 auto; /* this centers the line to the full width specified */
+            position: absolute; /* positioning must be absolute here, and relative positioning must be applied to the parent */
+            height: 2px;
+            top: 50%; left: 0; right: 0; bottom: 0;
+            width: 95%;
+            z-index: -1;
+
+            content:"";
+            background: -webkit-linear-gradient(0deg, #ffffff00 0%, #c8c8c8 40%, #c8c8c8 60%, #ffffff00 100%);
+        }
+
+        span {
+            background: $backgroundColor;
+            padding: 0 15px;
+        }
+    }
+
+    .mediaEntry {
+        margin: 15px 10px 15px 10px;
+        height: 130px;
+        background-color: #545454;
+        color: white;
+        display: flex;
+        transition: ease-in-out .2s;
+        cursor: pointer;
+        text-decoration: none;
+
+        &:hover {
+            box-shadow: 0 0 0 3px $headerBottomColor;
+        }
+
+        .previewImageWrapper {
+            margin: 5px 10px 5px 5px;
+            height: 120px;
+            width: 82px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        img {
+            height: 100%;
+            position: absolute;
+            left: 0;
+            right: 0;
+        }
+
+        .previewContent {
+            grid-area: previewContent;
+
+            .title {
+                margin-bottom: 10px;
+                text-align: left;
+            }
+
+            .details {
+                margin-left: 10px;
+                padding: 0;
+                text-align: left;
+            }
+        }
+    }
+}

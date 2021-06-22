@@ -13,7 +13,16 @@ nav{
     background: $headerBackgroundColor;
     position: sticky;
     z-index: 999;
-    border-bottom-style: solid;
-    border-bottom-width: $headerBottomWidth;
-    border-bottom-color: $headerBottomColor;
+    overflow: hidden;
+
+    &:after {
+        content:"";
+        background: -webkit-linear-gradient(0deg, rgba(0,212,255,1) 0%, rgba(7,93,203,1) 100%);
+        display: block;
+        height:5px;
+        left:0px;
+        right: 0px;
+        position: absolute;
+        bottom: 0;
+    }
 }
