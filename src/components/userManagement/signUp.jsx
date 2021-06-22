@@ -1,18 +1,26 @@
 import {useState} from "react";
 
+/**
+ * Component generates a SignUp-Form and converts sends the Data in JSON-Format over POST-Request to the Rest-API
+ */
 const SignUp = () => {
-    const [first_name, setFirstName] = useState('');
-    const [last_name, setLastName] = useState('');
-    const [second_name, setSecondName] = useState('');
+    const [firstName, setFirstName] = useState('');
+    const [lastName, setLastName] = useState('');
+    const [secondName, setSecondName] = useState('');
     const [gender, setGender] = useState('male');
-    const [user_name, setUserName] = useState('');
+    const [userName, setUserName] = useState('');
     const [password_hash, setPassword] = useState('');
     const [email, setEmail] = useState('example@rays.com');
 
+    /**
+     * Method generates the JSON-String after submit and sends fetches via POST-Request to the Rest-API
+     * @param e is standard event param
+     */
     const handleSubmit = (e) => {
         e.preventDefault();
-        const login = {email, password_hash}
-        const user = {first_name, second_name, last_name, gender, user_name, login};
+        const isEnabled = false;
+        const login = { email, password_hash, isEnabled }
+        const user = {firstName, gender, lastName, secondName, userName, login};
 
         fetch('http://localhost:5000/user/add', {
             method: 'POST',
@@ -40,28 +48,28 @@ const SignUp = () => {
                 <input
                     type="text"
                     required
-                    value={first_name}
+                    value={firstName}
                     onChange={(e) => setFirstName(e.target.value)}
                 />
                 <label>Second Name</label>
                 <input
                     type="text"
                     required
-                    value={second_name}
+                    value={secondName}
                     onChange={(e) => setSecondName(e.target.value)}
                 />
                 <label>Last Name</label>
                 <input
                     type="text"
                     required
-                    value={last_name}
+                    value={lastName}
                     onChange={(e) => setLastName(e.target.value)}
                 />
                 <label>User Name</label>
                 <input
                     type="text"
                     required
-                    value={user_name}
+                    value={userName}
                     onChange={(e) => setUserName(e.target.value)}
                 />
                 <label>Email</label>
