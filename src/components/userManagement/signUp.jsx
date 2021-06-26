@@ -54,7 +54,6 @@ const SignUp = () => {
                 <label>Second Name</label>
                 <input
                     type="text"
-                    required
                     value={secondName}
                     onChange={(e) => setSecondName(e.target.value)}
                 />
