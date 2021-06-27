@@ -2,7 +2,7 @@ import DeleteUser from "./deleteUser";
 
 const UserPreview = ({user}) => {
     const handleDelete = (id) => {
-        fetch(`http://localhost:5000/users/${user.id}`, {
+        fetch(`http://localhost:5000/user/${user.id}`, {
             method: 'DELETE'
         }).then(() => {
             console.log('User successfully deleted');

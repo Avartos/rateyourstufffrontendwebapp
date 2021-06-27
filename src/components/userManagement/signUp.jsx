@@ -9,7 +9,7 @@ const SignUp = () => {
     const [secondName, setSecondName] = useState('');
     const [gender, setGender] = useState('male');
     const [userName, setUserName] = useState('');
-    const [password_hash, setPassword] = useState('');
+    const [passwordHash, setPassword] = useState('');
     const [email, setEmail] = useState('example@rays.com');
 
     /**
@@ -19,10 +19,10 @@ const SignUp = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
         const isEnabled = false;
-        const login = { email, password_hash, isEnabled }
+        const login = { email, passwordHash, isEnabled }
         const user = {firstName, gender, lastName, secondName, userName, login};
 
-        fetch('http://localhost:5000/users/add', {
+        fetch('http://localhost:5000/user/add', {
             method: 'POST',
             headers: { "Content-Type": "application/json"},
             body: JSON.stringify(user)
@@ -82,7 +82,7 @@ const SignUp = () => {
                 <input
                     type="password"
                     required
-                    value={password_hash}
+                    value={passwordHash}
                     onChange={(e) => setPassword(e.target.value)}
                 />
                 <button>SignUp</button>

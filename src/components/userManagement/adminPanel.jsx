@@ -2,7 +2,7 @@ import useFetch from "../../hooks/useFetch";
 import UserPreview from "./userPreview";
 
 const AdminPanel = () => {
-    const {data: users, isPending, error} = useFetch("http://localhost:5000/users/all");
+    const {data: users, isPending, error} = useFetch("http://localhost:5000/user/all");
     return (
         <div className="adminPanel">
             <h2>User Management Panel</h2>
