@@ -5,11 +5,10 @@
 
 .App {
     text-align: center;
-    height: 100vw;
+    height: 100vh;
     display: grid;
     width: 100%;
     grid-template-columns: 1fr;
-    background-color: $backgroundColor;
     grid-template-rows: $headerHeight auto;
     grid-template-areas: 
     "header"
@@ -27,23 +26,22 @@
   
   html,
   body {
-    height: 100%;
+    height: 100vh;
+    background-color: $backgroundColor;
     margin: 0;
     * {
       font-family: Arial, Helvetica, sans-serif;
     }
   }
   
-  body {
-    padding: 0;
-    margin: 0;
-    width: 100%;
-    // height: 100%;
-  }
 
   .MuiCircularProgress-colorPrimary {
     color: $headerBottomColor !important;
   }
+
+.MuiRating-root {
+  color: $headerBottomColor !important;
+}
 
   .link {
     text-decoration: none;

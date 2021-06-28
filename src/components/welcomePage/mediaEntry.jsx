@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import ReadOnlyRating from "../rating/readOnlyRating";
 
 const MediaEntry = ({ medium }) => {
 
@@ -16,10 +17,13 @@ const MediaEntry = ({ medium }) => {
         <div className="previewContent">
             <h3 className="title">{medium.mediumName}</h3>
             <div className="details">
-                <p>{medium.releaseDate}</p>
+                <span>{medium.releaseDate}</span>
                 <span>{medium.genres.map(genre => {
                     return genre.genreName + ',';
                 })}</span>
+                <span>
+                    <ReadOnlyRating size="small" value={Math.random()*5}></ReadOnlyRating>
+                </span>
             </div>
         </div>
         </div>

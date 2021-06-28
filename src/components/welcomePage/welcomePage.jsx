@@ -2,20 +2,21 @@ import React from "react";
 import MediaSpotlightList from "./mediaSpotlightList";
 
 const WelcomePage = () => {
+  
+  const numberOfEntries = 7;
+  const orderBy = 'releaseDate';
+  const order = 'desc';
+  
   return (
     <div className="spotlightWrapper">
-      <MediaSpotlightList
-        fetchURL={"http://localhost:5000/movies-rest/all"}
-        title="Filme"
-      />
-      <br />
-        <MediaSpotlightList fetchURL={"http://localhost:5000/books-rest/all"} title="Bücher"/>
+        <MediaSpotlightList fetchURL={`http://localhost:5000/rest/movies/all?page=0&size=${numberOfEntries}&orderBy=${orderBy}&order=${order}`} title="Filme"/>
         <br />
-        <MediaSpotlightList fetchURL={"http://localhost:5000/series-rest/all"} title="Serien"/>
+        <MediaSpotlightList fetchURL={`http://localhost:5000/rest/books/all?page=0&size=${numberOfEntries}&orderBy=${orderBy}&order=${order}`} title="Bücher"/>
         <br />
-        <MediaSpotlightList fetchURL={"http://localhost:5000/games-rest/all"} title="Spiele"/>
+        <MediaSpotlightList fetchURL={`http://localhost:5000/rest/series/all?page=0&size=${numberOfEntries}&orderBy=${orderBy}&order=${order}`} title="Serien"/>
         <br />
-        <MediaSpotlightList fetchURL={"http://localhost:5000/episodes-rest/all"} title="Episoden"/>
+        <MediaSpotlightList fetchURL={`http://localhost:5000/rest/games/all?page=0&size=${numberOfEntries}&orderBy=${orderBy}&order=${order}`} title="Spiele"/>
+        <br />
     </div>
   );
 };
