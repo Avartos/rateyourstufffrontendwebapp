@@ -7,6 +7,7 @@ import { BrowserRouter as Router, Route, Switch, Link } from "react-router-dom";
 import SignUp from "./components/userManagement/signUp";
 import AdminPanel from "./components/userManagement/adminPanel";
 
+import MovieDetails from './components/mediaDetails/movieDetails';
 
 function App() {
 
@@ -16,7 +17,7 @@ function App() {
         <HeaderBar />
         <Switch>
           <Route exact path="/"><WelcomePage></WelcomePage></Route>
-          <Route exact path="/detail/:id"><h1>Work in Progress...vielleicht</h1></Route>
+          <Route exact path="/detail/movie/:id"><MovieDetails/></Route>
           <Route path="/signup"><SignUp /></Route>
           <Route path="/adminpanel"><AdminPanel /></Route>
           <Route path="/">

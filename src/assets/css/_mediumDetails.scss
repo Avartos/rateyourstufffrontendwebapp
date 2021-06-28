@@ -1,0 +1,81 @@
+@import "./variables";
+
+.mediaDetails {
+  // background-color: grey;
+  padding: 50;
+  width: 70%;
+  margin: 0 auto;
+  .content {
+    margin: 50px auto 50px auto;
+    padding: 50px;
+
+    .head {
+      padding: 25px;
+      background-color: #454545;
+      box-shadow: 5px 5px #07070798;
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr 1fr;
+      grid-template-areas: "image detail detail detail";
+      img {
+        height: 500px;
+        grid-area: image;
+      }
+
+      .details {
+        padding-left: 25px;
+        text-align: left;
+        grid-area: detail;
+
+        .detailField {
+          padding: 5px;
+        }
+
+        .title {
+          margin: 0;
+          font-size: 2.4em;
+          margin-bottom: 25px;
+        }
+
+        .shortDescription {
+          text-align: justify;
+          font-style: italic;
+          &::before {
+            content: '"';
+          }
+          &::after {
+            content: '"';
+          }
+        }
+      }
+    }
+
+    .detailGroup {
+      background-color: #454545;
+      box-shadow: 5px 5px #07070798;
+      margin: 25px auto 25px auto;
+      padding: 25px;
+      text-align: left;
+      display: flex;
+      flex-wrap: wrap;
+      flex-grow: 1;
+      justify-content: space-evenly;
+
+      .detailField {
+        margin-right: auto;
+      }
+    }
+
+    .body {
+      background-color: #454545;
+      box-shadow: 5px 5px #07070798;
+      margin: 25px auto 50px auto;
+      min-height: 250px;
+
+    }
+  }
+
+  .tabPanel {
+    padding: 15px;
+    text-align: left;
+  }
+}

@@ -3,7 +3,7 @@ import MediaEntry from './mediaEntry';
 import { CircularProgress } from "@material-ui/core";
 import React from 'react';
 
-const MediaSpotlightList = ({fetchURL, title}) => {
+const MediaSpotlightList = ({fetchURL, title, mediaType}) => {
     
     const {data: media, isPending, error} = useFetch(fetchURL);
 
@@ -20,7 +20,7 @@ const MediaSpotlightList = ({fetchURL, title}) => {
             }
             {!isPending && media != null &&
                 media.content.map(medium => {
-                    return <MediaEntry key={medium.id} medium={medium}/>
+                    return <MediaEntry key={medium.id} medium={medium} mediaType={mediaType}/>
                 })
             }
         </div>
