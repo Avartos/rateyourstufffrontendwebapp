@@ -1,10 +1,10 @@
-// @import url(https://fonts.googleapis.com/css2?family=Reem+Kufi&display=swap%27);
+@import url("https://fonts.googleapis.com/css2?family=Reem+Kufi&display=swap%27");
 @import "./variables";
 
 nav{
     grid-area: header;
     padding: 1em;
-    font-family: 'Reem Kufi';
+    font-family: 'Reem Kufi', sans-serif;
     color: $fontHeaderColor;
     display: flex;
     flex-direction: row;
