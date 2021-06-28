@@ -1,11 +1,13 @@
 import { useState } from "react";
+import EmojiTextarea from 'react-emoji-textarea';
 
-const rating = () => {
+const Rating = () => {
 
     const NewRatinForm = ({handleSubmitForm}) =>{
         const [title, setTitle] = useState("");
         const [body, setBody] = useState("");
         const [currentUser, setCurrentUser] = useState("");
+        const [mediumToRate, setMediumToRate] = useState("");
     
     return ( 
         <div>
@@ -28,6 +30,17 @@ const rating = () => {
                     }
                     />
 
+                    <label>
+                        <span>Bewertungstext</span>
+                    </label>
+                    <EmojiTextarea
+                        requiered
+                        value={body}
+                        onChange={(e) =>{
+                            setBody(e.target.value);
+                        }}
+                        />
+                    <button>Absenden</button>
                 </form>
             </div>
         </div>
@@ -35,4 +48,4 @@ const rating = () => {
     }
 }
  
-export default rating;
+export default Rating;

@@ -6,6 +6,7 @@ import WelcomePage from './components/welcomePage/welcomePage';
 import { BrowserRouter as Router, Route, Switch, Link } from "react-router-dom";
 import SignUp from "./components/userManagement/signUp";
 import AdminPanel from "./components/userManagement/adminPanel";
+import Rating from './components/rating/rating';
 
 
 function App() {
@@ -19,6 +20,7 @@ function App() {
           <Route exact path="/detail/:id"><h1>Work in Progress...vielleicht</h1></Route>
           <Route path="/signup"><SignUp /></Route>
           <Route path="/adminpanel"><AdminPanel /></Route>
+          <Route path="/ratingblubb"> <Rating /> </Route>
           <Route path="/">
             <h1>404 - Not Found</h1><br />
           </Route>
