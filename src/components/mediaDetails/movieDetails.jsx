@@ -3,6 +3,7 @@ import useFetch from "../../hooks/useFetch";
 import { useParams } from "react-router-dom";
 import ReadOnlyRating from "../rating/readOnlyRating";
 import TabBar from "./tabBar";
+import Chip from '@material-ui/core/Chip';
 
 const MovieDetails = () => {
   const { id } = useParams();
@@ -28,7 +29,7 @@ const MovieDetails = () => {
                   <span className="smallHeading">Genres</span>
                   <span>
                     {medium.genres.map((genre) => {
-                      return genre.genreName + ",";
+                      return <Chip color="secondary" variant="outlined" size="small" label={genre.genreName}/>
                     })}
                   </span>
                 </div>
@@ -38,7 +39,7 @@ const MovieDetails = () => {
                   <span>
                     {medium.languages.map((language) => {
                       return (
-                        <span key={language.id}>{language.language + ","}</span>
+                        <Chip color="primary" size="small" label={language.language}/>
                       );
                     })}
                   </span>
