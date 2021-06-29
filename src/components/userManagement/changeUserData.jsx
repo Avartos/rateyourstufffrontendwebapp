@@ -25,7 +25,7 @@ const ChangeUserData = ({user}) => {
      */
     const handleUserUpdate = (e) => {
         e.preventDefault();
-        const user = {firstName, gender, lastName, secondName, userName};
+        const user = {firstName, lastName, secondName, userName};
 
         fetch('http://localhost:5000/user', {
             method: 'PUT',
@@ -103,6 +103,7 @@ const ChangeUserData = ({user}) => {
                     type="email"
                     value={email}
                     onChange={(e) => setEmail(this.target.value)}
+                />
                 <label>Password</label>
                 <input
                     type="password"
