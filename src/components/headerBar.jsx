@@ -7,10 +7,10 @@ const HeaderBar = () => {
             <h2>RateYorStuff</h2>
             </Link>
             
-            <p>
+            <span>
                 home
                 <div><Link className="link" to="/signup">SignUp</Link></div>
-            </p>
+            </span>
 
             <div className="gradient"></div>
         </nav>

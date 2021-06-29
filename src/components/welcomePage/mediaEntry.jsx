@@ -1,14 +1,13 @@
 import { Link } from "react-router-dom";
 import ReadOnlyRating from "../rating/readOnlyRating";
 
-const MediaEntry = ({ medium }) => {
+const MediaEntry = ({ medium, mediaType }) => {
 
     return (
-    <Link className="link" to={`/detail/${medium.id}`}>
+    <Link className="link" to={`/detail/${mediaType}/${medium.id}`}>
         <div className="mediaEntry">
         <div className="previewImageWrapper">
             <img
-                height="75px"
                 src={`http://localhost:5000/${medium.picturePath}`}
                 alt="poster"
             ></img>

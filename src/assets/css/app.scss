@@ -1,60 +1,72 @@
-// @import url('https://fonts.googleapis.com/css2?family=Reem+Kufi&display=swap%27');
 @import "./variables";
 @import "./headerBar";
 @import "./mediaSpotlightList";
 @import "./signUp";
+@import "./mediumDetails";
 
 .App {
-    text-align: center;
-    height: 100vh;
-    display: grid;
-    width: 100%;
-    grid-template-columns: 1fr;
-    grid-template-rows: $headerHeight auto;
-    grid-template-areas: 
+  text-align: center;
+  height: 100vh;
+  display: grid;
+  width: 100%;
+  grid-template-columns: 1fr;
+  grid-template-rows: $headerHeight auto;
+  grid-template-areas:
     "header"
     "content";
-  }
-  
-  @media (min-width: 1024px) {
-    .App {
-      grid-template-columns: 5fr;
-      grid-template-areas: 
-      "header  header header"
-      "sidebar content ."
-    }
-  }
-  
-  html,
-  body {
-    height: 100vh;
-    background-color: $backgroundColor;
-    margin: 0;
-    * {
-      font-family: Arial, Helvetica, sans-serif;
-    }
-  }
-  
+}
 
-  .MuiCircularProgress-colorPrimary {
-    color: $headerBottomColor !important;
+@media (min-width: 1024px) {
+  .App {
+    grid-template-columns: 5fr;
+    grid-template-areas:
+      "header  header header"
+      "sidebar content .";
   }
+}
+
+html,
+body {
+  height: 100vh;
+  background-color: $backgroundColor;
+  margin: 0;
+  * {
+    font-family: Arial, Helvetica, sans-serif;
+  }
+}
+
+.MuiCircularProgress-colorPrimary {
+  color: $headerBottomColor !important;
+}
 
 .MuiRating-root {
   color: $headerBottomColor !important;
 }
 
-  .link {
-    text-decoration: none;
-    color: white;
-    transition: ease-in-out .2s;
+.link {
+  text-decoration: none;
+  color: white;
+  transition: ease-in-out 0.2s;
 
-    &:hover {
-      color: $headerBottomColor !important;
-    }
-
-    &:visited, &:active {
-      color: white;
-    }
-
+  &:hover {
+    color: $headerBottomColor !important;
   }
+
+  &:visited,
+  &:active {
+    color: white;
+  }
+}
+
+.smallHeading {
+  font-weight: bold;
+  font-size: 1.1em;
+  display: block;
+  margin-bottom: 2px;
+}
+
+.rating {
+  .value {
+    font-size: 1.6em;
+  }
+}
