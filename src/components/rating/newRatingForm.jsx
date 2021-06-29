@@ -3,7 +3,7 @@ import { useState } from "react";
 const NewRatingForm = () =>{
         const [body, setBody] = useState("");
         const [currentUser, setCurrentUser] = useState(1);
-        const [mediumToRate, setMediumToRate] = useState(12);
+        const [mediumToRate, setMediumToRate] = useState(7);
         const [error, setError] = useState(null);
 
         const handleSubmitForm = (e, body, currentUser, mediumToRate) => {
@@ -12,10 +12,10 @@ const NewRatingForm = () =>{
             let newRate = {
               desscription: body,
               numberOfPosts: 0,
-            //   user: currentUser,
-            //   medium: mediumToRate,
-              minPoints: 0,
-              maxPoints: 5,
+              userMappingID: currentUser,
+              mediumMappingID: mediumToRate,
+              minimumPoints: 0,
+              maximumPoints: 5,
               givenPoints: 4,
             };
 
@@ -24,7 +24,8 @@ const NewRatingForm = () =>{
               method: "POST",
               headers: { "Content-Type": "application/json" },
               body: JSON.stringify(newRate),
-            }).then(() => {
+            }).then((data) => {
+                console.log(data);
             //    fetchRatings();
             }).catch(error => {
                 setError('Das Formular konnte nicht abgeschickt werden (' + error + ')');
