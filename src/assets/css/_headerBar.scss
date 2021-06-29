@@ -13,7 +13,7 @@ nav{
     background: $headerBackgroundColor;
     position: sticky;
     z-index: 999;
-    overflow: hidden;
+    // overflow: hidden;
 
     &:after {
         content:"";
