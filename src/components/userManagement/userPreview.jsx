@@ -8,6 +8,7 @@ const UserPreview = ({user}) => {
             console.log('User successfully deleted');
         })
     }
+    //TODO loginRoles (dropdown w. checkboxes...)
     return (
         <div className="user-preview">
             <div>{user.id}</div>

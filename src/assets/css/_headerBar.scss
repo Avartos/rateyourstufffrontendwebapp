@@ -31,28 +31,28 @@ body {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }
-  
+
   :root {
     --bg-accent: #484a4d;
     --nav-size: 60px;
     --border: 1px solid #474a4d;
     --border-radius: 8px;
-    --speed: 500ms; 
+    --speed: 500ms;
   }
-  
+
   ul {
     list-style: none;
     margin: 0;
     padding: 0;
   }
-  
+
   a {
     color: $fontHeaderColor;
     text-decoration: none;;
   }
-  
+
   /* Top Navigation Bar */
-  
+
   /* <nav> */
   .navbar {
     height: var(--nav-size);
@@ -60,7 +60,7 @@ body {
     padding: 0 1rem;
     border-bottom: var(--border);
   }
-  
+
   /* <ul> */
   .navbar-nav {
     max-width: 100%;
@@ -68,7 +68,7 @@ body {
     display: flex;
     justify-content: flex-end;
   }
-  
+
   /* <li> */
   .nav-item {
     width: calc(var(--nav-size) * 0.8);
@@ -76,7 +76,7 @@ body {
     align-items: center;
     justify-content: center;
   }
-  
+
   /* Icon Button */
   .icon-button {
     --button-size: calc(var(--nav-size) * 0.5);
@@ -90,7 +90,7 @@ body {
     justify-content: center;
     transition: filter 300ms;
   }
-  
+
   .icon-button:hover {
     filter: brightness(1.2);
   }
@@ -98,26 +98,26 @@ body {
   .icon-button:active {
     background-color: #51505e;
   }
-  
-  .icon-button svg { 
+
+  .icon-button svg {
     fill: white;
     width: 20px;
     height: 20px;
     margin-right: 10px;
   }
-  
+
   .leftside {
     display: flex;
     justify-content: flex-start;
   }
-  
+
   .leftside h1{
     display: flex;
     color: white;
     align-items: center;
     margin-right: 100px;
   }
-  
+
   .leftNavigation {
     position: absolute;
     top: 60px;
@@ -132,23 +132,23 @@ body {
     margin-left: 0;
   }
   .leftNavs-enter {
-    
+
     transform: translateX(-700%) ;
-    
+
   }
   .leftNavs-enter-active {
     transform: translateX(0%);
     transition: 200ms;
-    
+
   }
-  
+
   .leftNavs-exit {
     transform: translateX(0%);
   }
   .leftNavs-exit-active {
     transform: translateX(-700%);
     transition: 200ms;
-    
+
   }
   .leftNavs {
     transition: 200ms;
