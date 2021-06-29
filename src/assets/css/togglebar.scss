@@ -1,0 +1,65 @@
+.leftNavigation {
+    position: absolute;
+    top: 60px;
+    width: 200px;
+    height: 1000px;
+    transform: translateX(+33%);
+    background-color: $headerBackgroundColor;
+    border: var(--border);
+    padding: 1rem;
+    /*overflow: hidden;*/
+    transition: height var(--speed) ease;
+    margin-left: 0;
+  }
+  .leftNavs-enter {
+    
+    transform: translateX(-700%) ;
+    
+  }
+  .leftNavs-enter-active {
+    transform: translateX(0%);
+    transition: 200ms;
+    
+  }
+  
+  .leftNavs-exit {
+    transform: translateX(0%);
+  }
+  .leftNavs-exit-active {
+    transform: translateX(-700%);
+    transition: 200ms;
+    
+  }
+  .leftNavs {
+    transition: 200ms;
+  }
+  .toggleLink {
+    display: flex;
+    align-items: center;
+    margin-left: 8px;
+    padding-right: auto;
+    height: 40px;
+  }
+  .toggleLink:hover {
+    background-color: #2f2e4d;
+  }
+
+  .icon-button svg { 
+    fill: white;
+    width: 20px;
+    height: 20px;
+    margin-right: 10px;
+  }
+  .icon-button {
+    --button-size: calc(var(--nav-size) * 0.5);
+    width: var(--button-size);
+    height: var(--button-size);
+    border-radius: 50%;
+    //padding: 5px;
+    //margin: 2px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: filter 300ms;
+  }
+  
