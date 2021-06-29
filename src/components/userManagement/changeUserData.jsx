@@ -5,6 +5,7 @@ const ChangeUserData = ({user}) => {
     const [lastName, setLastName] = useState(user.lastName);
     const [secondName, setSecondName] = useState(user.secondName);
     const [userName, setUserName] = useState(user.userName);
+    const [gender, setGender] = useState(user.gender);
     const [passwordHash, setPassword] = useState('DUMMY');
     const [passwordHashReference, setPasswordReference] = useState('DUMMY');
     const [email, setEmail] = useState(user.login.email);
@@ -25,7 +26,7 @@ const ChangeUserData = ({user}) => {
      */
     const handleUserUpdate = (e) => {
         e.preventDefault();
-        const user = {firstName, lastName, secondName, userName};
+        const user = {firstName, lastName, gender, secondName, userName};
 
         fetch('http://localhost:5000/user', {
             method: 'PUT',
