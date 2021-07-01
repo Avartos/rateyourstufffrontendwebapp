@@ -4,14 +4,22 @@ import { useParams } from "react-router-dom";
 import ReadOnlyRating from "../rating/readOnlyRating";
 import TabBar from "./tabBar";
 import Chip from '@material-ui/core/Chip';
+import Tabs from '../../components/tabs';
 
-const MovieDetails = () => {
+const BoolOutput = (isTrue) => {
+  if (isTrue === true) {
+      return "ja";
+  }
+  return "Nein";
+}
+
+const SeriesDetails = () => {
   const { id } = useParams();
   const {
     data: medium,
     isPending,
     error,
-  } = useFetch(`http://localhost:5000/rest/movies/${id}`);
+  } = useFetch(`http://localhost:5000/rest/series/${id}`);
 
   return (
     <React.Fragment>
@@ -48,6 +56,7 @@ const MovieDetails = () => {
                 <div className="detailField">
                   <h3>Handlung</h3>
                   <p className="shortDescription">{medium.shortDescription}</p>
+                  {console.log(medium)}
                 </div>
 
                 <div className="detailField">
@@ -57,10 +66,14 @@ const MovieDetails = () => {
               </div>
             </div>
 
+            <div className="seasonsDisplay">
+                <Tabs></Tabs>
+            </div>
+
             <div className="detailGroup">
               <div className="detailField">
-                <span className="smallHeading">Länge</span>
-                <span>{medium.length} Minuten</span>
+                <span className="smallHeading">Episodenlänge</span>
+                <span>{medium.averageLength} Minuten</span>
               </div>
 
               <div className="detailField">
@@ -69,11 +82,16 @@ const MovieDetails = () => {
               </div>
 
               <div className="detailField">
+                <span className="smallHeading">Abgeschlossen</span>
+                <span>{BoolOutput(medium.isCompleted)}</span>
+              </div>
+
+              <div className="detailField">
                 <span className="smallHeading">Erschienen</span>
                 <span>{medium.releaseDate}</span>
               </div>
             </div>
-
+            
             <div className="body">
                 <TabBar></TabBar>
             </div>
@@ -84,4 +102,4 @@ const MovieDetails = () => {
   );
 };
 
-export default MovieDetails;
+export default SeriesDetails;

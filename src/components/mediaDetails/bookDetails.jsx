@@ -5,13 +5,20 @@ import ReadOnlyRating from "../rating/readOnlyRating";
 import TabBar from "./tabBar";
 import Chip from '@material-ui/core/Chip';
 
-const MovieDetails = () => {
+const BoolOutput = (isTrue) => {
+  if (isTrue === true) {
+      return "ja";
+  }
+  return "Nein";
+}
+
+const BookDetails = () => {
   const { id } = useParams();
   const {
     data: medium,
     isPending,
     error,
-  } = useFetch(`http://localhost:5000/rest/movies/${id}`);
+  } = useFetch(`http://localhost:5000/rest/books/${id}`);
 
   return (
     <React.Fragment>
@@ -59,13 +66,24 @@ const MovieDetails = () => {
 
             <div className="detailGroup">
               <div className="detailField">
-                <span className="smallHeading">Länge</span>
-                <span>{medium.length} Minuten</span>
+                <span className="smallHeading">Seitenanzahl</span>
+                <span>{medium.numberOfPages} </span>
               </div>
 
               <div className="detailField">
-                <span className="smallHeading">Freigegeben ab</span>
-                <span>{medium.ageRestriction} Jahren</span>
+                <span className="smallHeading">ISBN</span>
+                <span>{medium.isbn} </span>
+              </div>
+
+              <div className="detailField">
+                <span className="smallHeading">Druck verfügbar</span>
+                <span>{BoolOutput(medium.isPrint)}</span>
+              </div>
+
+              <div className="detailField">
+                <span className="smallHeading">eBook verfügbar</span>
+                <span>{BoolOutput(medium.isEBook)}</span>
+                {/* <span><BoolOutput isEBook={medium.isEBook} /></span> */} 
               </div>
 
               <div className="detailField">
@@ -84,4 +102,4 @@ const MovieDetails = () => {
   );
 };
 
-export default MovieDetails;
+export default BookDetails;

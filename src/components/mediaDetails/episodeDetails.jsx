@@ -2,16 +2,15 @@ import React from "react";
 import useFetch from "../../hooks/useFetch";
 import { useParams } from "react-router-dom";
 import ReadOnlyRating from "../rating/readOnlyRating";
-import TabBar from "./tabBar";
 import Chip from '@material-ui/core/Chip';
 
-const MovieDetails = () => {
+const EpisodeDetails = () => {
   const { id } = useParams();
   const {
     data: medium,
     isPending,
     error,
-  } = useFetch(`http://localhost:5000/rest/movies/${id}`);
+  } = useFetch(`http://localhost:5000/rest/episode/${id}`);
 
   return (
     <React.Fragment>
@@ -25,14 +24,6 @@ const MovieDetails = () => {
               ></img>
               <div className="details">
                 <h2 className="title">{medium.mediumName}</h2>
-                <div className="detailField">
-                  <span className="smallHeading">Genres</span>
-                  <span>
-                    {medium.genres.map((genre) => {
-                      return <Chip color="secondary" variant="outlined" size="small" label={genre.genreName}/>
-                    })}
-                  </span>
-                </div>
 
                 <div className="detailField">
                   <span className="smallHeading">Sprachen</span>
@@ -58,24 +49,17 @@ const MovieDetails = () => {
             </div>
 
             <div className="detailGroup">
-              <div className="detailField">
-                <span className="smallHeading">Länge</span>
-                <span>{medium.length} Minuten</span>
-              </div>
 
               <div className="detailField">
-                <span className="smallHeading">Freigegeben ab</span>
+                <span className="smallHeading">Altersfreigabe</span>
                 <span>{medium.ageRestriction} Jahren</span>
               </div>
 
               <div className="detailField">
-                <span className="smallHeading">Erschienen</span>
-                <span>{medium.releaseDate}</span>
+                <span className="smallHeading">Länge</span>
+                <span>{medium.averageLength} Minuten</span>
               </div>
-            </div>
-
-            <div className="body">
-                <TabBar></TabBar>
+              
             </div>
           </div>
         </div>
@@ -84,4 +68,4 @@ const MovieDetails = () => {
   );
 };
 
-export default MovieDetails;
+export default EpisodeDetails;

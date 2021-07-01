@@ -5,13 +5,20 @@ import ReadOnlyRating from "../rating/readOnlyRating";
 import TabBar from "./tabBar";
 import Chip from '@material-ui/core/Chip';
 
-const MovieDetails = () => {
+const HyphenNecessity = (moreThanOnePlayer) => {
+  if (moreThanOnePlayer !== null) {
+    return "-";
+  }
+  return;
+}
+
+const GameDetails = () => {
   const { id } = useParams();
   const {
     data: medium,
     isPending,
     error,
-  } = useFetch(`http://localhost:5000/rest/movies/${id}`);
+  } = useFetch(`http://localhost:5000/rest/games/${id}`);
 
   return (
     <React.Fragment>
@@ -46,6 +53,17 @@ const MovieDetails = () => {
                 </div>
 
                 <div className="detailField">
+                  <span className="smallHeading">Plattform</span>
+                  <span>
+                    {medium.platforms.map((platform) => {
+                      return (
+                        <Chip color="primary" size="small" label={platform.platformTitle}/>
+                      );
+                    })}
+                  </span>
+                </div>
+
+                <div className="detailField">
                   <h3>Handlung</h3>
                   <p className="shortDescription">{medium.shortDescription}</p>
                 </div>
@@ -59,13 +77,18 @@ const MovieDetails = () => {
 
             <div className="detailGroup">
               <div className="detailField">
-                <span className="smallHeading">Länge</span>
-                <span>{medium.length} Minuten</span>
+                <span className="smallHeading">Spieldauer</span>
+                <span>{medium.averagePlaytime} Minuten</span>
               </div>
 
               <div className="detailField">
                 <span className="smallHeading">Freigegeben ab</span>
                 <span>{medium.ageRestriction} Jahren</span>
+              </div>
+
+              <div className="detailField">
+                <span className="smallHeading">Spieleranzahl</span>
+                <span>{medium.minNumberOfGamers} {HyphenNecessity(medium.maxNumberOfGamers)} {medium.maxNumberOfGamers} Spieler </span>
               </div>
 
               <div className="detailField">
@@ -84,4 +107,4 @@ const MovieDetails = () => {
   );
 };
 
-export default MovieDetails;
+export default GameDetails;

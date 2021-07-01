@@ -48,6 +48,12 @@
         }
       }
     }
+    .seasonsDisplay {
+      background-color: #454545;
+      box-shadow: 5px 5px #07070798;
+      margin: 25px auto 25px auto;
+      min-height: 300px;
+    }
 
     .detailGroup {
       background-color: #454545;
@@ -75,6 +81,11 @@
   }
 
   .tabPanel {
+    padding: 15px;
+    text-align: left;
+  }
+
+  .tabs {
     padding: 15px;
     text-align: left;
   }
