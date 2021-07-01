@@ -7,8 +7,10 @@ import { BrowserRouter as Router, Route, Switch, Link } from "react-router-dom";
 import SignUp from "./components/userManagement/signUp";
 import AdminPanel from "./components/userManagement/adminPanel";
 import UserPanel from "./components/userManagement/userPanel";
-
 import MovieDetails from './components/mediaDetails/movieDetails';
+import BookDetails from './components/mediaDetails/bookDetails';
+import SeriesDetails from './components/mediaDetails/seriesDetails';
+import GameDetails from './components/mediaDetails/gameDetails';
 
 function App() {
 
@@ -18,6 +20,10 @@ function App() {
         <HeaderBar />
         <Switch>
           <Route exact path="/"><WelcomePage></WelcomePage></Route>
+          <Route exact path="/detail/movie/:id"><MovieDetails/></Route>
+          <Route exact path="/detail/book/:id"><BookDetails/></Route>
+          <Route exact path="/detail/series/:id"><SeriesDetails/></Route>
+          <Route exact path="/detail/game/:id"><GameDetails/></Route>
           <Route exact path="/detail/movie/:id"><MovieDetails/></Route>
           <Route path="/signup"><SignUp /></Route>
           <Route path="/adminpanel"><AdminPanel /></Route>
