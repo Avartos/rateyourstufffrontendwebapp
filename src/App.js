@@ -25,7 +25,6 @@ function App() {
           <Route exact path="/detail/book/:id"><BookDetails/></Route>
           <Route exact path="/detail/series/:id"><SeriesDetails/></Route>
           <Route exact path="/detail/game/:id"><GameDetails/></Route>
-          <Route exact path="/detail/movie/:id"><MovieDetails/></Route>
           <Route path="/signup"><SignUp /></Route>
           <Route path="/adminpanel"><AdminPanel /></Route>
           <Route path="/userPanel"><UserPanel /></Route>

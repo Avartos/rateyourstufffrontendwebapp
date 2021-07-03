@@ -1,4 +1,73 @@
 @import './variables';
+
+:root {
+    padding: 0px;
+}
+
 .Accordion {
     background-color: $headerBackgroundColor;
+}
+
+.episodeDetailGroup {
+    max-height: 40px;
+    margin: 0px 10px 20px 10px;
+    text-align: left;
+    display: flex;
+    flex-wrap: wrap;
+    flex-grow: 1;
+    justify-content: space-between ;
+}
+
+.episodeDetailField {
+    height: 50px;
+    padding: 0 10px 0 10px;
+    min-width: 20%;
+    text-align: left;
+}
+
+.episodeImg {
+    height: 180px;
+    grid-area: image;
+    margin-left: -16px;
+    margin-top: -15px;
+    padding: 0px;
+}
+
+.WithStyles\(ForwardRef\(AccordionDetails\)\)-root-19 {
+    padding: 0px;
+}
+.MuiBox-root-7 {
+    padding: 0px;
+}
+
+.Accordion {
+    
+    padding: 0px;
+}
+
+.episodeDetailDisplay {
+    display: flex;
+    height: 148px;
+    justify-content: flex-start;
+}
+
+.episodeDetailDisplayMiddle{
+    display: flex;
+    flex-direction: column;
+    min-width:50%;
+    margin-top: 20px;
+    
+}
+
+.episodeDetailDisplayRight{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-left: 40px;
+    
+}
+
+.shortDescription {
+    margin: 0px;
+    padding-left: 10px;
 }
