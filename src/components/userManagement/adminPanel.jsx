@@ -1,24 +1,33 @@
 import useFetch from "../../hooks/useFetch";
 import UserPreview from "./userPreview";
+// zuständige scss file ist die _signUp.scss
 
 const AdminPanel = () => {
     const {data: users, isPending, error} = useFetch("http://localhost:5000/user/all");
     return (
+        
         <div className="adminPanel">
-            <h2>User Management Panel</h2>
-            <div className="attributeList">
-                <div>ID</div>
-                <div>Name</div>
-                <div>UserName</div>
-                <div>Email</div>
-                <div>Enabled</div>
-                <div>Options</div>
+            <h2>User Management:</h2>
+            <div className="table">
+                <table className="user-preview">
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>UserName</th>
+                        <th>Email</th>
+                        <th>Enabled</th>
+                        <th>Options</th>
+                    </tr>
+                </table>
+                <div className="userDisplay">
+                    {!isPending && users != null
+                    && users.map((user) => {
+                        console.log("User" + user);
+                        return <UserPreview user={user} key={user.id}/>
+                    })
+                    }
+                </div>
             </div>
-            {!isPending && users != null
-            && users.map((user) => {
-                return <UserPreview user={user} key={user.id}/>
-            })
-            }
         </div>
     )
 }

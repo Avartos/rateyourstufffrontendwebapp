@@ -1,4 +1,5 @@
 import DeleteUser from "./deleteUser";
+import Switch from '../../components/switch';
 
 const UserPreview = ({user}) => {
     const handleDelete = (id) => {
@@ -8,18 +9,21 @@ const UserPreview = ({user}) => {
             console.log('User successfully deleted');
         })
     }
+    //TODO loginRoles (dropdown w. checkboxes...)n
     return (
+        <table>
+        <tr>
         <div className="user-preview">
-            <div>{user.id}</div>
-            <div>{user.firstName + ' ' + user.lastName}</div>
-            <div>{user.userName}</div>
-            <div>{user.login.email}</div>
-            <div>{user.login.isEnabled}</div>
-            <div>
-                <button>Disable</button>
-                <button onClick={() => handleDelete(user.id)}>Delete</button>
-            </div>
+            <th><div className="userAttribute">{user.id}</div></th>
+            <th><div className="userAttribute">{user.firstName + ' ' + user.lastName}</div></th>
+            <th><div className="userAttribute">{user.userName}</div></th>
+            <th><div className="userAttribute">{user.login.email}</div></th>
+            <th><div className="userAttribute"><Switch />{user.login.isEnabled}</div></th>
+            <th><div className="deleteButton"><button onClick={() => handleDelete(user.id)}>Delete</button></div></th>
+            
         </div>
+        </tr>
+        </table>
     )
 }
 export default UserPreview
