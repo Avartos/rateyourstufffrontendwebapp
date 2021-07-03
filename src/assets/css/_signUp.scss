@@ -16,11 +16,9 @@ label{
   margin: 0 auto;
 
     .head {
-      padding: 25px;
+      padding: 10px;
       background-color: #454545;
       box-shadow: 5px 5px #07070798;
-      display: flex;
-      justify-content: space-between;
       height: 0px;
       align-items: center;
 
@@ -34,14 +32,18 @@ table {
 
 }
 
+th {
+  width: 16.6666%;
+  margin: 0;
+}
+
 .user-preview {
   margin-top: 15px;
   padding: 25px;
   height: 15px;
   background-color: #454545;
   box-shadow: 5px 5px #07070798;
-  display: flex;
-  justify-content: space-between;
+  
   align-items: center;
   }
 
@@ -63,11 +65,17 @@ table {
 .deleteButton {
   color: #622e2e;
   filter: brightness(1.2);
+  border-radius: '8px';
 }
+
 .icon-button:hover {
   filter: brightness(1.2);
 }
 
 .icon-button:active {
   background-color: #51505e;
+}
+
+.MuiSwitch-colorSecondary.Mui {
+  color: green !important;
 }

@@ -4,13 +4,13 @@ import MuiAccordion from '@material-ui/core/Accordion';
 import MuiAccordionSummary from '@material-ui/core/AccordionSummary';
 import MuiAccordionDetails from '@material-ui/core/AccordionDetails';
 import Typography from '@material-ui/core/Typography';
-import EpisodeDetails from '../components/mediaDetails/episodeDetails';
-
+import useFetch from "../hooks/useFetch";
+import ReadOnlyRating from "./rating/readOnlyRating";
 
 const Accordion = withStyles({
   root: {
     border: '1px solid rgba(0, 0, 0, .925)',
-    backgroundColor: 'rgba(82, 82, 84, 1)',
+    backgroundColor: 'rgba(69, 69, 69, 1)',
     color: 'white',
     boxShadow: 'none',
     '&:not(:last-child)': {
@@ -28,7 +28,7 @@ const Accordion = withStyles({
 
 const AccordionSummary = withStyles({
   root: {
-    backgroundColor: 'rgba(94, 94, 94, 1)',
+    backgroundColor: 'rgba(84, 84, 84, 1)',
     borderBottom: '1px solid rgba(0, 0, 0, .925)',
     marginBottom: -1,
     minHeight: 56,
@@ -50,63 +50,78 @@ const AccordionDetails = withStyles((theme) => ({
   },
 }))(MuiAccordionDetails);
 
-export default function CustomizedAccordions({medium}) {
+export default function CustomizedAccordions({seasonId}) {
   const [expanded, setExpanded] = React.useState('panel1');
 
   const handleChange = (panel) => (event, newExpanded) => {
     setExpanded(newExpanded ? panel : false);
   };
 
+  const {
+    data: episodes,
+    isPending,
+    error,
+  } = useFetch(`http://localhost:5000/rest/episodes/season/${seasonId}`);
+  
   return (
     <div>
-      { medium != null && medium.seasons.map((episodeMap) => {
-        episodeMap.map((detail) => {
-          console.log("FUCK" + detail)
-        })
-        
-      })}
-      <Accordion className="Accordion" square expanded={expanded === 'panel1'} onChange={handleChange('panel1')}>
+      {!isPending && 
+      episodes.map(episode=> { 
+        return(<Accordion className="Accordion" square expanded={expanded === episode.episodeNumber} onChange={handleChange(episode.episodeNumber)}>
         <AccordionSummary className="AccordionSummary" aria-controls="panel1d-content" id="panel1d-header">
-          <Typography>Folge #1 (Titel)</Typography>
+          <Typography>{episode.episodeNumber}. {episode.mediumName}</Typography>
         </AccordionSummary>
         <AccordionDetails>
           <Typography>
-            Bild<br/>
-            Altersfreigabe<br/>
-            Länge: <br/>
-            Sprachen<br/>
-            Handlung<br/>  
+            <div className="episodeDetailDisplay">
+              <div className="episodeDetailDisplayLeft">
+              <img className="episodeImg"
+                  src={`http://localhost:5000/${episode.picturePath}`}
+                  alt="poster"
+              ></img>
+              </div>
+
+              <div className="episodeDetailDisplayMiddle">
+              <div className="episodeDetailGroup">
+                <div className="episodeDetailField">
+                  <span className="smallHeading"></span>
+                  <span>{episode.releaseDate}</span>
+                </div>
+                <div className="episodeDetailField">
+                  <span className="smallHeading"></span>
+                  <span>{episode.length} Minuten</span>
+                </div>
+                <div className="episodeDetailField">
+                  <span className="smallHeading"></span>
+                  <span>ab {episode.ageRestriction} Jahren</span>
+                </div>
+              </div>
+            
+              <div className="episodeDetailField">
+                <p className="shortDescription">{episode.shortDescription}</p>
+              </div>             
+              </div> 
+
+              <div className="episodeDetailDisplayRight">
+              <div className="episodeDetailField">
+                <span className="smallHeading">Durchschnittsbewertung</span>
+                <ReadOnlyRating size="large" value={episode.averageRating} maxValue={episode.max_RATING_POINTS}  showValue={true} />
+              </div>
+              </div>
+              </div>
+
+                
+
+                
+
+                
+
+                
           </Typography>
         </AccordionDetails>
-      </Accordion>
-      {/* <Accordion square expanded={expanded === 'panel2'} onChange={handleChange('panel2')}>
-        <AccordionSummary aria-controls="panel2d-content" id="panel2d-header">
-          <Typography>Folge #2 (Titel)</Typography>
-        </AccordionSummary>
-        <AccordionDetails>
-          <Typography>
-            Bild<br/>
-            Altersfreigabe<br/>
-            Länge<br/>
-            Sprachen<br/>
-            Handlung<br/>  
-          </Typography>
-        </AccordionDetails>
-      </Accordion>
-      <Accordion square expanded={expanded === 'panel3'} onChange={handleChange('panel3')}>
-        <AccordionSummary aria-controls="panel3d-content" id="panel3d-header">
-          <Typography>Folge #3 (Titel)</Typography>
-        </AccordionSummary>
-        <AccordionDetails>
-          <Typography>
-            Bild<br/>
-            Altersfreigabe<br/>
-            Länge<br/>
-            Sprachen<br/>
-            Handlung<br/>  
-          </Typography>
-        </AccordionDetails>
-      </Accordion> */}
+      </Accordion>)
+      })
+      }
     </div>
   );
 }

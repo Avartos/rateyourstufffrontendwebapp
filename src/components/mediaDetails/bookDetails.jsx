@@ -36,7 +36,7 @@ const BookDetails = () => {
                   <span className="smallHeading">Genres</span>
                   <span>
                     {medium.genres.map((genre) => {
-                      return <Chip color="secondary" variant="outlined" size="small" label={genre.genreName}/>
+                      return <Chip color="secondary" variant="outlined" size="small" label={genre}/>
                     })}
                   </span>
                 </div>
@@ -46,7 +46,7 @@ const BookDetails = () => {
                   <span>
                     {medium.languages.map((language) => {
                       return (
-                        <Chip color="primary" size="small" label={language.language}/>
+                        <Chip color="primary" size="small" label={language}/>
                       );
                     })}
                   </span>
@@ -59,7 +59,7 @@ const BookDetails = () => {
 
                 <div className="detailField">
                   <span className="smallHeading">Durchschnittsbewertung</span>
-                  <ReadOnlyRating size="large" value={3.5} showValue={true} />
+                  <ReadOnlyRating size="large" value={medium.averageRating} maxValue={medium.max_RATING_POINTS}  showValue={true} />
                 </div>
               </div>
             </div>

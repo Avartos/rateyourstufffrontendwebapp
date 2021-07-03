@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import ReadOnlyRating from "../rating/readOnlyRating";
+import Chip from '@material-ui/core/Chip';
 
 const MediaEntry = ({ medium, mediaType }) => {
 
@@ -17,11 +18,15 @@ const MediaEntry = ({ medium, mediaType }) => {
             <h3 className="title">{medium.mediumName}</h3>
             <div className="details">
                 <span>{medium.releaseDate}</span>
-                <span>{medium.genres.map(genre => {
-                    return genre.genreName + ',';
-                })}</span>
                 <span>
-                    <ReadOnlyRating size="small" value={Math.random()*5}></ReadOnlyRating>
+                    {medium.genres.slice(0,3).map((genre) => {
+                      return (
+                        <Chip color="primary" size="small" key={genre} label={genre}/>
+                      );
+                    })}
+                  </span>
+                <span>
+                    <ReadOnlyRating size="small" value={medium.averageRating} maxValue={medium.max_RATING_POINTS} ></ReadOnlyRating>
                 </span>
             </div>
         </div>
