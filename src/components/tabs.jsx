@@ -7,6 +7,9 @@ import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 import Accordion from '../components/accordion';
+import useFetch from "../hooks/useFetch";
+
+
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -48,7 +51,13 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function SimpleTabs() {
+export default function SimpleTabs({seriesId}) {
+  const {
+    data: seasons,
+    isPending,
+    error,
+  } = useFetch(`http://localhost:5000/rest/seasons/series/${seriesId}`);
+
   const classes = useStyles();
   const [value, setValue] = React.useState(0);
 
@@ -60,20 +69,17 @@ export default function SimpleTabs() {
     <div className={classes.root}>
       <AppBar position="static">
         <Tabs value={value} onChange={handleChange} aria-label="simple tabs example">
-          <Tab label="Staffel 1" {...a11yProps(0)} />
-          <Tab label="Staffel 2" {...a11yProps(1)} />
-          <Tab label="Staffel 3" {...a11yProps(2)} />
+          {!isPending && seasons.map(season=>{
+            return <Tab label={season.seasonTitle} key={season.id} {...a11yProps(0)} />
+          })}
+          
         </Tabs>
       </AppBar>
-      <TabPanel value={value} index={0}>
-        <Accordion></Accordion>
-      </TabPanel>
-      <TabPanel value={value} index={1}>
-        <Accordion></Accordion>
-      </TabPanel>
-      <TabPanel value={value} index={2}>
-        <Accordion></Accordion>
-      </TabPanel>
+      {!isPending && seasons.map(season=>{
+            return <TabPanel value={value} index={season.seasonNumber -1}>
+            <Accordion seasonId= {season.id}></Accordion>
+            </TabPanel>
+          })}
     </div>
   );
 }

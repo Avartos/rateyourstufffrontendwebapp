@@ -9,7 +9,7 @@ const AdminPanel = () => {
         <div className="adminPanel">
             <h2>User Management:</h2>
             <div className="table">
-                <table className="user-preview">
+                <table className="head">
                     <tr>
                         <th>ID</th>
                         <th>Name</th>

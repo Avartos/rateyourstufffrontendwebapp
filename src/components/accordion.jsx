@@ -4,8 +4,7 @@ import MuiAccordion from '@material-ui/core/Accordion';
 import MuiAccordionSummary from '@material-ui/core/AccordionSummary';
 import MuiAccordionDetails from '@material-ui/core/AccordionDetails';
 import Typography from '@material-ui/core/Typography';
-import EpisodeDetails from '../components/mediaDetails/episodeDetails';
-
+import useFetch from "../hooks/useFetch";
 
 const Accordion = withStyles({
   root: {
@@ -50,24 +49,26 @@ const AccordionDetails = withStyles((theme) => ({
   },
 }))(MuiAccordionDetails);
 
-export default function CustomizedAccordions({medium}) {
+export default function CustomizedAccordions({seasonId}) {
   const [expanded, setExpanded] = React.useState('panel1');
 
   const handleChange = (panel) => (event, newExpanded) => {
     setExpanded(newExpanded ? panel : false);
   };
 
+  const {
+    data: episodes,
+    isPending,
+    error,
+  } = useFetch(`http://localhost:5000/rest/episodes/season/${seasonId}`);
+  console.log(episodes)
   return (
     <div>
-      { medium != null && medium.seasons.map((episodeMap) => {
-        episodeMap.map((detail) => {
-          console.log("FUCK" + detail)
-        })
-        
-      })}
-      <Accordion className="Accordion" square expanded={expanded === 'panel1'} onChange={handleChange('panel1')}>
+      {!isPending && 
+      episodes.map(episode=> { 
+        return(<Accordion className="Accordion" square expanded={expanded === episode.episodeNumber} onChange={handleChange(episode.episodeNumber)}>
         <AccordionSummary className="AccordionSummary" aria-controls="panel1d-content" id="panel1d-header">
-          <Typography>Folge #1 (Titel)</Typography>
+          <Typography>{episode.mediumName}</Typography>
         </AccordionSummary>
         <AccordionDetails>
           <Typography>
@@ -78,35 +79,9 @@ export default function CustomizedAccordions({medium}) {
             Handlung<br/>  
           </Typography>
         </AccordionDetails>
-      </Accordion>
-      {/* <Accordion square expanded={expanded === 'panel2'} onChange={handleChange('panel2')}>
-        <AccordionSummary aria-controls="panel2d-content" id="panel2d-header">
-          <Typography>Folge #2 (Titel)</Typography>
-        </AccordionSummary>
-        <AccordionDetails>
-          <Typography>
-            Bild<br/>
-            Altersfreigabe<br/>
-            Länge<br/>
-            Sprachen<br/>
-            Handlung<br/>  
-          </Typography>
-        </AccordionDetails>
-      </Accordion>
-      <Accordion square expanded={expanded === 'panel3'} onChange={handleChange('panel3')}>
-        <AccordionSummary aria-controls="panel3d-content" id="panel3d-header">
-          <Typography>Folge #3 (Titel)</Typography>
-        </AccordionSummary>
-        <AccordionDetails>
-          <Typography>
-            Bild<br/>
-            Altersfreigabe<br/>
-            Länge<br/>
-            Sprachen<br/>
-            Handlung<br/>  
-          </Typography>
-        </AccordionDetails>
-      </Accordion> */}
+      </Accordion>)
+      })
+      }
     </div>
   );
 }
