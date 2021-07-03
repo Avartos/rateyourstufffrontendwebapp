@@ -1,5 +1,6 @@
 import {useState} from "react";
 
+
 /**
  * Component generates a SignUp-Form and converts sends the Data in JSON-Format over POST-Request to the Rest-API
  */
@@ -32,61 +33,78 @@ const SignUp = () => {
         console.log(user);
     }
     return (
-        <div className="SignUp">
-            <h2>This will be the SignUp-Page</h2>
-            <form onSubmit={handleSubmit}>
-                <label>Gender</label>
-                <select
-                    value={gender}
-                    onChange={(e) => setGender(e.target.value)}
-                >
-                    <option value="male">male</option>
-                    <option value="female">female</option>
-                    <option value="diverse">diverse</option>
-                </select>
-                <label>First Name</label>
-                <input
-                    type="text"
-                    required
-                    value={firstName}
-                    onChange={(e) => setFirstName(e.target.value)}
-                />
-                <label>Second Name</label>
-                <input
-                    type="text"
-                    value={secondName}
-                    onChange={(e) => setSecondName(e.target.value)}
-                />
-                <label>Last Name</label>
-                <input
-                    type="text"
-                    required
-                    value={lastName}
-                    onChange={(e) => setLastName(e.target.value)}
-                />
-                <label>User Name</label>
-                <input
-                    type="text"
-                    required
-                    value={userName}
-                    onChange={(e) => setUserName(e.target.value)}
-                />
-                <label>Email</label>
-                <input
-                    title="email"
-                    required
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                />
-                <label>Password</label>
-                <input
-                    type="password"
-                    required
-                    value={passwordHash}
-                    onChange={(e) => setPassword(e.target.value)}
-                />
-                <button>SignUp</button>
-            </form>
+        <div className="signUpDisplay">
+            <div className="welcomeBox">
+                <h1>Welcome to ... </h1>
+                <p>This is your Plattform to rate all media you can imagine ...</p>
+                <p>You have the Opinion to share your progress of books you read, games you play, 
+                    series and movies you are actualy watching. The key to more fun is that you can 
+                    share that with your friends. Additionally you can discuss some chapters, 
+                    comment some progresses of your friends and many more! RateYourStuff can be 
+                    easily the key to Share all your favourite Media with your favourite People 
+                    and learn more about taste of them.</p>
+                <p>Just sign up and find out what media can do to you !!</p>
+                <p>Lets share our best moments with our friends.</p>
+            </div>
+            <div className="signUpBox">
+                <h2>Account erstellen</h2>
+                <div className="signUp">
+                    <form onSubmit={handleSubmit}>
+                        
+                        <label>Gender</label>
+                        <select className="genderChoiceField"
+                            value={gender}
+                            onChange={(e) => setGender(e.target.value)}
+                        >
+                            <option value="male">male</option>
+                            <option value="female">female</option>
+                            <option value="diverse">diverse</option>
+                        </select>
+                        <label>First Name</label>
+                        <input className="signUpInput"
+                            type="text"
+                            required
+                            value={firstName}
+                            onChange={(e) => setFirstName(e.target.value)}
+                        />
+                        <label>Second Name</label>
+                        <input className="signUpInput"
+                            type="text"
+                            value={secondName}
+                            onChange={(e) => setSecondName(e.target.value)}
+                        />
+                        <label>Last Name</label>
+                        <input className="signUpInput"
+                            type="text"
+                            required
+                            value={lastName}
+                            onChange={(e) => setLastName(e.target.value)}
+                        />
+                        <label>User Name</label>
+                        <input className="signUpInput"
+                            type="text"
+                            required
+                            value={userName}
+                            onChange={(e) => setUserName(e.target.value)}
+                        />
+                        <label>Email</label>
+                        <input className="signUpInput"
+                            title="email"
+                            required
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                        />
+                        <label>Password</label>
+                        <input className="signUpInput"
+                            type="password"
+                            required
+                            value={passwordHash}
+                            onChange={(e) => setPassword(e.target.value)}
+                        />
+                        <button className="signUpButton">SignUp</button>
+                    </form>
+                </div>
+            </div>
         </div>
     );
 }
