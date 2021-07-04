@@ -18,7 +18,7 @@ const HeaderBar = () => {
           </div>
           <SearchBar/>
             <p>
-                home
+                
                 <div><Link className="link" to="/signup">SignUp</Link></div>
             </p>
 

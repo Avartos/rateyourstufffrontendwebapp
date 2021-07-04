@@ -1,4 +1,5 @@
 import {useState} from "react";
+import useFetch from "../../hooks/useFetch";
 
 const Login = () => {
 
@@ -6,9 +7,11 @@ const Login = () => {
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
 
+    const {data: uId, isPending, fetchError} = useFetch(`http://localhost:5000/uId=${username}`);
+
 
     const handleLogin = (e) => {
-
+        e.preventDefault();
         fetch(`http://localhost:5000/authenticate`, {
             method: "POST",
             headers: {"Content-Type": "application/json" },
@@ -19,17 +22,20 @@ const Login = () => {
                     console.log(response.data.error);
                     //throw error("no response available");
                 }
-                console.log(username + password);
-                console.log("Response: "+response);
+                //console.log(username + password);
+                //console.log("Response: "+response);
                 return response.json();
             })
             .then((data) => {
+                console.log({data});
+                console.log({uId});
+                sessionStorage.setItem("id", uId.toString());
+                sessionStorage.setItem("username", username);
                 sessionStorage.setItem("Bearer ", data);
-                console.log("SessionStorage: "+sessionStorage);
                 //history.push("/");
             })
             .catch((error) => {
-                setError(
+              setError(
                     "Login nicht möglich ("+ error +")"
                 );
             });

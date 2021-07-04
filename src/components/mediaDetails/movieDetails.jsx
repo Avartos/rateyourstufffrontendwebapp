@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React from "react";
 import useFetch from "../../hooks/useFetch";
 import { useParams } from "react-router-dom";
 import ReadOnlyRating from "../rating/readOnlyRating";
@@ -80,7 +80,7 @@ const MovieDetails = () => {
                   <span className="smallHeading">Genres</span>
                   <span>
                     {medium.genres.map((genre) => {
-                      return <Chip color="secondary" variant="outlined" size="small" label={genre.genreName}/>
+                      return <Chip color="secondary" variant="outlined" size="small" label={genre}/>
                     })}
                   </span>
                 </div>
@@ -90,7 +90,7 @@ const MovieDetails = () => {
                   <span>
                     {medium.languages.map((language) => {
                       return (
-                        <Chip color="primary" size="small" label={language.language}/>
+                        <Chip color="primary" size="small" label={language}/>
                       );
                     })}
                   </span>
@@ -112,6 +112,7 @@ const MovieDetails = () => {
                     </button>
                     <button className="primaryButton">Neuer Kommentar</button>
                   </div>
+                  <ReadOnlyRating size="large" value={medium.averageRating} maxValue={medium.max_RATING_POINTS} showValue={true} />
                 </div>
               </div>
             </div>
@@ -140,7 +141,7 @@ const MovieDetails = () => {
               <NewCommentForm></NewCommentForm>
             </div>
             <div className="body">
-                <TabBar handleSubmitFormComment={handleSubmitFormComment}></TabBar>
+                <TabBar></TabBar>
             </div>
           </div>
         </div>

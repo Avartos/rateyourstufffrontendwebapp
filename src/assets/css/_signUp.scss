@@ -5,22 +5,111 @@ body{
   color: #FFFFFF;
 }
 
+form {
+  width:80%;
+}
+
+.signUpInput {
+  min-width: 97%;
+  margin-bottom: 10px;
+  height: 30px;
+  border-radius: 5px;
+}
+
 label{
   display: block;
-
+  text-align: left;
   color: #FFFFFF;
 }
+
+.signUpDisplay {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}  
+
+.signUp {
+  display: flex;
+  justify-content: center;
+}  
+
+.signUpBox h2 {
+  width: 100%;
+  font-weight: 800;
+  font-size: 30px;
+}
+
+.welcomeBox h1 {
+  font-size: 50px;
+  margin-top: 10px;
+}
+
+.welcomeBox p {
+  font-size: 20px;
+  line-height: 200%;
+  margin-bottom: 50px;
+}
+
+.welcomeBox {
+  width: 60%;
+  background-color: #363636;
+  box-shadow: 5px 5px #07070798;
+  margin: 25px auto 25px auto;
+  text-align: left;
+  padding: 25px;
+}
+
+.signUpBox {
+  width: 20%;
+  background-color: #363636;
+  box-shadow: 5px 5px #07070798;
+  margin: 25px auto 25px 0;
+  height: 630px;
+}
+
+.signUpButton {
+  margin-top: 20px;
+  width: 100%;
+  height: 40px;
+  background: #622E2E;
+  color: white;
+  cursor: pointer;
+}
+
+.signUpButton:hover {
+  filter: brightness(1.2);
+}
+
+.genderChoiceField {
+  min-width: 99%;
+  margin-bottom: 10px;
+  height: 36px;
+  border-radius: 5px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 .adminPanel {
   width: 90%;
   margin: 0 auto;
 
     .head {
-      padding: 25px;
+      padding: 10px;
       background-color: #454545;
       box-shadow: 5px 5px #07070798;
-      display: flex;
-      justify-content: space-between;
       height: 0px;
       align-items: center;
 
@@ -34,14 +123,18 @@ table {
 
 }
 
+th {
+  width: 16.6666%;
+  margin: 0;
+}
+
 .user-preview {
   margin-top: 15px;
   padding: 25px;
   height: 15px;
   background-color: #454545;
   box-shadow: 5px 5px #07070798;
-  display: flex;
-  justify-content: space-between;
+  
   align-items: center;
   }
 
@@ -63,11 +156,17 @@ table {
 .deleteButton {
   color: #622e2e;
   filter: brightness(1.2);
+  border-radius: '8px';
 }
+
 .icon-button:hover {
   filter: brightness(1.2);
 }
 
 .icon-button:active {
   background-color: #51505e;
+}
+
+.MuiSwitch-colorSecondary.Mui {
+  color: green !important;
 }

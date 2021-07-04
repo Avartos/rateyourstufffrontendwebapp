@@ -122,12 +122,11 @@ body {
     position: absolute;
     top: 60px;
     width: 200px;
-    height: 1000px;
+    height: 90vh;
     transform: translateX(+33%);
     background-color: $headerBackgroundColor;
     border: var(--border);
     padding: 1rem;
-    /*overflow: hidden;*/
     transition: height var(--speed) ease;
     margin-left: 0;
   }

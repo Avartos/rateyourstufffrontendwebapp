@@ -19,7 +19,7 @@ const MediaSpotlightList = ({fetchURL, title, mediaType}) => {
 
             }
             {!isPending && media != null &&
-                media.content.map(medium => {
+                media.map(medium => {
                     return <MediaEntry key={medium.id} medium={medium} mediaType={mediaType}/>
                 })
             }
