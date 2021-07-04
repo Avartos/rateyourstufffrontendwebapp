@@ -21,7 +21,7 @@ const MovieDetails = () => {
     e.preventDefault();
 
     let newRate = {
-      desscription: body,
+      description: body,
       numberOfPosts: 0,
       userMappingID: currentUser,
       mediumMappingID: medium.id,
@@ -45,10 +45,10 @@ const MovieDetails = () => {
     e.preventDefault();
 
     let newRate = {
-      desscription: body,
+      description: body,
       numberOfPosts: 0,
       userMappingID: currentUser,
-      mediumMappingID: mediumToComment,
+      mediumMappingID: medium.id,
     };
 
 
@@ -107,7 +107,9 @@ const MovieDetails = () => {
                   <div className="showButton">
                     <button className="primaryButton" onClick={() => {
                       setHandleToggleRating(!handleToggleRating);
-                    }}>Neue Bewertung</button>
+                    }}>
+                      Neue Bewertung
+                    </button>
                     <button className="primaryButton">Neuer Kommentar</button>
                   </div>
                 </div>
@@ -130,14 +132,15 @@ const MovieDetails = () => {
                 <span>{medium.releaseDate}</span>
               </div>
             </div>
+            {handleToggleRating &&
             <div className="detailGroup">
-              <NewRatingForm handleSubmitForm={handleSubmitFormRating}></NewRatingForm>
-            </div>
+              <NewRatingForm handleSubmitFormRating={handleSubmitFormRating}></NewRatingForm>
+            </div>}
             <div className="detailGroup">
               <NewCommentForm></NewCommentForm>
             </div>
             <div className="body">
-                <TabBar handleSubmitForm={handleSubmitFormComment}></TabBar>
+                <TabBar handleSubmitFormComment={handleSubmitFormComment}></TabBar>
             </div>
           </div>
         </div>
