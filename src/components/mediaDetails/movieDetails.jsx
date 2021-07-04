@@ -1,9 +1,11 @@
-import React from "react";
+import React, {useState} from "react";
 import useFetch from "../../hooks/useFetch";
 import { useParams } from "react-router-dom";
 import ReadOnlyRating from "../rating/readOnlyRating";
 import TabBar from "./tabBar";
 import Chip from '@material-ui/core/Chip';
+import NewRatingForm from "../rating/newRatingForm";
+import NewCommentForm from "../comments/newCommentForm";
 
 const MovieDetails = () => {
   const { id } = useParams();
@@ -12,6 +14,55 @@ const MovieDetails = () => {
     isPending,
     error,
   } = useFetch(`http://localhost:5000/rest/movies/${id}`);
+  const [handleError, setHandleError] = useState(null);
+  const [handleToggleRating, setHandleToggleRating] = useState(false);
+
+  const handleSubmitFormRating = (e, body, currentUser, mediumToRate) => {
+    e.preventDefault();
+
+    let newRate = {
+      desscription: body,
+      numberOfPosts: 0,
+      userMappingID: currentUser,
+      mediumMappingID: medium.id,
+      givenPoints: 4,
+    };
+
+
+    fetch(`http://localhost:5000/rest/ratings/add`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(newRate),
+    }).then((data) => {
+      console.log(data);
+      //    fetchRatings();
+    }).catch(error => {
+      setHandleError('Das Formular konnte nicht abgeschickt werden (' + handleError + ')');
+    });
+  };
+
+  const handleSubmitFormComment = (e, body, currentUser, mediumToComment) => {
+    e.preventDefault();
+
+    let newRate = {
+      desscription: body,
+      numberOfPosts: 0,
+      userMappingID: currentUser,
+      mediumMappingID: mediumToComment,
+    };
+
+
+    fetch(`http://localhost:5000/rest/comments/add`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(newRate),
+    }).then((data) => {
+      console.log(data);
+      //    fetchRatings();
+    }).catch(error => {
+      setHandleError('Das Formular konnte nicht abgeschickt werden (' + handleError + ')');
+    });
+  };
 
   return (
     <React.Fragment>
@@ -53,6 +104,12 @@ const MovieDetails = () => {
                 <div className="detailField">
                   <span className="smallHeading">Durchschnittsbewertung</span>
                   <ReadOnlyRating size="large" value={3.5} showValue={true} />
+                  <div className="showButton">
+                    <button className="primaryButton" onClick={() => {
+                      setHandleToggleRating(!handleToggleRating);
+                    }}>Neue Bewertung</button>
+                    <button className="primaryButton">Neuer Kommentar</button>
+                  </div>
                 </div>
               </div>
             </div>
@@ -73,9 +130,14 @@ const MovieDetails = () => {
                 <span>{medium.releaseDate}</span>
               </div>
             </div>
-
+            <div className="detailGroup">
+              <NewRatingForm handleSubmitForm={handleSubmitFormRating}></NewRatingForm>
+            </div>
+            <div className="detailGroup">
+              <NewCommentForm></NewCommentForm>
+            </div>
             <div className="body">
-                <TabBar></TabBar>
+                <TabBar handleSubmitForm={handleSubmitFormComment}></TabBar>
             </div>
           </div>
         </div>

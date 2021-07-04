@@ -32,7 +32,6 @@ function App() {
           <Route path="/adminpanel"><AdminPanel /></Route>
           <Route path="/userPanel"><UserPanel /></Route>
           <Route path="/login"><Login /></Route>
-          <Route path="/ratingblubb"> <NewRatingForm /> </Route>
           <Route path="/">
             <h1>404 - Not Found</h1><br />
           </Route>
