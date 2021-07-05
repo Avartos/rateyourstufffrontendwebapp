@@ -5,7 +5,7 @@
     flex-wrap: wrap;
     flex-grow: 1;
     justify-content: space-evenly;
-    margin-top: 50px;
+    margin-top: 5px;
 }
 
 .spotlightList {
@@ -17,7 +17,7 @@
     background-color: $backgroundColor;
     width: 300px !important;
     display: block;
-    height: 783px;
+    height: 800px;
     box-shadow: 5px 5px #07070798;
     position: relative;
     z-index: 0;
@@ -47,8 +47,8 @@
     .listTitle {
         text-align:center;
         color: white;
-        margin-top: 40px;
-        margin-bottom: 20px;
+        margin-top: 25px;
+        margin-bottom: 15px;
         position: relative;
         z-index: 1;
         
@@ -87,7 +87,7 @@
         .previewImageWrapper {
             margin: 5px 10px 5px 5px;
             height: 120px;
-            width: 82px;
+            min-width: 82px;
             overflow: hidden;
             position: relative;
         }
@@ -97,6 +97,7 @@
             position: absolute;
             left: 0;
             right: 0;
+            min-width: 82px;
         }
 
         .previewContent {

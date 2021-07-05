@@ -64,11 +64,13 @@ export default function SimpleTabs({seriesId}) {
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
-
+  
   return (
+    
     <div className={classes.root}>
       <AppBar position="static">
-        <Tabs value={value} onChange={handleChange} aria-label="simple tabs example">
+        <Tabs value={value} onChange={handleChange} aria-label="simple tabs example" variant="scrollable"
+          scrollButtons="auto">
           {!isPending && seasons.map(season=>{
             return <Tab label={season.seasonTitle} key={season.id} {...a11yProps(0)} />
           })}
