@@ -19,6 +19,7 @@ const HeaderBar = () => {
           <SearchBar/>
                 <Link className="link right" to="/signup">SignUp</Link>
                 <Link className="link right" to="/logout">Logout</Link>
+                <Link className="link right" to="/login">Login</Link>
             <div className="gradient"></div>
         </nav>
      );

@@ -1,4 +1,6 @@
 import {useState} from "react";
+import RedirectingComponent from "./redirectingComponent";
+import {useHistory} from "react-router-dom";
 
 
 /**
@@ -12,6 +14,7 @@ const SignUp = () => {
     const [userName, setUserName] = useState('');
     const [passwordHash, setPassword] = useState('');
     const [email, setEmail] = useState('example@rays.com');
+    const _router = useHistory();
 
     /**
      * Method generates the JSON-String after submit and sends fetches via POST-Request to the Rest-API
@@ -29,6 +32,7 @@ const SignUp = () => {
             body: JSON.stringify(user)
         }).then(() => {
             console.log('User successfully added');
+            setTimeout(() => _router.push('/login'), 1500);
         })
         console.log(user);
     }

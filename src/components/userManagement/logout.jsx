@@ -1,9 +1,11 @@
+import {useHistory} from "react-router-dom";
+
 const Logout = () => {
-    return(
+    const _router = useHistory();
+    return (
         <div className="loggedOut">
             {sessionStorage.clear()}
-            <h2>Danke für deinen Besuch!</h2>
-            Du wirst in wenigen sekunden weiter geleitet!
+            {setTimeout(() => _router.push('/'), 1000)}
         </div>
     )
 }

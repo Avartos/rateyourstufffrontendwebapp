@@ -1,23 +1,25 @@
 import {useState} from "react";
-import useFetch from "../../hooks/useFetch";
 import {decodeJWT} from "../decodeJWT";
+import {useHistory} from "react-router-dom";
+import RedirectingComponent from "./redirectingComponent";
 
 const Login = () => {
 
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
+    const _router = useHistory();
     var decodedData;
 
     const handleLogin = (e) => {
         e.preventDefault();
         fetch(`http://localhost:5000/authenticate`, {
             method: "POST",
-            headers: {"Content-Type": "application/json" },
+            headers: {"Content-Type": "application/json"},
             body: JSON.stringify({username, password})
         })
             .then((response) => {
-                if(!response.ok) {
+                if (!response.ok) {
                     console.log(response.data.error);
                     //throw error("no response available");
                 }
@@ -31,11 +33,11 @@ const Login = () => {
                 sessionStorage.setItem("id", decodedData.id);
                 sessionStorage.setItem("username", username);
                 sessionStorage.setItem("Bearer ", `Bearer ${data.jwt}`);
-                //history.push("/");
+                setTimeout(() => _router.push('/'), 1000);
             })
             .catch((error) => {
-              setError(
-                    "Login nicht möglich ("+ error +")"
+                setError(
+                    "Login nicht möglich (" + error + ")"
                 );
             });
     };

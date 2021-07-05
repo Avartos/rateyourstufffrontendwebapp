@@ -1,9 +1,12 @@
 
+// functional imports
+import { BrowserRouter as Router, Route, Switch, Link } from "react-router-dom";
+
+//component imports
 import './App.css';
 import './assets/css/app.scss';
 import HeaderBar from './components/headerBar';
 import WelcomePage from './components/welcomePage/welcomePage';
-import { BrowserRouter as Router, Route, Switch, Link } from "react-router-dom";
 import SignUp from "./components/userManagement/signUp";
 import AdminPanel from "./components/userManagement/adminPanel";
 import UserPanel from "./components/userManagement/userPanel";
@@ -15,7 +18,6 @@ import Login from "./components/userManagement/login";
 import Logout from "./components/userManagement/logout";
 
 function App() {
-
   return (
     <Router>
       <div className="App">
