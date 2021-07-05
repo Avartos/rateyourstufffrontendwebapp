@@ -1,3 +1,4 @@
+@import url("https://fonts.googleapis.com/css2?family=Reem+Kufi&display=swap%27");
 @import "./variables";
 @import "./headerBar";
 @import "./mediaSpotlightList";
@@ -33,7 +34,7 @@ body {
   background-color: $backgroundColor;
   margin: 0;
   * {
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: 'Reem Kufi', sans-serif;
   }
 }
 
@@ -49,6 +50,7 @@ body {
   text-decoration: none;
   color: white;
   transition: ease-in-out 0.2s;
+  padding: 5px;
 
   &:hover {
     color: $headerBottomColor !important;

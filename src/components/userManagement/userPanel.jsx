@@ -4,9 +4,9 @@ import UserPreview from "./userPreview";
 
 const UserPanel = () => {
     //sessionUserId for testing (later JSON userId in Session)
-    const sessionUserID = 1;
+    const id = sessionStorage.getItem("id");
 
-    const {data: user, isPending, error} = useFetch(`http://localhost:5000/user/id=${sessionUserID}`);
+    const {data: user, isPending, error} = useFetch(`http://localhost:5000/user/id=${id}`);
 
     return (
         <div className="UserPanel">

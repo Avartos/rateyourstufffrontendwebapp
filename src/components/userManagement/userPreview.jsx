@@ -4,14 +4,18 @@ import Switch from '../../components/switch';
 const UserPreview = ({user}) => {
     const handleDelete = (id) => {
         fetch(`http://localhost:5000/user/${user.id}`, {
-            method: 'DELETE'
+            method: 'DELETE', headers: {
+                "Content-Type": "application/json",
+                "Authorization": sessionStorage.getItem("Bearer "),
+            },
         }).then(() => {
             console.log('User successfully deleted');
+        }).catch(error => {
+            console.log(error);
         })
     }
     //TODO loginRoles (dropdown w. checkboxes...)n
     return (
-        
         <div className="user-preview">
         <table>
             <tr>

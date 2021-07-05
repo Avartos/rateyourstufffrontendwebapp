@@ -1,14 +1,13 @@
 import {useState} from "react";
 import useFetch from "../../hooks/useFetch";
+import {decodeJWT} from "../decodeJWT";
 
 const Login = () => {
 
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
-
-    const {data: uId, isPending, fetchError} = useFetch(`http://localhost:5000/uId=${username}`);
-
+    var decodedData;
 
     const handleLogin = (e) => {
         e.preventDefault();
@@ -27,11 +26,11 @@ const Login = () => {
                 return response.json();
             })
             .then((data) => {
-                console.log({data});
-                console.log({uId});
-                sessionStorage.setItem("id", uId.toString());
+                decodedData = decodeJWT(data.jwt);
+                console.log(decodedData);
+                sessionStorage.setItem("id", decodedData.id);
                 sessionStorage.setItem("username", username);
-                sessionStorage.setItem("Bearer ", data);
+                sessionStorage.setItem("Bearer ", `Bearer ${data.jwt}`);
                 //history.push("/");
             })
             .catch((error) => {

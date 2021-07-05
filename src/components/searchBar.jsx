@@ -1,6 +1,8 @@
-import React from 'react';
+import React, {useState} from 'react';
 
-const SearchBar = ({keyword,setKeyword}) => {
+const SearchBar = () => {
+  const[keyword, setKeyword] = useState('');
+
   const BarStyling = {width:"20rem",background:"#F2F1F9", border:"none", padding:"0.5rem"};
   return (
     <input className="searchBar"
