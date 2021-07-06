@@ -13,6 +13,8 @@ import SeriesDetails from './components/mediaDetails/seriesDetails';
 import GameDetails from './components/mediaDetails/gameDetails';
 import Login from "./components/userManagement/login";
 import NewRatingForm from './components/rating/newRatingForm';
+import AddMovieForm from './components/newMediaForms/addMovieForm';
+
 
 
 function App() {
@@ -31,6 +33,7 @@ function App() {
           <Route path="/adminpanel"><AdminPanel /></Route>
           <Route path="/userPanel"><UserPanel /></Route>
           <Route path="/login"><Login /></Route>
+          <Route path="/add/movie"><AddMovieForm></AddMovieForm></Route>
           <Route path="/">
             <h1>404 - Not Found</h1><br />
           </Route>

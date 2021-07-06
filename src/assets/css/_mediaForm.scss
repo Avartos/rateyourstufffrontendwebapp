@@ -1,0 +1,20 @@
+.addMediaForm {
+    margin: 0 auto;
+    width: 800px;
+    background-color: rgb(32, 32, 32);
+    span {
+        display: block;
+        width: 100%;
+    }
+
+    input, textarea {
+        display: block;
+        width: 90%;
+        margin: 0 auto;
+        padding: 15px;
+    }
+
+    button {
+        padding: 15px;
+    }
+}
