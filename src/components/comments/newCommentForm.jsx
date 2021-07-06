@@ -1,9 +1,8 @@
 import { useState } from "react";
 
-const NewCommentForm = ({handleSubmitFormComment}) =>{
+const NewCommentForm = ({handleSubmitFormComment, medium}) =>{
     const [body, setBody] = useState("");
-    const [currentUser, setCurrentUser] = useState(1);
-    const [mediumToComment, setMediumToComment] = useState(7);
+    const [currentUser, setCurrentUser] = useState(1)
     const [error, setError] = useState(null);
 
     return (
@@ -11,7 +10,7 @@ const NewCommentForm = ({handleSubmitFormComment}) =>{
         <div className="newCommentForm">
             <form className="detailField"
                   onSubmit={(e) => {
-                      handleSubmitFormComment(e, body, currentUser, mediumToComment);
+                      handleSubmitFormComment(e, body, currentUser, medium.id);
                       setBody("");
                   }}
             >

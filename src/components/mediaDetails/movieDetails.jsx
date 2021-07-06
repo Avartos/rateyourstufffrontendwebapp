@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import useFetch from "../../hooks/useFetch";
 import { useParams } from "react-router-dom";
 import ReadOnlyRating from "../rating/readOnlyRating";
@@ -16,18 +16,20 @@ const MovieDetails = () => {
   } = useFetch(`http://localhost:5000/rest/movies/${id}`);
   const [handleError, setHandleError] = useState(null);
   const [handleToggleRating, setHandleToggleRating] = useState(false);
+  const [handleToggleComment, setHandleToggleComment] = useState(false);
 
-  const handleSubmitFormRating = (e, body, currentUser, mediumToRate) => {
+  const handleSubmitFormRating = (e, body, valueRate, currentUser, mediumToRate) => {
     e.preventDefault();
 
     let newRate = {
       description: body,
       numberOfPosts: 0,
-      userMappingID: currentUser,
-      mediumMappingID: medium.id,
-      givenPoints: 4,
+      userMappingId: currentUser,
+      mediumMappingId: mediumToRate,
+      givenPoints: valueRate*2,
     };
 
+    console.log(newRate);
 
     fetch(`http://localhost:5000/rest/ratings/add`, {
       method: "POST",
@@ -39,6 +41,7 @@ const MovieDetails = () => {
     }).catch(error => {
       setHandleError('Das Formular konnte nicht abgeschickt werden (' + handleError + ')');
     });
+
   };
 
   const handleSubmitFormComment = (e, body, currentUser, mediumToComment) => {
@@ -47,8 +50,8 @@ const MovieDetails = () => {
     let newRate = {
       description: body,
       numberOfPosts: 0,
-      userMappingID: currentUser,
-      mediumMappingID: medium.id,
+      userMappingId: currentUser,
+      mediumMappingId: mediumToComment,
     };
 
 
@@ -58,7 +61,6 @@ const MovieDetails = () => {
       body: JSON.stringify(newRate),
     }).then((data) => {
       console.log(data);
-      //    fetchRatings();
     }).catch(error => {
       setHandleError('Das Formular konnte nicht abgeschickt werden (' + handleError + ')');
     });
@@ -103,16 +105,20 @@ const MovieDetails = () => {
 
                 <div className="detailField">
                   <span className="smallHeading">Durchschnittsbewertung</span>
-                  <ReadOnlyRating size="large" value={3.5} showValue={true} />
+                  <ReadOnlyRating size="large" value={medium.averageRating} maxValue={medium.max_RATING_POINTS} showValue={true} />
                   <div className="showButton">
                     <button className="primaryButton" onClick={() => {
                       setHandleToggleRating(!handleToggleRating);
+                      if (handleToggleComment === true){setHandleToggleComment (!handleToggleComment)}
                     }}>
                       Neue Bewertung
                     </button>
-                    <button className="primaryButton">Neuer Kommentar</button>
+                    <button className="primaryButton" onClick={() =>{
+                    setHandleToggleComment(!handleToggleComment);
+                    if (handleToggleRating === true){setHandleToggleRating (!handleToggleRating)}}}
+                    >Neuer Kommentar</button>
                   </div>
-                  <ReadOnlyRating size="large" value={medium.averageRating} maxValue={medium.max_RATING_POINTS} showValue={true} />
+
                 </div>
               </div>
             </div>
@@ -132,14 +138,18 @@ const MovieDetails = () => {
                 <span className="smallHeading">Erschienen</span>
                 <span>{medium.releaseDate}</span>
               </div>
+
             </div>
             {handleToggleRating &&
             <div className="detailGroup">
-              <NewRatingForm handleSubmitFormRating={handleSubmitFormRating}></NewRatingForm>
+              <NewRatingForm handleSubmitFormRating={handleSubmitFormRating} medium={medium}></NewRatingForm>
             </div>}
+
+            {handleToggleComment &&
             <div className="detailGroup">
-              <NewCommentForm></NewCommentForm>
-            </div>
+              <NewCommentForm handleSubmitFormComment={handleSubmitFormComment} medium={medium}></NewCommentForm>
+            </div>}
+
             <div className="body">
                 <TabBar></TabBar>
             </div>
