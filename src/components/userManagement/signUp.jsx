@@ -2,10 +2,13 @@ import {useState} from "react";
 import RedirectingComponent from "./redirectingComponent";
 import {useHistory} from "react-router-dom";
 import useFetch from "../../hooks/useFetch";
+import {red} from "@material-ui/core/colors";
 
 
 /**
- * Component generates a SignUp-Form and converts sends the Data in JSON-Format over POST-Request to the Rest-API
+ * Component is providing a SignUp-Form and converts sends the Data in JSON-Format over POST-Request to the Rest-API
+ * @return {JSX.Element} signUp component
+ * @constructor
  */
 const SignUp = () => {
     const [firstName, setFirstName] = useState('');
@@ -14,20 +17,58 @@ const SignUp = () => {
     const [gender, setGender] = useState('male');
     const [userName, setUserName] = useState('');
     const [passwordHash, setPassword] = useState('');
+    const [passwordHashReference, setPasswordHashReference] = useState('')
     const [email, setEmail] = useState('example@rays.com');
     const [errorMessage, setErrorMessage] = useState('');
-    const [status, setStatus] = useState(true)
+    const [validUserStatus, setValidUserStatus] = useState(false)
+    const [validEmailStatus, setValidEmailStatus] = useState(false)
     const _router = useHistory();
 
-    //TODO: Validation for email-address
-    function checkUserName() {
+    /**
+     * Function is comparing a given email address from form with all stored email-addresses in database and
+     * @return true if email address isn´t currently taken, Status 418 if the email is currently stored in database.
+     */
+    function emailValidator() {
+        fetch(`http://localhost:5000/login/check/is=${email}`, {
+            method: 'GET', mode: 'no-cors'
+        }).then((response) => {
+            setValidEmailStatus(response.status === 418)
+        }).catch(error => {
+            setErrorMessage("Email bereits vergeben!")
+        })
+    }
+
+    /**
+     * Function is comparing a given user name address from form with all stored user name in database and
+     * @return true if user name isn´t currently taken, Status 418 if the user name is currently stored in database.
+     */
+    function userNameValidator() {
         fetch(`http://localhost:5000/user/check/is=${userName}`, {
             method: 'GET'
         }).then((response) => {
-            setStatus(response.status === 418)
+            setValidUserStatus(response.status === 418)
+
         }).catch(error => {
+            setErrorMessage("Username bereits vergeben!")
         })
     }
+
+    /**
+     * Function is checking if a password and his reference are eqal
+     * @param passwordHash from password field of form
+     * @param passwordHashReference from repeat password field of form
+     * @returns {boolean} true if the both passwords are eqal
+     */
+    function isValidPassword() {
+        if(passwordHash === passwordHashReference)
+        {
+            return true;
+        } else {
+            setErrorMessage("non identical passwords")
+            return false;
+        }
+    }
+
 
     /**
      * Method generates the JSON-String after submit and sends fetches via POST-Request to the Rest-API
@@ -38,8 +79,14 @@ const SignUp = () => {
         const isEnabled = false;
         const login = {email, passwordHash, isEnabled}
         const user = {firstName, gender, lastName, secondName, userName, login};
-        checkUserName();
-        if (status === false) {
+        emailValidator()
+        /**
+         * Check if UserName and EmailStatus are valid values
+         */
+        userNameValidator();
+        isValidPassword();
+
+        if (validUserStatus === true && validEmailStatus === true && isValidPassword()) {
             fetch('http://localhost:5000/user/add', {
                 method: 'POST',
                 headers: {"Content-Type": "application/json"},
@@ -50,7 +97,6 @@ const SignUp = () => {
             })
             console.log(user);
         } else {
-            setErrorMessage("Username bereits vergeben!")
             setTimeout(() => setErrorMessage(''), 3000);
         }
 
@@ -119,10 +165,18 @@ const SignUp = () => {
                         />
                         <label>Password</label>
                         <input className="signUpInput"
+                               id="password"
                                type="password"
                                required
                                value={passwordHash}
                                onChange={(e) => setPassword(e.target.value)}
+                        />
+                        <label>Repeat Password</label>
+                        <input className="signUpInput"
+                               type="password"
+                               required
+                               value={passwordHashReference}
+                               onChange={(e) => setPasswordHashReference(e.target.value)}
                         />
                         {errorMessage}
                         <button className="signUpButton">SignUp</button>

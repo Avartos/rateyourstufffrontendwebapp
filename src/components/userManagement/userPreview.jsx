@@ -1,7 +1,18 @@
-import DeleteUser from "./deleteUser";
 import Switch from '../../components/switch';
 
+/**
+ * Component shows the User data of all users in database
+ * also this component provides the possibility to delete users
+ * IMPORTANT: Functions to disable users will follow on next stage of this project
+ * @param user from another component
+ * @return {JSX.Element}
+ * @constructor
+ */
 const UserPreview = ({user}) => {
+    /**
+     * Function consumes the id of chosen user and is sending a delete request to backend
+     * @param id
+     */
     const handleDelete = (id) => {
         fetch(`http://localhost:5000/user/${user.id}`, {
             method: 'DELETE', headers: {
@@ -19,7 +30,6 @@ const UserPreview = ({user}) => {
         <div className="user-preview">
         <table>
             <tr>
-                
                     <th>{user.id}</th>
                     <th>{user.firstName + ' ' + user.lastName}</th>
                     <th>{user.userName}</th>

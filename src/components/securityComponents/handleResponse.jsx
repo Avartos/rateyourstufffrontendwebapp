@@ -1,3 +1,6 @@
+/**
+ * This component will handle authentification for a custom router and will be implemented at the next stage of this project
+ */
 /*
 import { authenticationService } from '@/_services';
 

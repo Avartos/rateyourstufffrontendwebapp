@@ -1,5 +1,11 @@
 import {useState} from "react";
 
+/**
+ * Component which gives the user posibilities to change his personal data
+ * @param user given from backend (Database)
+ * @returns {JSX.Element} changeUserData
+ * @constructor
+ */
 const ChangeUserData = ({user}) => {
 
     (console.log("ChangeUserDataOutput " + user));
@@ -11,11 +17,41 @@ const ChangeUserData = ({user}) => {
     const [passwordHash, setPassword] = useState('DUMMY');
     const [passwordHashReference, setPasswordReference] = useState('DUMMY');
     const [email, setEmail] = useState(user.login.email);
+    const [validUserStatus, setValidUserStatus] = useState(false)
+    const [validEmailStatus, setValidEmailStatus] = useState(false)
+    const [errorMessage, setErrorMessage] = useState('');
 
     const [error, setError] = useState('');
 
     const loginId = user.login.id;
 
+    /*function emailValidator() {
+        fetch(`http://localhost:5000/login/check/is=${email}`, {
+            method: 'GET', mode: 'no-cors'
+        }).then((response) => {
+            setValidEmailStatus(response.status === 418)
+        }).catch(error => {
+            setErrorMessage("Email bereits vergeben!")
+        })
+    }
+
+    function userNameValidator() {
+        fetch(`http://localhost:5000/user/check/is=${userName}`, {
+            method: 'GET'
+        }).then((response) => {
+            setValidUserStatus(response.status === 418)
+
+        }).catch(error => {
+            setErrorMessage("Username bereits vergeben!")
+        })
+    }*/
+
+    /**
+     * Function is checking if a password and his reference are eqal
+     * @param passwordHash from password field of form
+     * @param passwordHashReference from repeat password field of form
+     * @returns {boolean} true if the both passwords are eqal
+     */
     // --- Functions
     const validPassword = (passwordHash, passwordHashReference) => {
         if (passwordHash === passwordHashReference) {
@@ -23,6 +59,8 @@ const ChangeUserData = ({user}) => {
         }
         return false;
     }
+
+
 
     /**
      * This function should update the user data like User Name

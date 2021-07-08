@@ -1,6 +1,10 @@
+/**
+ * This Component takes the function of a redirect router and will be implemented at the next stage of this project
+ */
 /*
 import {useState} from "react";
 import {useHistory} from "react-router-dom";
+
 
 const RedirectingComponent = ({currentLocation}) => {
     // Variables

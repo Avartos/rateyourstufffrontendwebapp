@@ -3,6 +3,11 @@ import {decodeJWT} from "../decodeJWT";
 import {useHistory} from "react-router-dom";
 import RedirectingComponent from "./redirectingComponent";
 
+/**
+ * Component to provide a user login
+ * @returns {JSX.Element} login Component
+ * @constructor
+ */
 const Login = () => {
 
     const [username, setUsername] = useState('');
@@ -11,6 +16,11 @@ const Login = () => {
     const _router = useHistory();
     var decodedData;
 
+    /**
+     * This component takes data from login-form, compares given data from user with data from database
+     * and stores important data to the sessionStorage if the login was successful
+     * @param e
+     */
     const handleLogin = (e) => {
         e.preventDefault();
         fetch(`http://localhost:5000/authenticate`, {

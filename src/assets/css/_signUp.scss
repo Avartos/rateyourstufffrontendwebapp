@@ -87,7 +87,11 @@ label{
   border-radius: 5px;
 }
 
-
+.validationFalse {
+  input[type=password]:focus{
+    border: 3px solid red;
+  }
+}
 
 
 
