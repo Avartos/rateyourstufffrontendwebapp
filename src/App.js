@@ -12,6 +12,8 @@ import BookDetails from './components/mediaDetails/bookDetails';
 import SeriesDetails from './components/mediaDetails/seriesDetails';
 import GameDetails from './components/mediaDetails/gameDetails';
 import Login from "./components/userManagement/login";
+import NewRatingForm from './components/rating/newRatingForm';
+
 
 function App() {
 

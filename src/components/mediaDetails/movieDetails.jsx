@@ -1,9 +1,11 @@
-import React from "react";
+import React, {useState} from "react";
 import useFetch from "../../hooks/useFetch";
 import { useParams } from "react-router-dom";
 import ReadOnlyRating from "../rating/readOnlyRating";
 import TabBar from "./tabBar";
 import Chip from '@material-ui/core/Chip';
+import NewRatingForm from "../rating/newRatingForm";
+import NewCommentForm from "../comments/newCommentForm";
 
 const MovieDetails = () => {
   const { id } = useParams();
@@ -12,6 +14,57 @@ const MovieDetails = () => {
     isPending,
     error,
   } = useFetch(`http://localhost:5000/rest/movies/${id}`);
+  const [handleError, setHandleError] = useState(null);
+  const [handleToggleRating, setHandleToggleRating] = useState(false);
+  const [handleToggleComment, setHandleToggleComment] = useState(false);
+
+  const handleSubmitFormRating = (e, body, valueRate, currentUser, mediumToRate) => {
+    e.preventDefault();
+
+    let newRate = {
+      description: body,
+      numberOfPosts: 0,
+      userMappingId: currentUser,
+      mediumMappingId: mediumToRate,
+      givenPoints: valueRate*2,
+    };
+
+    console.log(newRate);
+
+    fetch(`http://localhost:5000/rest/ratings/add`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(newRate),
+    }).then((data) => {
+      console.log(data);
+      //    fetchRatings();
+    }).catch(error => {
+      setHandleError('Das Formular konnte nicht abgeschickt werden (' + handleError + ')');
+    });
+
+  };
+
+  const handleSubmitFormComment = (e, body, currentUser, mediumToComment) => {
+    e.preventDefault();
+
+    let newRate = {
+      description: body,
+      numberOfPosts: 0,
+      userMappingId: currentUser,
+      mediumMappingId: mediumToComment,
+    };
+
+
+    fetch(`http://localhost:5000/rest/comments/add`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(newRate),
+    }).then((data) => {
+      console.log(data);
+    }).catch(error => {
+      setHandleError('Das Formular konnte nicht abgeschickt werden (' + handleError + ')');
+    });
+  };
 
   return (
     <React.Fragment>
@@ -53,6 +106,19 @@ const MovieDetails = () => {
                 <div className="detailField">
                   <span className="smallHeading">Durchschnittsbewertung</span>
                   <ReadOnlyRating size="large" value={medium.averageRating} maxValue={medium.max_RATING_POINTS} showValue={true} />
+                  <div className="showButton">
+                    <button className="primaryButton" onClick={() => {
+                      setHandleToggleRating(!handleToggleRating);
+                      if (handleToggleComment === true){setHandleToggleComment (!handleToggleComment)}
+                    }}>
+                      Neue Bewertung
+                    </button>
+                    <button className="primaryButton" onClick={() =>{
+                    setHandleToggleComment(!handleToggleComment);
+                    if (handleToggleRating === true){setHandleToggleRating (!handleToggleRating)}}}
+                    >Neuer Kommentar</button>
+                  </div>
+
                 </div>
               </div>
             </div>
@@ -72,7 +138,17 @@ const MovieDetails = () => {
                 <span className="smallHeading">Erschienen</span>
                 <span>{medium.releaseDate}</span>
               </div>
+
             </div>
+            {handleToggleRating &&
+            <div className="detailGroup">
+              <NewRatingForm handleSubmitFormRating={handleSubmitFormRating} medium={medium}></NewRatingForm>
+            </div>}
+
+            {handleToggleComment &&
+            <div className="detailGroup">
+              <NewCommentForm handleSubmitFormComment={handleSubmitFormComment} medium={medium}></NewCommentForm>
+            </div>}
 
             <div className="body">
                 <TabBar></TabBar>

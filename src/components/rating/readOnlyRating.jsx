@@ -7,6 +7,7 @@ const ReadOnlyRating = ({size, value, showValue, maxValue}) => {
         return (5*value)/maxValue;
     }
 
+
     return ( 
         <div className="rating">
             {showValue && <span className="value">{calculatePercentage()}</span>}

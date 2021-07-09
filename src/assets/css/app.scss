@@ -72,3 +72,24 @@ body {
     font-size: 1.6em;
   }
 }
+
+.primaryButton{
+  margin: 5px;
+  padding: 5px;
+  width: 100px;
+  border: none;
+  border-radius: 5px;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  background-color: $buttonColor;
+  transition: ease-in-out .1s;
+}
+
+Button:hover {
+  background-color: $buttonHoverColor;
+}
+
+form button:active {
+  background-color: $buttonPressedColor;
+}
