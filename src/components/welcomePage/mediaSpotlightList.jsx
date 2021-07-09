@@ -18,9 +18,9 @@ const MediaSpotlightList = ({fetchURL, title, mediaType}) => {
                 
 
             }
-            {!isPending && media != null &&
+            {!isPending && media != null && 
                 media.map(medium => {
-                    return <MediaEntry key={medium.id} medium={medium} mediaType={mediaType}/>
+                    return <MediaEntry key={medium.id} medium={medium} mediaType={mediaType} />
                 })
             }
         </div>
