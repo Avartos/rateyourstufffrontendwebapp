@@ -42,24 +42,27 @@ const Login = () => {
     };
 
     return (
-        <div className="login">
-            <form onSubmit={handleLogin}>
-                <label>Username</label>
-                <input
-                    type="text"
-                    required
-                    value={username}
-                    onChange={(e) => setUsername(e.target.value)}
-                />
-                <label>Password</label>
-                <input
-                    type="password"
-                    required
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                />
-                <button>login</button>
-            </form>
+        <div className="loginDisplay">
+            <div className="loginBox">
+                <h2>bei RaYS einloggen </h2>
+                <form onSubmit={handleLogin}>
+                    <label>Username</label>
+                    <input className="loginInput"
+                        type="text"
+                        required
+                        value={username}
+                        onChange={(e) => setUsername(e.target.value)}
+                    />
+                    <label>Password</label>
+                    <input className="loginInput"
+                        type="password"
+                        required
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                    />
+                    <button className="loginButton">login</button>
+                </form>
+            </div>
         </div>
     )
 };
