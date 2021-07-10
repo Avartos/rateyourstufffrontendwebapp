@@ -6,6 +6,7 @@ import TabBar from "./tabBar";
 import Chip from '@material-ui/core/Chip';
 import NewRatingForm from "../rating/newRatingForm";
 import NewCommentForm from "../comments/newCommentForm";
+import ShowRating from "../rating/showRating";
 
 const MovieDetails = () => {
   const { id } = useParams();
