@@ -1,4 +1,5 @@
 import {useState} from 'react';
+import { useHistory } from 'react-router';
 import TextField from '@material-ui/core/TextField';
 
 const AddMovieForm = () => {
@@ -11,6 +12,7 @@ const AddMovieForm = () => {
     const [mediumPoster, setMediumPoster] = useState('');
     const [languages, setLanguages] = useState('');
     const [genres, setGenres] = useState('');
+    const history = useHistory();
     
     const handleSubmitForm = (e) => {
         e.preventDefault();
@@ -45,7 +47,7 @@ const AddMovieForm = () => {
                 body: formData
             })
             .then(response => {
-
+                history.push(`/detail/movie/${data.id}`);
             })
             .catch(error => {
                 console.log(error);
