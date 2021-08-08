@@ -105,58 +105,64 @@ const ChangeUserData = ({user}) => {
 
     return (
         <div className="changeUserData">
+            <div className="userInformationDisplay">
             {/*<h2>Here you can change User Data</h2>*/}
-            <h3>Personal Data</h3>
-            <form onSubmit={handleUserUpdate}>
-                <label>User Name</label>
-                <input
-                    type="test"
-                    value={userName}
-                    onChange={(e) => setUserName(e.target.value)}
-                />
-                <label>First Name</label>
-                <input
-                    type="text"
-                    value={firstName}
-                    onChange={(e) => setFirstName(e.target.value)}
-                />
-                <label>Second Name</label>
-                <input
-                    type="text"
-                    value={secondName}
-                    onChange={(e) => setSecondName(e.target.value)}
-                />
-                <label>Last Name</label>
-                <input
-                    type="text"
-                    value={lastName}
-                    onChange={(e) => setLastName(e.target.value)}
-                />
-                <button>Update Profile</button>
-            </form>
-            <h3>Security Data:</h3>
-            <form onSubmit={(e) => handleAccountUpdate(e)}>
-                <label>Email</label>
-                <input
-                    type="email"
-                    value={email}
-                    onChange={(e) => setEmail(this.target.value)}
-                />
-                <label>Password</label>
-                <input
-                    type="password"
-                    value={passwordHash}
-                    onChange={(e) => setPassword(e.target.value)}
-                />
-                <label>Repeat Password</label>
-                <input
-                    type="password"
-                    value={passwordHashReference}
-                    onChange={(e) => setPasswordReference(e.target.value)}
-                />
-                <button>Save Password</button>
-                {error}
-            </form>
+                <div className="userInformationBox">
+                    <h2>Personal Data:</h2>
+                    <form onSubmit={handleUserUpdate}>
+                        <label>User Name</label>
+                        <input className="dataChangeInput"
+                            type="test"
+                            value={userName}
+                            onChange={(e) => setUserName(e.target.value)}
+                        />
+                        <label>First Name</label>
+                        <input className="dataChangeInput"
+                            type="text"
+                            value={firstName}
+                            onChange={(e) => setFirstName(e.target.value)}
+                        />
+                        {/* <label>Second Name</label>
+                        <input className="dataChangeInput"
+                            type="text"
+                            value={secondName}
+                            onChange={(e) => setSecondName(e.target.value)}
+                        /> */}
+                        <label>Last Name</label>
+                        <input className="dataChangeInput"
+                            type="text"
+                            value={lastName}
+                            onChange={(e) => setLastName(e.target.value)}
+                        />
+                        <button className="changeButton">Update Profile</button>
+                    </form>
+                </div>
+                <div className="userInformationBox">
+                    <h2>Security Data:</h2>
+                    <form onSubmit={(e) => handleAccountUpdate(e)}>
+                        <label>Email</label>
+                        <input className="dataChangeInput"
+                            type="email"
+                            value={email}
+                            onChange={(e) => setEmail(this.target.value)}
+                        />
+                        <label>Password</label>
+                        <input className="dataChangeInput"
+                            type="password"
+                            value={passwordHash}
+                            onChange={(e) => setPassword(e.target.value)}
+                        />
+                        <label>Repeat Password</label>
+                        <input className="dataChangeInput"
+                            type="password"
+                            value={passwordHashReference}
+                            onChange={(e) => setPasswordReference(e.target.value)}
+                        />
+                        <button className="changeButton">Save Password</button>
+                        {error}
+                    </form>
+                </div>
+            </div>
         </div>
 
     )

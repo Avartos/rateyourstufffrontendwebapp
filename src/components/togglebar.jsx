@@ -29,31 +29,31 @@ function Togglebar(props) {
             <p className="icon-button">{<HomeIcon />}</p>
             <Link to="/">Home</Link>
           </div>
-          <div className="toggleLink">
+          {/* <div className="toggleLink">
             <p className="icon-button">{<NewsIcon />}</p>
             <Link to="/news">News</Link>
           </div>
           <div className="toggleLink">
             <p className="icon-button">{<HistoryIcon />}</p>
             <Link to="/history">History</Link>
-          </div>
+          </div> */}
           < hr width="95%" align="center" size="1" ></hr>
           <div className="toggleLink">
             <p className="icon-button">{<MyAccountIcon />}</p>
-            <Link to="/myAccount">myAccount</Link>
+            <Link to="/userPanel">myAccount</Link>
           </div>
           <div className="toggleLink">
             <p className="icon-button">{<MyFriendsIcon />}</p>
-            <Link to="/myFriends">myFriends</Link>
+            <Link to="/login">Login</Link>
           </div>
           <div className="toggleLink">
             <p className="icon-button">{<MyRatingsIcon />}</p>
-            <Link to="/myRatings">myRatings</Link>
+            <Link to="/signup">Sign Up</Link>
           </div>
-          <div className="toggleLink">
+          {/* <div className="toggleLink">
             <p className="icon-button">{<MyStuffIcon />}</p>
             <Link to="/myStuff">myStuff</Link>
-          </div>
+          </div> */}
           < hr width="95%" align="center" size="1" ></hr>
           <div className="toggleLink">
             <p className="icon-button">{<MoviesIcon />}</p>
