@@ -7,6 +7,7 @@ import SearchBar from './searchBar';
 import Togglebar from './togglebar';
 
 
+
 const HeaderBar = () => {
     return ( 
         <nav className="navbar">
@@ -19,7 +20,7 @@ const HeaderBar = () => {
           <SearchBar/>
             <p>
                 
-                <div><Link className="link" to="/signup">SignUp</Link></div>
+                <div className="logoutText">Logout</div>
             </p>
 
             <div className="gradient"></div>

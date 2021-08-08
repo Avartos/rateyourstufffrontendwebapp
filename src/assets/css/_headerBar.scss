@@ -103,12 +103,13 @@ body {
     fill: white;
     width: 20px;
     height: 20px;
-    margin-right: 10px;
+    // margin-right: 10px;
   }
 
   .leftside {
     display: flex;
     justify-content: flex-start;
+    margin-right: 550px;
   }
 
   .leftside h1{
@@ -122,7 +123,7 @@ body {
     position: absolute;
     top: 60px;
     width: 200px;
-    height: 90vh;
+    height: 1600px;
     transform: translateX(+33%);
     background-color: $headerBackgroundColor;
     border: var(--border);
@@ -161,4 +162,8 @@ body {
   }
   .toggleLink:hover {
     background-color: #2f2e4d;
+  }
+
+  .logoutText {
+    margin: 0 10px 0 675px;
   }

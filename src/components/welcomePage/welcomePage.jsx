@@ -3,7 +3,7 @@ import MediaSpotlightList from "./mediaSpotlightList";
 
 const WelcomePage = () => {
   
-  const numberOfEntries = 7;
+  const numberOfEntries = 5;
   const orderBy = 'releaseDate';
   const order = 'desc';
   const server = 'http://localhost:5000/rest';
