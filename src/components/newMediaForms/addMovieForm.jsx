@@ -136,7 +136,7 @@ const AddMovieForm = () => {
       ageRestriction: ageRestriction,
       languageStrings: languages,
       genreStrings: genres,
-      networkTitle: network
+      networkTitle: network,
     };
 
     fetch("http://localhost:5000/rest/movies/add", {
@@ -172,13 +172,23 @@ const AddMovieForm = () => {
       });
   };
 
+  const [currentImage, setCurrentImage] = useState("");
+
+  const handleSelectImage = (event) => {
+    setCurrentImage(URL.createObjectURL(event.target.files[0]));
+  };
+
   return (
     <form className="addMediaForm" onSubmit={(e) => handleSubmitForm(e)}>
       <FormControl className="formControl">
-      <span className="label">Poster</span>
+        <span className="label">Poster</span>
+        <div className="imageWrapper">
+          <img className="previewImage" src={currentImage} alt="Vorschau" />
+        </div>
         <input
           type="file"
           onChange={(e) => {
+            handleSelectImage(e);
             setMediumPoster(e.target.files[0]);
             console.log(e.target.files[0]);
           }}
@@ -238,9 +248,7 @@ const AddMovieForm = () => {
           <MenuItem value={12}>Ab 12 Jahren</MenuItem>
           <MenuItem value={16}>Ab 16 Jahren</MenuItem>
           <MenuItem value={18}>Ab 18 Jahren</MenuItem>
-
         </Select>
-
 
         <span className="label">Netzwerk</span>
         <Select

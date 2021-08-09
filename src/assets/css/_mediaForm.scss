@@ -47,5 +47,17 @@
     .formControl {
         min-width: 95%;
     }
-    
+ 
+    .imageWrapper {
+        margin: auto;
+        width: 200px;
+        height: 300px;
+        overflow: hidden;
+        background-color: #111111;
+        img {
+            height: 100%;
+            margin: 0 auto;
+            text-align: center;
+        }
+    }
 }
