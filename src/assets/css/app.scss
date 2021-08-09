@@ -93,8 +93,14 @@ body {
 
 Button:hover {
   background-color: $buttonHoverColor;
+  
 }
 
 form button:active {
   background-color: $buttonPressedColor;
+}
+
+button {
+  border: none;
+  border-radius: 5px;
 }

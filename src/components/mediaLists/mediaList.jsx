@@ -61,7 +61,7 @@ const MediaList = ({ urlPath, title, mediaType }) => {
       </div>
 
       {!isPending && buttonIsVisible && (
-        <button onClick={handleLoadMore}>Mehr Laden...</button>
+        <button className="primaryButton" onClick={handleLoadMore}>Mehr Laden...</button>
       )}
     </div>
   );
