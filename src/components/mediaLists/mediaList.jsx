@@ -8,7 +8,7 @@ const MediaList = ({ urlPath, title, mediaType }) => {
   const [offset, setOffset] = useState(0);
   const [buttonIsVisible, setButtonIsVisible] = useState(true);
 
-  const entriesPerPage = 2;
+  const entriesPerPage = 25;
 
   const fetchMedia = (cleanFetch = false, page = offset) => {
     fetch(
