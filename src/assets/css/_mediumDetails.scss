@@ -16,8 +16,13 @@
       display: grid;
       grid-template-columns: 1fr 1fr 1fr 1fr;
       grid-template-areas: "image detail detail detail";
-      img {
+      .imageWrapper {
         height: 500px;
+        width: 350px;
+        overflow: hidden;
+      }
+      img {
+        height: 100%;
         grid-area: image;
       }
 
@@ -76,7 +81,6 @@
       box-shadow: 5px 5px #07070798;
       margin: 25px auto 50px auto;
       min-height: 250px;
-
     }
   }
 
@@ -89,14 +93,12 @@
     padding: 15px;
     text-align: left;
   }
-  .showButton{
+  .showButton {
     display: inline-block;
   }
 
-  .formTextarea{
+  .formTextarea {
     width: 55em;
     height: 5em;
   }
 }
-
-
