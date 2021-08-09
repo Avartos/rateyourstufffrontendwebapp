@@ -44,15 +44,21 @@ const MediaList = ({ urlPath, title, mediaType }) => {
   };
 
   return (
-    <div className="largeMediaList">
+    <div className="list">
       <h1>{title}</h1>
-      {!isPending &&
-        !error &&
-        media.map((medium) => {
-          return (
-            <MediaEntry medium={medium} key={medium.id} mediaType={mediaType} />
-          );
-        })}
+      <div className="largeMediaList">
+        {!isPending &&
+          !error &&
+          media.map((medium) => {
+            return (
+              <MediaEntry
+                medium={medium}
+                key={medium.id}
+                mediaType={mediaType}
+              />
+            );
+          })}
+      </div>
 
       {!isPending && buttonIsVisible && (
         <button onClick={handleLoadMore}>Mehr Laden...</button>

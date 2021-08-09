@@ -23,8 +23,17 @@
     margin-top: 20px;
     color: #ffffff;
 }
-
+.list {
+    margin: 0 auto;
+}
 .largeMediaList {
     display: flex;
-    width: 20px;
+    flex-wrap: wrap;
+    justify-content: left;
+    width: 100%;
+    margin: 0 auto;
+
+    .mediaEntry {
+        width: 450px !important;
+    }
 }
