@@ -11,7 +11,6 @@ const MediaList = ({ urlPath, title, mediaType }) => {
   const entriesPerPage = 2;
 
   const fetchMedia = (cleanFetch = false, page = offset) => {
-    console.log(`http://localhost:5000/rest/${urlPath}?page=${page}&size=${entriesPerPage}`);
     fetch(
       `http://localhost:5000/rest/${urlPath}?page=${page}&size=${entriesPerPage}`
     )
@@ -23,13 +22,13 @@ const MediaList = ({ urlPath, title, mediaType }) => {
       })
       .then((data) => {
         setOffset(page + 1);
-        console.log(data);
         setIsPending(false);
         if (cleanFetch) {
           setMedia(data);
         } else {
           setMedia([...media, ...data]);
         }
+        setButtonIsVisible(data.length >= entriesPerPage);
       })
       .catch((error) => {
         console.error(error);
