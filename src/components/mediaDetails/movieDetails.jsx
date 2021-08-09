@@ -1,9 +1,9 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import useFetch from "../../hooks/useFetch";
 import { useParams } from "react-router-dom";
 import ReadOnlyRating from "../rating/readOnlyRating";
 import TabBar from "./tabBar";
-import Chip from '@material-ui/core/Chip';
+import Chip from "@material-ui/core/Chip";
 import NewRatingForm from "../rating/newRatingForm";
 import NewCommentForm from "../comments/newCommentForm";
 
@@ -18,7 +18,13 @@ const MovieDetails = () => {
   const [handleToggleRating, setHandleToggleRating] = useState(false);
   const [handleToggleComment, setHandleToggleComment] = useState(false);
 
-  const handleSubmitFormRating = (e, body, valueRate, currentUser, mediumToRate) => {
+  const handleSubmitFormRating = (
+    e,
+    body,
+    valueRate,
+    currentUser,
+    mediumToRate
+  ) => {
     e.preventDefault();
 
     let newRate = {
@@ -26,7 +32,7 @@ const MovieDetails = () => {
       numberOfPosts: 0,
       userMappingId: currentUser,
       mediumMappingId: mediumToRate,
-      givenPoints: valueRate*2,
+      givenPoints: valueRate * 2,
     };
 
     console.log(newRate);
@@ -35,13 +41,16 @@ const MovieDetails = () => {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(newRate),
-    }).then((data) => {
-      console.log(data);
-      //    fetchRatings();
-    }).catch(error => {
-      setHandleError('Das Formular konnte nicht abgeschickt werden (' + handleError + ')');
-    });
-
+    })
+      .then((data) => {
+        console.log(data);
+        //    fetchRatings();
+      })
+      .catch((error) => {
+        setHandleError(
+          "Das Formular konnte nicht abgeschickt werden (" + handleError + ")"
+        );
+      });
   };
 
   const handleSubmitFormComment = (e, body, currentUser, mediumToComment) => {
@@ -54,16 +63,19 @@ const MovieDetails = () => {
       mediumMappingId: mediumToComment,
     };
 
-
     fetch(`http://localhost:5000/rest/comments/add`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(newRate),
-    }).then((data) => {
-      console.log(data);
-    }).catch(error => {
-      setHandleError('Das Formular konnte nicht abgeschickt werden (' + handleError + ')');
-    });
+    })
+      .then((data) => {
+        console.log(data);
+      })
+      .catch((error) => {
+        setHandleError(
+          "Das Formular konnte nicht abgeschickt werden (" + handleError + ")"
+        );
+      });
   };
 
   return (
@@ -72,17 +84,27 @@ const MovieDetails = () => {
         <div className="mediaDetails">
           <div className="content">
             <div className="head">
-              <img
-                src={`http://localhost:5000/${medium.picturePath}`}
-                alt="poster"
-              ></img>
+              <div className="imageWrapper">
+                <img
+                  src={`http://localhost:5000/${medium.picturePath}`}
+                  alt="poster"
+                ></img>
+              </div>
+
               <div className="details">
                 <h2 className="title">{medium.mediumName}</h2>
                 <div className="detailField">
                   <span className="smallHeading">Genres</span>
                   <span>
                     {medium.genres.map((genre) => {
-                      return <Chip color="secondary" variant="outlined" size="small" label={genre}/>
+                      return (
+                        <Chip
+                          color="secondary"
+                          variant="outlined"
+                          size="small"
+                          label={genre}
+                        />
+                      );
                     })}
                   </span>
                 </div>
@@ -92,7 +114,7 @@ const MovieDetails = () => {
                   <span>
                     {medium.languages.map((language) => {
                       return (
-                        <Chip color="primary" size="small" label={language}/>
+                        <Chip color="primary" size="small" label={language} />
                       );
                     })}
                   </span>
@@ -105,20 +127,36 @@ const MovieDetails = () => {
 
                 <div className="detailField">
                   <span className="smallHeading">Durchschnittsbewertung</span>
-                  <ReadOnlyRating size="large" value={medium.averageRating} maxValue={medium.max_RATING_POINTS} showValue={true} />
+                  <ReadOnlyRating
+                    size="large"
+                    value={medium.averageRating}
+                    maxValue={medium.max_RATING_POINTS}
+                    showValue={true}
+                  />
                   <div className="showButton">
-                    <button className="primaryButton" onClick={() => {
-                      setHandleToggleRating(!handleToggleRating);
-                      if (handleToggleComment === true){setHandleToggleComment (!handleToggleComment)}
-                    }}>
+                    <button
+                      className="primaryButton"
+                      onClick={() => {
+                        setHandleToggleRating(!handleToggleRating);
+                        if (handleToggleComment === true) {
+                          setHandleToggleComment(!handleToggleComment);
+                        }
+                      }}
+                    >
                       Neue Bewertung
                     </button>
-                    <button className="primaryButton" onClick={() =>{
-                    setHandleToggleComment(!handleToggleComment);
-                    if (handleToggleRating === true){setHandleToggleRating (!handleToggleRating)}}}
-                    >Neuer Kommentar</button>
+                    <button
+                      className="primaryButton"
+                      onClick={() => {
+                        setHandleToggleComment(!handleToggleComment);
+                        if (handleToggleRating === true) {
+                          setHandleToggleRating(!handleToggleRating);
+                        }
+                      }}
+                    >
+                      Neuer Kommentar
+                    </button>
                   </div>
-
                 </div>
               </div>
             </div>
@@ -138,20 +176,27 @@ const MovieDetails = () => {
                 <span className="smallHeading">Erschienen</span>
                 <span>{medium.releaseDate}</span>
               </div>
-
             </div>
-            {handleToggleRating &&
-            <div className="detailGroup">
-              <NewRatingForm handleSubmitFormRating={handleSubmitFormRating} medium={medium}></NewRatingForm>
-            </div>}
+            {handleToggleRating && (
+              <div className="detailGroup">
+                <NewRatingForm
+                  handleSubmitFormRating={handleSubmitFormRating}
+                  medium={medium}
+                ></NewRatingForm>
+              </div>
+            )}
 
-            {handleToggleComment &&
-            <div className="detailGroup">
-              <NewCommentForm handleSubmitFormComment={handleSubmitFormComment} medium={medium}></NewCommentForm>
-            </div>}
+            {handleToggleComment && (
+              <div className="detailGroup">
+                <NewCommentForm
+                  handleSubmitFormComment={handleSubmitFormComment}
+                  medium={medium}
+                ></NewCommentForm>
+              </div>
+            )}
 
             <div className="body">
-                <TabBar></TabBar>
+              <TabBar></TabBar>
             </div>
           </div>
         </div>

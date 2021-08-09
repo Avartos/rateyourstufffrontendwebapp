@@ -1,63 +1,73 @@
 .addMediaForm {
+  margin: 0 auto;
+  width: 800px;
+  background-color: rgb(32, 32, 32);
+  .label {
+    margin-top: 15px;
+    display: block;
+    width: 100%;
+    text-align: left;
+  }
+
+  input,
+  textarea {
+    display: block;
+    width: 95%;
+    margin: 5px auto;
+    padding: 15px;
+    border: none;
+    border-radius: 5px;
+  }
+
+  button {
+    padding: 15px;
+    display: block;
     margin: 0 auto;
-    width: 800px;
-    background-color: rgb(32, 32, 32);
-    .label {
-        margin-top: 15px;
-        display: block;
-        width: 100%;
-        text-align: left;
-    }
+    margin-top: 15px;
+    margin-bottom: 15px;
+  }
 
-    input, textarea {
-        display: block;
-        width: 95%;
-        margin: 5px auto;
-        padding: 15px;
-        border: none;
-        border-radius: 5px;
+  .MuiInput-root {
+    display: block;
+    *:not(span) {
+      color: white;
     }
+  }
 
-    button {
-        padding: 15px;
-        display: block;
-        margin: 0 auto;
-        margin-top: 15px;
-        margin-bottom: 15px;
+  .MuiInput-underline::before {
+    border-color: white;
+    &:hover {
+      border-color: grey;
     }
+  }
 
-    .MuiInput-root {
-        display: block;
-        *:not(span) {
-            color: white ;
+  .formControl {
+    min-width: 95%;
+  }
 
-        }
-            
-        
+  .imageWrapper {
+    margin: auto;
+    width: 200px;
+    height: 300px;
+    overflow: hidden;
+    background-color: #111111;
+    img {
+      height: 100%;
+      margin: 0 auto;
+      text-align: center;
     }
-
-    .MuiInput-underline::before {
-        border-color: white;
-        &:hover {
-            border-color: grey;
-        }
+  }
+  a {
+    display: block;
+    padding: 10px;
+    margin: 5px;
+    background-color: #007ff6;
+    transition: all ease-in-out .2s;
+  
+    &:hover {
+        background-color: rgb(0, 98, 255);
     }
-
-
-    .formControl {
-        min-width: 95%;
-    }
- 
-    .imageWrapper {
-        margin: auto;
-        width: 200px;
-        height: 300px;
-        overflow: hidden;
-        background-color: #111111;
-        img {
-            height: 100%;
-            margin: 0 auto;
-            text-align: center;
-        }
-    }
+  }
 }
+
+

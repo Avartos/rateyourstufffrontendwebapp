@@ -10,6 +10,7 @@ import { ReactComponent as SeriesIcon } from '../icons/series.svg';
 import { ReactComponent as BooksIcon } from '../icons/books.svg';
 import { ReactComponent as GamesIcon } from '../icons/games.svg';
 import { ReactComponent as OptionsIcon } from '../icons/options.svg';
+import AddCircleIcon from '@material-ui/icons/AddCircle';
 
 import { CSSTransition } from 'react-transition-group';
 import { Link } from 'react-router-dom';
@@ -70,6 +71,10 @@ function Togglebar(props) {
           <div className="toggleLink">
             <p className="icon-button">{<GamesIcon />}</p>
             <Link to="/games">Games</Link>
+          </div>
+          <div className="toggleLink">
+            <span className="icon-button"><AddCircleIcon/></span>
+            <Link to="/add">Medium anlegen</Link>
           </div>
           < hr width="95%" align="center" size="1" ></hr>
           <div className="toggleLink">
