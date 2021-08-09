@@ -15,7 +15,7 @@ import BookDetails from './components/mediaDetails/bookDetails';
 import SeriesDetails from './components/mediaDetails/seriesDetails';
 import GameDetails from './components/mediaDetails/gameDetails';
 import Login from "./components/userManagement/login";
-import NewRatingForm from './components/rating/newRatingForm';
+import MediaList from "./components/mediaLists/mediaList";
 
 import Logout from "./components/userManagement/logout";
 
@@ -31,6 +31,10 @@ function App() {
           <Route exact path="/detail/book/:id"><BookDetails/></Route>
           <Route exact path="/detail/series/:id"><SeriesDetails/></Route>
           <Route exact path="/detail/game/:id"><GameDetails/></Route>
+          <Route exact path="/media/movies"><MediaList title="Filme" urlPath="movies/all" mediaType={'movie'}/></Route>
+          <Route exact path="/media/series"><MediaList title="Serien" urlPath="series/all" mediaType={'series'}/></Route>
+          <Route exact path="/media/books"><MediaList title="Bücher" urlPath="books/all" mediaType={'book'}/></Route>
+          <Route exact path="/media/games"><MediaList title="Spiele" urlPath="games/all" mediaType={'game'}/></Route>
           <Route path="/signup" ><SignUp /></Route>
           <Route path="/adminpanel"><AdminPanel /></Route>
           <Route path="/userPanel"><UserPanel /></Route>

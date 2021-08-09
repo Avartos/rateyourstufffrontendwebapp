@@ -70,53 +70,55 @@
         }
     }
 
-    .mediaEntry {
-        margin: 15px 10px 15px 10px;
-        height: 130px;
-        background-color: #545454;
-        color: white;
-        display: flex;
-        transition: ease-in-out .2s;
-        cursor: pointer;
-        text-decoration: none;
+    
+}
 
-        &:hover {
-            box-shadow: 0 0 0 3px $headerBottomColor;
+.mediaEntry {
+    margin: 15px 10px 15px 10px;
+    height: 130px;
+    background-color: #545454;
+    color: white;
+    display: flex;
+    transition: ease-in-out .2s;
+    cursor: pointer;
+    text-decoration: none;
+
+    &:hover {
+        box-shadow: 0 0 0 3px $headerBottomColor;
+    }
+
+    .previewImageWrapper {
+        margin: 5px 10px 5px 5px;
+        height: 120px;
+        min-width: 82px;
+        overflow: hidden;
+        position: relative;
+    }
+
+    img {
+        height: 100%;
+        position: absolute;
+        left: 0;
+        right: 0;
+        min-width: 82px;
+    }
+
+    .previewContent {
+        grid-area: previewContent;
+
+        .title {
+            margin-top: 7px;
+            margin-bottom: 1px;
+            text-align: left;
         }
 
-        .previewImageWrapper {
-            margin: 5px 10px 5px 5px;
-            height: 120px;
-            min-width: 82px;
-            overflow: hidden;
-            position: relative;
-        }
-
-        img {
-            height: 100%;
-            position: absolute;
-            left: 0;
-            right: 0;
-            min-width: 82px;
-        }
-
-        .previewContent {
-            grid-area: previewContent;
-
-            .title {
-                margin-top: 7px;
-                margin-bottom: 1px;
-                text-align: left;
-            }
-
-            .details {
-                margin-left: 10px;
-                padding: 0;
-                text-align: left;
-                >span {
-                    display: block;
-                    padding: 2px;
-                }
+        .details {
+            margin-left: 10px;
+            padding: 0;
+            text-align: left;
+            >span {
+                display: block;
+                padding: 2px;
             }
         }
     }
