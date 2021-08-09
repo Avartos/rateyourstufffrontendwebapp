@@ -78,7 +78,11 @@ label{
 
 .signUpButton:hover {
   filter: brightness(1.2);
+  background: #6d2e2e;
 }
+
+
+
 
 .genderChoiceField {
   min-width: 99%;
@@ -87,7 +91,11 @@ label{
   border-radius: 5px;
 }
 
-
+.validationFalse {
+  input[type=password]:focus{
+    border: 3px solid red;
+  }
+}
 
 
 

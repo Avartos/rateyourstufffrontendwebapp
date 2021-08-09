@@ -12,9 +12,9 @@ import { ReactComponent as GamesIcon } from '../icons/games.svg';
 import { ReactComponent as OptionsIcon } from '../icons/options.svg';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 
-import { CSSTransition } from 'react-transition-group';
-import { Link } from 'react-router-dom';
-import React, { useState, useEffect, useRef } from 'react';
+import { CSSTransition } from "react-transition-group";
+import { Link } from "react-router-dom";
+import React, { useState } from "react";
 
 function Togglebar(props) {
     const [isVisible, setIsVisible] = useState();
@@ -83,16 +83,7 @@ function Togglebar(props) {
           </div>
       </div>
     </CSSTransition>
-    );
-  }
+  );
+}
 
-  function TogglebarLinks(props) {
-    return (
-      <a href="#" className="menu-item" onClick={() => <Link to="/">Home</Link>}>
-        <span className="icon-button">{props.leftIcon}</span>
-        {props.children}
-      </a>
-    );
-  }
-
-export default Togglebar
+export default Togglebar;

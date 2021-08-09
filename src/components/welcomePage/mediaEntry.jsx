@@ -4,6 +4,14 @@ import Chip from '@material-ui/core/Chip';
 
 const MediaEntry = ({ medium, mediaType }) => {
 
+  const shortenString = (targetString, maxLength, moreTextSymbol) => {
+    let shortenedString = targetString;
+    if (targetString != null && targetString.length > maxLength) {
+      shortenedString = targetString.substr(0, maxLength) + moreTextSymbol;
+    }
+    return shortenedString;
+  };
+
     return (
     <Link className="link" to={`/detail/${mediaType}/${medium.id}`}>
         <div className="mediaEntry">
@@ -15,7 +23,7 @@ const MediaEntry = ({ medium, mediaType }) => {
         </div>
         
         <div className="previewContent">
-            <h3 className="title">{medium.mediumName}</h3>
+            <h3 className="title" title={medium.mediumName}>{shortenString(medium.mediumName, 20, '...')}</h3>
             <div className="details">
                 <span>{medium.releaseDate}</span>
                 <span>

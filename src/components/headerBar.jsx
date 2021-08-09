@@ -8,20 +8,18 @@ import Togglebar from './togglebar';
 
 
 const HeaderBar = () => {
-    return ( 
+    return (
         <nav className="navbar">
           <div className="leftside">
             <NavItem icon={<MenuIcon />}>
               <Togglebar></Togglebar>
             </NavItem>
-            <h2>RateYourStuff</h2>
+            <Link className="link" to="/"><h2>rateYourStuff</h2></Link>
           </div>
           <SearchBar/>
-            <p>
-                
-                <div><Link className="link" to="/signup">SignUp</Link></div>
-            </p>
-
+                <Link className="link right" to="/signup">SignUp</Link>
+                <Link className="link right" to="/logout">Logout</Link>
+                <Link className="link right" to="/login">Login</Link>
             <div className="gradient"></div>
         </nav>
      );

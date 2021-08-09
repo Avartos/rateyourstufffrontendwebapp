@@ -1,9 +1,12 @@
 
+// functional imports
+import { BrowserRouter as Router, Route, Switch, Link } from "react-router-dom";
+
+//component imports
 import './App.css';
 import './assets/css/app.scss';
 import HeaderBar from './components/headerBar';
 import WelcomePage from './components/welcomePage/welcomePage';
-import { BrowserRouter as Router, Route, Switch, Link } from "react-router-dom";
 import SignUp from "./components/userManagement/signUp";
 import AdminPanel from "./components/userManagement/adminPanel";
 import UserPanel from "./components/userManagement/userPanel";
@@ -15,7 +18,9 @@ import Login from "./components/userManagement/login";
 import AddMovieForm from './components/newMediaForms/addMovieForm';
 import AddMediaForm from './components/newMediaForms/addMediaForm';
 
+import MediaList from "./components/mediaLists/mediaList";
 
+import Logout from "./components/userManagement/logout";
 
 function App() {
 
@@ -29,12 +34,17 @@ function App() {
           <Route exact path="/detail/book/:id"><BookDetails/></Route>
           <Route exact path="/detail/series/:id"><SeriesDetails/></Route>
           <Route exact path="/detail/game/:id"><GameDetails/></Route>
-          <Route path="/signup"><SignUp /></Route>
+          <Route exact path="/media/movies"><MediaList title="Filme" urlPath="movies/all" mediaType={'movie'}/></Route>
+          <Route exact path="/media/series"><MediaList title="Serien" urlPath="series/all" mediaType={'series'}/></Route>
+          <Route exact path="/media/books"><MediaList title="Bücher" urlPath="books/all" mediaType={'book'}/></Route>
+          <Route exact path="/media/games"><MediaList title="Spiele" urlPath="games/all" mediaType={'game'}/></Route>
+          <Route path="/signup" ><SignUp /></Route>
           <Route path="/adminpanel"><AdminPanel /></Route>
           <Route path="/userPanel"><UserPanel /></Route>
           <Route path="/login"><Login /></Route>
           <Route exact path="/add"><AddMediaForm /></Route>
           <Route path="/add/movie"><AddMovieForm></AddMovieForm></Route>
+          <Route path="/logout"><Logout /></Route>
           <Route path="/">
             <h1>404 - Not Found</h1><br />
           </Route>

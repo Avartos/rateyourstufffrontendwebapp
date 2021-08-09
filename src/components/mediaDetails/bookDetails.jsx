@@ -15,6 +15,7 @@ const BoolOutput = (isTrue) => {
 };
 
 const BookDetails = () => {
+  
   const { id } = useParams();
   const {
     data: medium,

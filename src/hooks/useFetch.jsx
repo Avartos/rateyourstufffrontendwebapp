@@ -8,7 +8,10 @@ const useFetch = (url) => {
   useEffect(() => {
     const abortController = new AbortController();
 
-    fetch(url, { signal: abortController.signal })
+    fetch(url, {signal: abortController.signal, headers: {
+        "Content-Type": "application/json",
+        "Authorization": sessionStorage.getItem("Bearer "),
+      },} )
       .then((response) => {
         if (!response.ok) {
           throw Error("Could not fetch data for that resource");
