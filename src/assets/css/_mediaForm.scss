@@ -2,19 +2,50 @@
     margin: 0 auto;
     width: 800px;
     background-color: rgb(32, 32, 32);
-    span {
+    .label {
+        margin-top: 15px;
         display: block;
         width: 100%;
+        text-align: left;
     }
 
     input, textarea {
         display: block;
-        width: 90%;
-        margin: 0 auto;
+        width: 95%;
+        margin: 5px auto;
         padding: 15px;
+        border: none;
+        border-radius: 5px;
     }
 
     button {
         padding: 15px;
+        display: block;
+        margin: 0 auto;
+        margin-top: 15px;
+        margin-bottom: 15px;
     }
+
+    .MuiInput-root {
+        display: block;
+        *:not(span) {
+            color: white ;
+
+        }
+            
+        
+    }
+
+    .MuiInput-underline::before {
+        border-color: white;
+        &:hover {
+            border-color: grey;
+        }
+    }
+
+
+    .formControl {
+        min-width: 95%;
+    }
+    
 }
