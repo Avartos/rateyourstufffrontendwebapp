@@ -28,6 +28,7 @@ const BookDetails = () => {
   const [handleError, setHandleError] = useState(null);
   const [handleToggleRating, setHandleToggleRating] = useState(false);
   const [handleToggleComment, setHandleToggleComment] = useState(false);
+  const [ratingCount, setRatingCount] = useState(0);
 
   const handleSubmitFormRating = (
     e,
@@ -224,7 +225,7 @@ const BookDetails = () => {
             )}
 
             <div className="body">
-              <TabBar></TabBar>
+              <TabBar ratingCount={ratingCount} mediumId={id}></TabBar>
             </div>
           </div>
         </div>

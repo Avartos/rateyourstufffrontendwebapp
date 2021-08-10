@@ -226,7 +226,7 @@ const MovieDetails = () => {
             )}
 
             <div className="body">
-              <TabBar ratingCount={ratingCount}></TabBar>
+              <TabBar ratingCount={ratingCount} mediumId={id}></TabBar>
             </div>
           </div>
         </div>
