@@ -52,6 +52,9 @@ const GameDetails = () => {
     })
       .then((data) => {
         console.log(data);
+        setHandleToggleRating(false);
+        //Reload page, to get actual average rating
+        history.go();
         //    fetchRatings();
       })
       .catch((error) => {
@@ -78,6 +81,9 @@ const GameDetails = () => {
     })
       .then((data) => {
         console.log(data);
+        setHandleToggleRating(false);
+        //Reload page, to get actual average rating
+        history.go();
       })
       .catch((error) => {
         setHandleError(
