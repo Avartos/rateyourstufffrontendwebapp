@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import useFetch from "../../hooks/useFetch";
 import { useParams } from "react-router-dom";
 import ReadOnlyRating from "../rating/readOnlyRating";
@@ -8,6 +8,7 @@ import NewRatingForm from "../rating/newRatingForm";
 import NewCommentForm from "../comments/newCommentForm";
 import {useHistory} from "react-router-dom";
 import ShowRating from "../rating/showRating";
+
 
 const MovieDetails = () => {
   const { id } = useParams();
@@ -20,6 +21,25 @@ const MovieDetails = () => {
   const [handleError, setHandleError] = useState(null);
   const [handleToggleRating, setHandleToggleRating] = useState(false);
   const [handleToggleComment, setHandleToggleComment] = useState(false);
+  const [ratingCount, setRatingCount] = useState(0);
+
+  const fetchRatingCount=() =>{
+    fetch(`http://localhost:5000/rest/ratings/count/${id}`)
+        .then ( res => {
+              if (!res.ok){
+                throw Error("unable to fetch ratingcounts");
+              }
+        return res.json()
+        }
+        )
+        .then (data => {
+          setRatingCount(data);
+        })
+        .catch (error => {
+          console.error(error);
+        })
+  }
+  useEffect(fetchRatingCount,[]);
 
   const handleSubmitFormRating = (
     e,
@@ -59,6 +79,7 @@ const MovieDetails = () => {
         );
       });
   };
+
 
   const handleSubmitFormComment = (e, body, currentUser, mediumToComment) => {
     e.preventDefault();
@@ -205,7 +226,7 @@ const MovieDetails = () => {
             )}
 
             <div className="body">
-              <TabBar></TabBar>
+              <TabBar ratingCount={ratingCount}></TabBar>
             </div>
           </div>
         </div>
