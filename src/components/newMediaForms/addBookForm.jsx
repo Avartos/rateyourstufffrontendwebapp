@@ -8,8 +8,11 @@ import MenuItem from "@material-ui/core/MenuItem";
 import Checkbox from "@material-ui/core/Checkbox";
 import Chip from "@material-ui/core/Chip";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
+import Autocomplete, {
+  createFilterOptions,
+} from "@material-ui/lab/Autocomplete";
 
-const AddMovieForm = () => {
+const AddBookForm = () => {
   const [mediumName, setMediumName] = useState("");
   const [releaseDate, setReleaseDate] = useState("");
   const [description, setDescription] = useState("");
@@ -50,7 +53,6 @@ const AddMovieForm = () => {
   }));
 
   const classes = useStyles();
-  const theme = useTheme();
 
   const [genreList, setGenreList] = useState([]);
 
@@ -101,29 +103,10 @@ const AddMovieForm = () => {
     }
   };
 
-  const [networkList, setNetworkList] = useState([]);
-  const [network, setNetwork] = useState(null);
-
-  const fetchNetworks = () => {
-    fetch("http://localhost:5000/rest/networks/all")
-      .then((res) => {
-        if (!res.ok) {
-          throw Error("Unable to fetch networks");
-        }
-        return res.json();
-      })
-      .then((data) => {
-        setNetworkList(data);
-      })
-      .catch((err) => {
-        console.error(err);
-      });
-  };
-
   useEffect(() => {
     fetchGenres();
     fetchLanguages();
-    fetchNetworks();
+    fetchPublishers();
   }, []);
 
   const handleSubmitForm = (e) => {
@@ -136,7 +119,6 @@ const AddMovieForm = () => {
       ageRestriction: ageRestriction,
       languageStrings: languages,
       genreStrings: genres,
-      networkTitle: network,
     };
 
     fetch("http://localhost:5000/rest/movies/add", {
@@ -178,61 +160,92 @@ const AddMovieForm = () => {
     setCurrentImage(URL.createObjectURL(event.target.files[0]));
   };
 
+  const [publisherList, setPublisherList] = useState([]);
+  const [publisher, setPublisher] = useState();
+
+  const fetchPublishers = () => {
+    fetch("http://localhost:5000/rest/bookPublishers/all")
+      .then((res) => {
+        if (!res.ok) {
+          throw Error("Unable to retrieve book publishers");
+        }
+        return res.json();
+      })
+      .then((data) => {
+        setPublisherList(data);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  };
+
+  const filter = createFilterOptions();
+
+  const handlePublisherSelection = (e, newValue) => {
+    if (typeof newValue === "String") {
+      setPublisher({ bookPublisherTitle: newValue });
+    } else if (newValue && newValue.inputValue) {
+      setPublisher({ bookPublisherTitle: newValue.inputValue });
+    } else {
+      setPublisher(newValue);
+    }
+  };
+
   return (
-    <form className="addMediaForm" onSubmit={(e) => handleSubmitForm(e)}>
-      
-        <span className="label">Poster</span>
-        <div className="imageWrapper">
-          <img className="previewImage" src={currentImage} alt="Vorschau" />
-        </div>
-        <input
-          type="file"
-          onChange={(e) => {
-            handleSelectImage(e);
-            setMediumPoster(e.target.files[0]);
-            console.log(e.target.files[0]);
-          }}
-        />
+    <form className="addMediaForm formControl" onSubmit={(e) => handleSubmitForm(e)}>
+      <span className="label">Poster</span>
+      <div className="imageWrapper">
+        <img className="previewImage" src={currentImage} alt="Vorschau" />
+      </div>
+      <input
+        type="file"
+        onChange={(e) => {
+          handleSelectImage(e);
+          setMediumPoster(e.target.files[0]);
+          console.log(e.target.files[0]);
+        }}
+      />
 
-        <span className="label">Filmtitel</span>
-        <input
-          type="text"
-          required
-          value={mediumName}
-          onChange={(e) => {
-            setMediumName(e.target.value);
-          }}
-        />
-        <span className="label">Veröffentlichungsdatum</span>
-        <input
-          type="date"
-          required
-          value={releaseDate}
-          onChange={(e) => {
-            setReleaseDate(e.target.value);
-          }}
-        />
+      <span className="label">Buchtitel</span>
+      <input
+        type="text"
+        required
+        value={mediumName}
+        onChange={(e) => {
+          setMediumName(e.target.value);
+        }}
+      />
+      <span className="label">Veröffentlichungsdatum</span>
+      <input
+        type="date"
+        required
+        value={releaseDate}
+        onChange={(e) => {
+          setReleaseDate(e.target.value);
+        }}
+      />
 
-        <span className="label">Kurzbeschreibung</span>
-        <textarea
-          name=""
-          id=""
-          cols="30"
-          rows="10"
-          value={description}
-          onChange={(e) => {
-            setDescription(e.target.value);
-          }}
-        ></textarea>
+      <span className="label">Kurzbeschreibung</span>
+      <textarea
+        name=""
+        id=""
+        cols="30"
+        rows="10"
+        value={description}
+        onChange={(e) => {
+          setDescription(e.target.value);
+        }}
+      ></textarea>
 
-        <span className="label">Spieldauer (Minuten)</span>
-        <input
-          type="text"
-          value={duration}
-          onChange={(e) => {
-            setDuration(e.target.value);
-          }}
-        />
+      <span className="label">Spieldauer (Minuten)</span>
+      <input
+        type="text"
+        value={duration}
+        onChange={(e) => {
+          setDuration(e.target.value);
+        }}
+      />
+
       <FormControl className="formControl">
         <span className="label">Altersfreigabe</span>
         <Select
@@ -249,26 +262,8 @@ const AddMovieForm = () => {
           <MenuItem value={16}>Ab 16 Jahren</MenuItem>
           <MenuItem value={18}>Ab 18 Jahren</MenuItem>
         </Select>
-        </FormControl>
-        <FormControl className="formControl">
-        <span className="label">Netzwerk</span>
-        <Select
-          value={network}
-          input={<Input />}
-          renderValue={() => network}
-          MenuProps={MenuProps}
-          onChange={(e) => setNetwork(e.target.value)}
-        >
-          {networkList.map((network) => {
-            return (
-              <MenuItem key={network.id} value={network.networkTitle}>
-                {network.networkTitle}
-              </MenuItem>
-            );
-          })}
-        </Select>
-        </FormControl>
-        <FormControl className="formControl">
+      </FormControl>
+      <FormControl className="formControl">
         <span className="label">Sprachen</span>
         <Select
           multiple
@@ -298,9 +293,8 @@ const AddMovieForm = () => {
             );
           })}
         </Select>
-        </FormControl>
-
-        <FormControl className="formControl">
+      </FormControl>
+      <FormControl className="formControl">
         <span className="label">Genres</span>
         <Select
           multiple
@@ -332,9 +326,44 @@ const AddMovieForm = () => {
           })}
         </Select>
       </FormControl>
+
+      <span className="label">Verlag</span>
+      <Autocomplete
+        value={publisher}
+        onChange={handlePublisherSelection}
+        filterOptions={(options, params) => {
+          const filtered = filter(options, params);
+          if (params.inputValue !== "") {
+            filtered.push({
+              inputValue: params.inputValue,
+              bookPublishertitle: `Add ${params.inputValue}`,
+            });
+          }
+          return filtered;
+        }}
+        selectOnFocus
+        clearOnBlur
+        handleHomeEndKeys
+        options={publisherList}
+        getOptionLabel={(option) => {
+          if (typeof option === "string") {
+            return option;
+          }
+          if (option.inputValue) {
+            return option.inputValue;
+          }
+          return option.bookPublisherTitle;
+        }}
+        renderOption={(option) => option.bookPublisherTitle}
+        freeSolo
+        renderInput={(params) => {
+          <TextField {...params} variant="outlined"></TextField>;
+        }}
+      />
+    
       <button>Submit</button>
     </form>
   );
 };
 
-export default AddMovieForm;
+export default AddBookForm;

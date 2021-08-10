@@ -1,5 +1,6 @@
-.addMediaForm {
+.addMediaForm, .formControl {
   margin: 0 auto;
+  padding: 25px;
   width: 800px;
   background-color: rgb(32, 32, 32);
   .label {
@@ -41,9 +42,7 @@
     }
   }
 
-  .formControl {
-    min-width: 95%;
-  }
+  
 
   .imageWrapper {
     margin: auto;
@@ -69,5 +68,3 @@
     }
   }
 }
-
-
