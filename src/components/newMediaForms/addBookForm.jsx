@@ -7,21 +7,29 @@ import Input from "@material-ui/core/Input";
 import MenuItem from "@material-ui/core/MenuItem";
 import Checkbox from "@material-ui/core/Checkbox";
 import Chip from "@material-ui/core/Chip";
+import { FormControlLabel } from "@material-ui/core";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
 import Autocomplete, {
   createFilterOptions,
 } from "@material-ui/lab/Autocomplete";
 
+const filter = createFilterOptions();
+
 const AddBookForm = () => {
   const [mediumName, setMediumName] = useState("");
   const [releaseDate, setReleaseDate] = useState("");
   const [description, setDescription] = useState("");
-  const [duration, setDuration] = useState("");
+  const [isbn, setISBN] = useState("");
   const [ageRestriction, setAgeRestriction] = useState("");
   const [mediumPoster, setMediumPoster] = useState("");
   const [languages, setLanguages] = useState([]);
   const [genres, setGenres] = useState([]);
   const history = useHistory();
+  const [publisherList, setPublisherList] = useState([]);
+  const [publisher, setPublisher] = useState();
+  const [numberOfPages, setNumberOfPages] = useState(0);
+  const [isEbook, setIsEbook] = useState(false);
+  const [isPrint, setIsPrint] = useState(false);
 
   const ITEM_HEIGHT = 48;
   const ITEM_PADDING_TOP = 8;
@@ -109,24 +117,30 @@ const AddBookForm = () => {
     fetchPublishers();
   }, []);
 
+  // console.log(publisher);
+
   const handleSubmitForm = (e) => {
     e.preventDefault();
-    let movie = {
+    let book = {
       mediumName: mediumName,
       releaseDate: releaseDate,
       shortDescription: description,
-      length: duration,
-      ageRestriction: ageRestriction,
+      length: isbn,
+      numberOfPages: numberOfPages,
       languageStrings: languages,
       genreStrings: genres,
+      publisherString: publisher,
+      isEBook: isEbook,
+      isPrint: isPrint,
+      isbn: isbn,
     };
 
-    fetch("http://localhost:5000/rest/movies/add", {
+    fetch("http://localhost:5000/rest/books/add", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(movie),
+      body: JSON.stringify(book),
     })
       .then((res) => {
         if (!res.ok) {
@@ -137,12 +151,15 @@ const AddBookForm = () => {
       .then((data) => {
         const formData = new FormData();
         formData.append("image", mediumPoster);
-        fetch(`http://localhost:5000/rest/movies/images/${data.id}`, {
+        fetch(`http://localhost:5000/rest/books/images/${data.id}`, {
           method: "POST",
           body: formData,
         })
           .then((response) => {
-            history.push(`/detail/movie/${data.id}`);
+            if(!response.ok) {
+              throw Error ('An error occured while uploading the image');
+            }
+            history.push(`/detail/book/${data.id}`);
           })
           .catch((error) => {
             console.log(error);
@@ -160,9 +177,6 @@ const AddBookForm = () => {
     setCurrentImage(URL.createObjectURL(event.target.files[0]));
   };
 
-  const [publisherList, setPublisherList] = useState([]);
-  const [publisher, setPublisher] = useState();
-
   const fetchPublishers = () => {
     fetch("http://localhost:5000/rest/bookPublishers/all")
       .then((res) => {
@@ -179,20 +193,11 @@ const AddBookForm = () => {
       });
   };
 
-  const filter = createFilterOptions();
-
-  const handlePublisherSelection = (e, newValue) => {
-    if (typeof newValue === "String") {
-      setPublisher({ bookPublisherTitle: newValue });
-    } else if (newValue && newValue.inputValue) {
-      setPublisher({ bookPublisherTitle: newValue.inputValue });
-    } else {
-      setPublisher(newValue);
-    }
-  };
-
   return (
-    <form className="addMediaForm formControl" onSubmit={(e) => handleSubmitForm(e)}>
+    <form
+      className="addMediaForm formControl"
+      onSubmit={(e) => handleSubmitForm(e)}
+    >
       <span className="label">Poster</span>
       <div className="imageWrapper">
         <img className="previewImage" src={currentImage} alt="Vorschau" />
@@ -207,68 +212,85 @@ const AddBookForm = () => {
       />
 
       <span className="label">Buchtitel</span>
-      <input
-        type="text"
+      <TextField
         required
         value={mediumName}
         onChange={(e) => {
           setMediumName(e.target.value);
         }}
+        fullWidth
+        variant="filled"
       />
+
       <span className="label">Veröffentlichungsdatum</span>
-      <input
+      <TextField
         type="date"
         required
         value={releaseDate}
         onChange={(e) => {
           setReleaseDate(e.target.value);
         }}
+        fullWidth
+        variant="filled"
       />
 
       <span className="label">Kurzbeschreibung</span>
-      <textarea
-        name=""
-        id=""
-        cols="30"
+      <TextField
+        multiline
         rows="10"
+        fullWidth
         value={description}
         onChange={(e) => {
           setDescription(e.target.value);
         }}
-      ></textarea>
+        variant="filled"
+      />
 
-      <span className="label">Spieldauer (Minuten)</span>
-      <input
-        type="text"
-        value={duration}
+      <span className="label">ISBN</span>
+      <TextField
+        value={isbn}
         onChange={(e) => {
-          setDuration(e.target.value);
+          setISBN(e.target.value);
+        }}
+        fullWidth
+        variant="filled"
+      />
+
+      <span className="label">Seitenanzahl</span>
+      <TextField
+        value={numberOfPages}
+        fullWidth
+        onChange={(e) => {
+          setNumberOfPages(e.target.value);
         }}
       />
 
-      <FormControl className="formControl">
-        <span className="label">Altersfreigabe</span>
-        <Select
-          key="0"
-          value={ageRestriction}
-          input={<Input />}
-          renderValue={() => `ab ${ageRestriction}`}
-          MenuProps={MenuProps}
-          onChange={(e) => setAgeRestriction(e.target.value)}
-        >
-          <MenuItem value={0}>Ohne Altersbeschränkung</MenuItem>
-          <MenuItem value={6}>Ab 6 Jahren</MenuItem>
-          <MenuItem value={12}>Ab 12 Jahren</MenuItem>
-          <MenuItem value={16}>Ab 16 Jahren</MenuItem>
-          <MenuItem value={18}>Ab 18 Jahren</MenuItem>
-        </Select>
+      <FormControl component="fieldset">
+      <FormControlLabel
+          value="Als eBook veröffentlicht"
+          control={<Checkbox checked={isEbook} onChange={() => {setIsEbook(!isEbook)}} color="secondary" />}
+          label="Als eBook veröffentlicht"
+          labelPlacement="start"
+          fullwidth
+        />
       </FormControl>
+      <FormControl component="fieldset">
+      <FormControlLabel
+          value="Als Printausgabe veröffentlicht"
+          control={<Checkbox checked={isPrint} onChange={() => {setIsPrint(!isPrint)}} color="secondary" />}
+          label="Als Printausgabe veröffentlicht"
+          labelPlacement="start"
+          fullwidth
+        />
+      </FormControl>
+
       <FormControl className="formControl">
         <span className="label">Sprachen</span>
         <Select
           multiple
           value={languages}
           input={<Input />}
+          variant="filled"
           renderValue={(selected) => (
             <div className={classes.chips}>
               {selected.map((value) => (
@@ -298,6 +320,7 @@ const AddBookForm = () => {
         <span className="label">Genres</span>
         <Select
           multiple
+          variant="filled"
           value={genres}
           input={<Input />}
           renderValue={(selected) => (
@@ -329,38 +352,18 @@ const AddBookForm = () => {
 
       <span className="label">Verlag</span>
       <Autocomplete
-        value={publisher}
-        onChange={handlePublisherSelection}
-        filterOptions={(options, params) => {
-          const filtered = filter(options, params);
-          if (params.inputValue !== "") {
-            filtered.push({
-              inputValue: params.inputValue,
-              bookPublishertitle: `Add ${params.inputValue}`,
-            });
-          }
-          return filtered;
-        }}
-        selectOnFocus
-        clearOnBlur
-        handleHomeEndKeys
-        options={publisherList}
-        getOptionLabel={(option) => {
-          if (typeof option === "string") {
-            return option;
-          }
-          if (option.inputValue) {
-            return option.inputValue;
-          }
-          return option.bookPublisherTitle;
-        }}
-        renderOption={(option) => option.bookPublisherTitle}
+        id="combo-box-demo"
+        options={publisherList.map((publisher) => publisher.bookPublisherTitle)}
+        getOptionLabel={(option) => option}
+        style={{ width: 300 }}
+        renderInput={(params) => (
+          <TextField variant="filled" {...params} fullwidth onChange={(e) => {setPublisher(e.target.value); console.log(e.target.value)}}/>
+        )}
         freeSolo
-        renderInput={(params) => {
-          <TextField {...params} variant="outlined"></TextField>;
-        }}
+        fullwidth
+        onChange={(e, value) => setPublisher(value)}
+
       />
-    
       <button>Submit</button>
     </form>
   );

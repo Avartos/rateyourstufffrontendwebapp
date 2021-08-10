@@ -2,9 +2,10 @@
   margin: 0 auto;
   padding: 25px;
   width: 800px;
-  background-color: rgb(32, 32, 32);
+  background-color: rgb(70, 70, 70);
   .label {
     margin-top: 15px;
+    margin-bottom: 5px;
     display: block;
     width: 100%;
     text-align: left;
@@ -30,8 +31,9 @@
 
   .MuiInput-root {
     display: block;
+    width: 100%;
     *:not(span) {
-      color: white;
+      color: white !important;
     }
   }
 
@@ -42,6 +44,14 @@
     }
   }
 
+  .MuiInput-input {
+    width: 100% !important;
+  }
+
+  .MuiButtonBase-root {
+    padding: 0px;
+    width: 100% !important;
+  }
   
 
   .imageWrapper {
