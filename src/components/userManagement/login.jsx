@@ -1,7 +1,8 @@
 import {useState} from "react";
 import {decodeJWT} from "../decodeJWT";
 import {useHistory} from "react-router-dom";
-import RedirectingComponent from "./redirectingComponent";
+import {Cookies} from "react-cookie";
+
 
 /**
  * Component to provide a user login
@@ -12,9 +13,15 @@ const Login = () => {
 
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+    //const [ cookies, setCookie ] = useCookies(["user"]);
     const [error, setError] = useState('');
     const _router = useHistory();
     var decodedData;
+
+    //Cookie - Functions
+    function handleCookie(userObject) {
+        setCookie('user', userObject, { path: '/' });
+    }
 
     /**
      * This component takes data from login-form, compares given data from user with data from database
@@ -39,10 +46,16 @@ const Login = () => {
             })
             .then((data) => {
                 decodedData = decodeJWT(data.jwt);
-                console.log(decodedData);
-                sessionStorage.setItem("id", decodedData.id);
-                sessionStorage.setItem("username", username);
-                sessionStorage.setItem("Bearer ", `Bearer ${data.jwt}`);
+                //console.log(decodedData);
+                var Bearer = `Bearer ${data.jwt}`;
+                var id = decodedData.id;
+                var cookieObj = JSON.stringify({Bearer, username, id})
+                //console.log("cookieObj " + cookieObj)
+                cookies.set('user', cookieObj, {path: '/'})
+                console.log;
+/*                sessionStorage.setItem("id", decodedData.id);
+                sessionStorage.setItem("username", decodedData.sub);
+                sessionStorage.setItem("Bearer ", `Bearer ${data.jwt}`);*/
                 setTimeout(() => _router.push('/'), 1000);
             })
             .catch((error) => {

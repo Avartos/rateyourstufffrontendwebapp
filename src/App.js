@@ -15,15 +15,19 @@ import BookDetails from './components/mediaDetails/bookDetails';
 import SeriesDetails from './components/mediaDetails/seriesDetails';
 import GameDetails from './components/mediaDetails/gameDetails';
 import Login from "./components/userManagement/login";
-import NewRatingForm from './components/rating/newRatingForm';
+import {withCookies, Cookies} from "react-cookie";
 
 import Logout from "./components/userManagement/logout";
+import {useCookies} from "react-cookie";
 
 function App() {
 
+
   return (
+
     <Router>
       <div className="App">
+
         <HeaderBar />
         <Switch>
           <Route exact path="/"><WelcomePage></WelcomePage></Route>

@@ -1,4 +1,5 @@
 import Switch from '../../components/switch';
+import {useCookies} from "react-cookie";
 
 /**
  * Component shows the User data of all users in database
@@ -13,11 +14,13 @@ const UserPreview = ({user}) => {
      * Function consumes the id of chosen user and is sending a delete request to backend
      * @param id
      */
+    //const [ cookies, setCookie ] = useCookies(["user"]);
+    //console.log("Cookie" + this.cookies.user.Bearer);
     const handleDelete = (id) => {
         fetch(`http://localhost:5000/user/${user.id}`, {
             method: 'DELETE', headers: {
                 "Content-Type": "application/json",
-                "Authorization": sessionStorage.getItem("Bearer "),
+                "Authorization": this.cookies.user.Bearer,
             },
         }).then(() => {
             console.log('User successfully deleted');

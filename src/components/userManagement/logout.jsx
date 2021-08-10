@@ -1,4 +1,6 @@
 import {useHistory} from "react-router-dom";
+import {useCookies} from "react-cookie";
+
 
 /**
  * Component deletes users sessionStorage and provides that the user will be logged out
@@ -10,6 +12,7 @@ const Logout = () => {
     return (
         <div className="loggedOut">
             {sessionStorage.clear()}
+            {}
             {setTimeout(() => _router.push('/'), 1000)}
         </div>
     )
