@@ -7,6 +7,7 @@ import Chip from "@material-ui/core/Chip";
 import Tabs from "../../components/tabs";
 import NewRatingForm from "../rating/newRatingForm";
 import NewCommentForm from "../comments/newCommentForm";
+import {useHistory} from "react-router-dom";
 
 const BoolOutput = (isTrue) => {
   if (isTrue === true) {
@@ -23,6 +24,7 @@ const SeriesDetails = () => {
     error,
   } = useFetch(`http://localhost:5000/rest/series/${id}`);
 
+  const history = useHistory();
   const [handleError, setHandleError] = useState(null);
   const [handleToggleRating, setHandleToggleRating] = useState(false);
   const [handleToggleComment, setHandleToggleComment] = useState(false);

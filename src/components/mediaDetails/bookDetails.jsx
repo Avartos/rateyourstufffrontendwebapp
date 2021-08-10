@@ -6,6 +6,7 @@ import TabBar from "./tabBar";
 import Chip from "@material-ui/core/Chip";
 import NewRatingForm from "../rating/newRatingForm";
 import NewCommentForm from "../comments/newCommentForm";
+import {useHistory} from "react-router-dom";
 
 const BoolOutput = (isTrue) => {
   if (isTrue === true) {
@@ -23,6 +24,7 @@ const BookDetails = () => {
     error,
   } = useFetch(`http://localhost:5000/rest/books/${id}`);
 
+  const history = useHistory();
   const [handleError, setHandleError] = useState(null);
   const [handleToggleRating, setHandleToggleRating] = useState(false);
   const [handleToggleComment, setHandleToggleComment] = useState(false);
