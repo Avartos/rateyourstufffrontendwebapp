@@ -6,6 +6,8 @@ import DefaultSelect from "../formComponents/defaultSelect";
 import AgeSelect from "../formComponents/ageSelect";
 import { Button } from "@material-ui/core";
 import DefaultCheckBox from "../formComponents/defaultCheckBox";
+import classNames from "classnames";
+import ImagePreview from "../formComponents/imagePreview";
 
 const AddSeriesForm = () => {
   const [mediumName, setMediumName] = useState("");
@@ -120,9 +122,7 @@ const AddSeriesForm = () => {
   return (
     <form className="addMediaForm" onSubmit={(e) => handleSubmitForm(e)}>
       <span className="label">Poster</span>
-      <div className="imageWrapper">
-        <img className="previewImage" src={currentImage} alt="Vorschau" />
-      </div>
+      <ImagePreview currentImage={currentImage}/>
       <input
         type="file"
         onChange={(e) => {
