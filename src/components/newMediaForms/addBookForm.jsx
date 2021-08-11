@@ -6,6 +6,7 @@ import DefaultCheckBox from "../formComponents/defaultCheckBox";
 import DefaultSelect from "../formComponents/defaultSelect";
 import DefaultAutoComplete from "../formComponents/defaultAutoComplete";
 import { Button } from "@material-ui/core";
+import ImagePreview from "../formComponents/imagePreview";
 
 const AddBookForm = () => {
   const [mediumName, setMediumName] = useState("");
@@ -128,9 +129,7 @@ const AddBookForm = () => {
       onSubmit={(e) => handleSubmitForm(e)}
     >
       <span className="label">Poster</span>
-      <div className="imageWrapper">
-        <img className="previewImage" src={currentImage} alt="Vorschau" />
-      </div>
+      <ImagePreview currentImage={currentImage}/>
       <input
         type="file"
         onChange={(e) => {

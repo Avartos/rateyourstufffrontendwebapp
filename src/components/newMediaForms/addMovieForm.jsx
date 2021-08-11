@@ -5,6 +5,7 @@ import DefaultAutoComplete from "../formComponents/defaultAutoComplete";
 import DefaultSelect from "../formComponents/defaultSelect";
 import AgeSelect from "../formComponents/ageSelect";
 import { Button } from "@material-ui/core";
+import ImagePreview from "../formComponents/imagePreview";
 
 const AddMovieForm = () => {
   const [mediumName, setMediumName] = useState("");
@@ -117,9 +118,7 @@ const AddMovieForm = () => {
   return (
     <form className="addMediaForm" onSubmit={(e) => handleSubmitForm(e)}>
       <span className="label">Poster</span>
-      <div className="imageWrapper">
-        <img className="previewImage" src={currentImage} alt="Vorschau" />
-      </div>
+      <ImagePreview currentImage={currentImage}/>
       <input
         type="file"
         onChange={(e) => {

@@ -6,7 +6,6 @@ import DefaultSelect from "../formComponents/defaultSelect";
 import AgeSelect from "../formComponents/ageSelect";
 import { Button } from "@material-ui/core";
 import DefaultCheckBox from "../formComponents/defaultCheckBox";
-import classNames from "classnames";
 import ImagePreview from "../formComponents/imagePreview";
 
 const AddSeriesForm = () => {
