@@ -58,19 +58,19 @@ function Togglebar(props) {
           < hr width="95%" align="center" size="1" ></hr>
           <div className="toggleLink">
             <p className="icon-button">{<MoviesIcon />}</p>
-            <Link to="/movies">Movies</Link>
+            <Link to="/media/movies">Movies</Link>
           </div>
           <div className="toggleLink">
             <p className="icon-button">{<SeriesIcon />}</p>
-            <Link to="/series">Series</Link>
+            <Link to="/media/series">Series</Link>
           </div>
           <div className="toggleLink">
             <p className="icon-button">{<BooksIcon />}</p>
-            <Link to="/books">Books</Link>
+            <Link to="/media/books">Books</Link>
           </div>
           <div className="toggleLink">
             <p className="icon-button">{<GamesIcon />}</p>
-            <Link to="/games">Games</Link>
+            <Link to="/media/games">Games</Link>
           </div>
           <div className="toggleLink">
             <span className="icon-button"><AddCircleIcon/></span>
