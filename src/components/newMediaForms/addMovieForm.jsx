@@ -180,7 +180,7 @@ const AddMovieForm = () => {
 
   return (
     <form className="addMediaForm" onSubmit={(e) => handleSubmitForm(e)}>
-      <FormControl className="formControl">
+      
         <span className="label">Poster</span>
         <div className="imageWrapper">
           <img className="previewImage" src={currentImage} alt="Vorschau" />
@@ -194,7 +194,7 @@ const AddMovieForm = () => {
           }}
         />
 
-        <span className="label">Medium Name</span>
+        <span className="label">Filmtitel</span>
         <input
           type="text"
           required
@@ -233,7 +233,7 @@ const AddMovieForm = () => {
             setDuration(e.target.value);
           }}
         />
-
+      <FormControl className="formControl">
         <span className="label">Altersfreigabe</span>
         <Select
           key="0"
@@ -249,7 +249,8 @@ const AddMovieForm = () => {
           <MenuItem value={16}>Ab 16 Jahren</MenuItem>
           <MenuItem value={18}>Ab 18 Jahren</MenuItem>
         </Select>
-
+        </FormControl>
+        <FormControl className="formControl">
         <span className="label">Netzwerk</span>
         <Select
           value={network}
@@ -266,7 +267,8 @@ const AddMovieForm = () => {
             );
           })}
         </Select>
-
+        </FormControl>
+        <FormControl className="formControl">
         <span className="label">Sprachen</span>
         <Select
           multiple
@@ -296,7 +298,9 @@ const AddMovieForm = () => {
             );
           })}
         </Select>
+        </FormControl>
 
+        <FormControl className="formControl">
         <span className="label">Genres</span>
         <Select
           multiple

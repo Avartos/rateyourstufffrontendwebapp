@@ -1,9 +1,11 @@
-.addMediaForm {
+.addMediaForm, .formControl {
   margin: 0 auto;
+  padding: 25px;
   width: 800px;
-  background-color: rgb(32, 32, 32);
+  background-color: rgb(70, 70, 70);
   .label {
     margin-top: 15px;
+    margin-bottom: 5px;
     display: block;
     width: 100%;
     text-align: left;
@@ -13,8 +15,6 @@
   textarea {
     display: block;
     width: 95%;
-    margin: 5px auto;
-    padding: 15px;
     border: none;
     border-radius: 5px;
   }
@@ -28,10 +28,13 @@
   }
 
   .MuiInput-root {
-    display: block;
     *:not(span) {
-      color: white;
+      color: white !important;
     }
+  }
+
+  * {
+    color: white !important;
   }
 
   .MuiInput-underline::before {
@@ -41,9 +44,10 @@
     }
   }
 
-  .formControl {
-    min-width: 95%;
+  .MuiInput-input {
+    width: 100% !important;
   }
+
 
   .imageWrapper {
     margin: auto;
@@ -69,5 +73,3 @@
     }
   }
 }
-
-

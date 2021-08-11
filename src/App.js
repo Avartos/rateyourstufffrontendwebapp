@@ -17,6 +17,7 @@ import GameDetails from './components/mediaDetails/gameDetails';
 import Login from "./components/userManagement/login";
 import AddMovieForm from './components/newMediaForms/addMovieForm';
 import AddMediaForm from './components/newMediaForms/addMediaForm';
+import AddBookForm from "./components/newMediaForms/addBookForm";
 
 import MediaList from "./components/mediaLists/mediaList";
 
@@ -44,6 +45,7 @@ function App() {
           <Route path="/login"><Login /></Route>
           <Route exact path="/add"><AddMediaForm /></Route>
           <Route path="/add/movie"><AddMovieForm></AddMovieForm></Route>
+          <Route path="/add/book"><AddBookForm></AddBookForm></Route>
           <Route path="/logout"><Logout /></Route>
           <Route path="/">
             <h1>404 - Not Found</h1><br />
