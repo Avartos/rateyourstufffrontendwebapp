@@ -1,30 +1,30 @@
 import { useState, useEffect } from "react";
 import { useHistory } from "react-router";
-import TextField from "@material-ui/core/TextField";
 import DefaultTextField from "../formComponents/defaultTextField";
-import DefaultCheckBox from "../formComponents/defaultCheckBox";
-import DefaultSelect from "../formComponents/defaultSelect";
 import DefaultAutoComplete from "../formComponents/defaultAutoComplete";
+import DefaultSelect from "../formComponents/defaultSelect";
+import AgeSelect from "../formComponents/ageSelect";
 import { Button } from "@material-ui/core";
+import DefaultCheckBox from "../formComponents/defaultCheckBox";
 import ImagePreview from "../formComponents/imagePreview";
 
-const AddBookForm = () => {
+const AddSeriesForm = () => {
   const [mediumName, setMediumName] = useState("");
   const [releaseDate, setReleaseDate] = useState("");
   const [description, setDescription] = useState("");
-  const [isbn, setISBN] = useState("");
+  const [ageRestriction, setAgeRestriction] = useState("");
   const [mediumPoster, setMediumPoster] = useState("");
   const [languages, setLanguages] = useState([]);
   const [genres, setGenres] = useState([]);
   const history = useHistory();
-  const [publisherList, setPublisherList] = useState([]);
-  const [publisher, setPublisher] = useState();
-  const [numberOfPages, setNumberOfPages] = useState(0);
-  const [isEbook, setIsEbook] = useState(false);
-  const [isPrint, setIsPrint] = useState(false);
-  const [currentImage, setCurrentImage] = useState("");
+
   const [genreList, setGenreList] = useState([]);
+  const [networkList, setNetworkList] = useState([]);
+  const [network, setNetwork] = useState(null);
   const [languageList, setLanguageList] = useState([]);
+  const [currentImage, setCurrentImage] = useState("");
+  const [isCompleted, setIsCompleted] = useState(false);
+  const [averageLength, setAverageLength] = useState();
 
   const handleGenreSelect = (e) => {
     if (e.target.value.length <= 5) {
@@ -62,34 +62,32 @@ const AddBookForm = () => {
     );
     fetchData("http://localhost:5000/rest/genres/all", "genres", setGenreList);
     fetchData(
-      "http://localhost:5000/rest/bookPublishers/all",
-      "publishers",
-      setPublisherList
+      "http://localhost:5000/rest/networks/all",
+      "networks",
+      setNetworkList
     );
   }, []);
 
   const handleSubmitForm = (e) => {
     e.preventDefault();
-    let book = {
+    let series = {
       mediumName: mediumName,
       releaseDate: releaseDate,
       shortDescription: description,
-      length: isbn,
-      numberOfPages: numberOfPages,
+      averageLength: averageLength,
+      ageRestriction: ageRestriction,
       languageStrings: languages,
       genreStrings: genres,
-      publisherString: publisher,
-      isEBook: isEbook,
-      isPrint: isPrint,
-      isbn: isbn,
+      networkTitle: network,
+      isCompleted: isCompleted,
     };
 
-    fetch("http://localhost:5000/rest/books/add", {
+    fetch("http://localhost:5000/rest/series/add", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(book),
+      body: JSON.stringify(series),
     })
       .then((res) => {
         if (!res.ok) {
@@ -100,18 +98,15 @@ const AddBookForm = () => {
       .then((data) => {
         const formData = new FormData();
         formData.append("image", mediumPoster);
-        fetch(`http://localhost:5000/rest/books/images/${data.id}`, {
+        fetch(`http://localhost:5000/rest/series/images/${data.id}`, {
           method: "POST",
           body: formData,
         })
           .then((response) => {
-            if (!response.ok) {
-              throw Error("An error occured while uploading the image");
-            }
-            history.push(`/detail/book/${data.id}`);
+            history.push(`/detail/series/${data.id}`);
           })
           .catch((error) => {
-            console.log(error);
+            console.error(error);
           });
       })
       .catch((error) => {
@@ -124,10 +119,7 @@ const AddBookForm = () => {
   };
 
   return (
-    <form
-      className="addMediaForm formControl"
-      onSubmit={(e) => handleSubmitForm(e)}
-    >
+    <form className="addMediaForm" onSubmit={(e) => handleSubmitForm(e)}>
       <span className="label">Poster</span>
       <ImagePreview currentImage={currentImage}/>
       <input
@@ -140,7 +132,7 @@ const AddBookForm = () => {
       />
 
       <DefaultTextField
-        title="Buchtitel"
+        title="Serientitel"
         value={mediumName}
         setter={setMediumName}
       />
@@ -158,20 +150,31 @@ const AddBookForm = () => {
         additionalOptions={{ multiline: "multiline", rows: "10" }}
       />
 
-      <DefaultTextField title="ISBN" value={isbn} setter={setISBN} />
-
       <DefaultTextField
-        title="Seitenanzahl"
-        value={numberOfPages}
-        setter={setNumberOfPages}
+        title="Durschnittliche Episodendauer (Minuten)"
+        value={averageLength}
+        setter={setAverageLength}
         type="number"
       />
-      <DefaultCheckBox title="eBook" value={isEbook} setter={setIsEbook} />
-      <DefaultCheckBox
-        title="Printausgabe"
-        value={isPrint}
-        setter={setIsPrint}
+
+      <AgeSelect
+        title="Altersfreigabe"
+        value={ageRestriction}
+        setter={setAgeRestriction}
       />
+
+      <DefaultAutoComplete
+        title="Netzwerk"
+        inputValues={networkList.map((network) => network.networkTitle)}
+        setter={setNetwork}
+        targetValue={network}
+      />
+      <DefaultCheckBox
+        title="Abgeschlossen"
+        value={isCompleted}
+        setter={setIsCompleted}
+      />
+
       <DefaultSelect
         title="Sprachen"
         inputList={languageList.map((language) => {
@@ -190,19 +193,12 @@ const AddBookForm = () => {
         chipColor="secondary"
         chipOutline="outlined"
       />
-      <DefaultAutoComplete
-        title="Verlag"
-        inputValues={publisherList.map(
-          (publisher) => publisher.bookPublisherTitle
-        )}
-        setter={setPublisher}
-        targetValue={publisher}
-      />
+
       <Button variant="contained" color="primary" type="submit">
-        Buch hinzufügen
+        Serie hinzufügen
       </Button>
     </form>
   );
 };
 
-export default AddBookForm;
+export default AddSeriesForm;

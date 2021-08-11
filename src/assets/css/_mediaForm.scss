@@ -52,7 +52,12 @@
   .imageWrapper {
     margin: auto;
     width: 200px;
-    height: 300px;
+    height: 0px;
+    transition: height 0.2s ease-in-out;
+    &.isLoaded {
+      height: 300px;
+    }
+
     overflow: hidden;
     background-color: #111111;
     img {
