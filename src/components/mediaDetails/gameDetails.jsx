@@ -6,6 +6,7 @@ import TabBar from "./tabBar";
 import Chip from "@material-ui/core/Chip";
 import NewRatingForm from "../rating/newRatingForm";
 import NewCommentForm from "../comments/newCommentForm";
+import {useHistory} from "react-router-dom";
 
 const HyphenNecessity = (moreThanOnePlayer) => {
   if (moreThanOnePlayer !== null) {
@@ -22,6 +23,7 @@ const GameDetails = () => {
     error,
   } = useFetch(`http://localhost:5000/rest/games/${id}`);
 
+  const history = useHistory();
   const [handleError, setHandleError] = useState(null);
   const [handleToggleRating, setHandleToggleRating] = useState(false);
   const [handleToggleComment, setHandleToggleComment] = useState(false);
@@ -52,6 +54,9 @@ const GameDetails = () => {
     })
       .then((data) => {
         console.log(data);
+        setHandleToggleRating(false);
+        //Reload page, to get actual average rating
+        history.go();
         //    fetchRatings();
       })
       .catch((error) => {
@@ -78,6 +83,9 @@ const GameDetails = () => {
     })
       .then((data) => {
         console.log(data);
+        setHandleToggleRating(false);
+        //Reload page, to get actual average rating
+        history.go();
       })
       .catch((error) => {
         setHandleError(

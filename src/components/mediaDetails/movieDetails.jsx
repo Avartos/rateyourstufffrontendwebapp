@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import useFetch from "../../hooks/useFetch";
 import { useParams } from "react-router-dom";
 import ReadOnlyRating from "../rating/readOnlyRating";
@@ -6,7 +6,9 @@ import TabBar from "./tabBar";
 import Chip from "@material-ui/core/Chip";
 import NewRatingForm from "../rating/newRatingForm";
 import NewCommentForm from "../comments/newCommentForm";
+import {useHistory} from "react-router-dom";
 import ShowRating from "../rating/showRating";
+
 
 const MovieDetails = () => {
   const { id } = useParams();
@@ -15,9 +17,29 @@ const MovieDetails = () => {
     isPending,
     error,
   } = useFetch(`http://localhost:5000/rest/movies/${id}`);
+  const history = useHistory();
   const [handleError, setHandleError] = useState(null);
   const [handleToggleRating, setHandleToggleRating] = useState(false);
   const [handleToggleComment, setHandleToggleComment] = useState(false);
+  const [ratingCount, setRatingCount] = useState(0);
+
+  const fetchRatingCount=() =>{
+    fetch(`http://localhost:5000/rest/ratings/count/${id}`)
+        .then ( res => {
+              if (!res.ok){
+                throw Error("unable to fetch ratingcounts");
+              }
+        return res.json()
+        }
+        )
+        .then (data => {
+          setRatingCount(data);
+        })
+        .catch (error => {
+          console.error(error);
+        })
+  }
+  useEffect(fetchRatingCount,[]);
 
   const handleSubmitFormRating = (
     e,
@@ -45,6 +67,10 @@ const MovieDetails = () => {
     })
       .then((data) => {
         console.log(data);
+        // close the Form for NewRate
+        setHandleToggleRating(false);
+        //Reload page, to get actual average rating
+        history.go();
         //    fetchRatings();
       })
       .catch((error) => {
@@ -53,6 +79,7 @@ const MovieDetails = () => {
         );
       });
   };
+
 
   const handleSubmitFormComment = (e, body, currentUser, mediumToComment) => {
     e.preventDefault();
@@ -71,6 +98,8 @@ const MovieDetails = () => {
     })
       .then((data) => {
         console.log(data);
+        setHandleToggleComment(false);
+        history.go();
       })
       .catch((error) => {
         setHandleError(
@@ -197,7 +226,7 @@ const MovieDetails = () => {
             )}
 
             <div className="body">
-              <TabBar></TabBar>
+              <TabBar ratingCount={ratingCount}></TabBar>
             </div>
           </div>
         </div>
