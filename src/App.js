@@ -22,6 +22,7 @@ import AddBookForm from "./components/newMediaForms/addBookForm";
 import MediaList from "./components/mediaLists/mediaList";
 
 import Logout from "./components/userManagement/logout";
+import AddSeriesForm from "./components/newMediaForms/addSeriesForm";
 
 function App() {
 
@@ -46,6 +47,7 @@ function App() {
           <Route exact path="/add"><AddMediaForm /></Route>
           <Route path="/add/movie"><AddMovieForm></AddMovieForm></Route>
           <Route path="/add/book"><AddBookForm></AddBookForm></Route>
+          <Route path="/add/series"><AddSeriesForm></AddSeriesForm></Route>
           <Route path="/logout"><Logout /></Route>
           <Route path="/">
             <h1>404 - Not Found</h1><br />
