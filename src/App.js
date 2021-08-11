@@ -12,11 +12,29 @@ import BookDetails from './components/mediaDetails/bookDetails';
 import SeriesDetails from './components/mediaDetails/seriesDetails';
 import GameDetails from './components/mediaDetails/gameDetails';
 import Login from "./components/userManagement/login";
+import SearchResults from "./components/searchResults";
 import NewRatingForm from './components/rating/newRatingForm';
 
 
-function App() {
 
+function App() {
+  // const media = [
+  //   { id: '1', name: 'This first post is about React' },
+  //   { id: '2', name: 'This next post is about Preact' },
+  //   { id: '3', name: 'We have yet another React post!' },
+  //   { id: '4', name: 'This is the fourth and final post' },
+  // ];
+  // const { search } = window.location;
+  // const query = new URLSearchParams(search).get('s');
+  // const filterMedia = (media, query) => {
+  //   if (!query) {
+  //       return media;
+  //   }
+
+  //   return media.filter((medium) => {
+  //       const mediumName = medium.name.toLowerCase();
+  //       return mediumName.includes(query);
+  //   });
   return (
     <Router>
       <div className="App">
@@ -31,11 +49,19 @@ function App() {
           <Route path="/adminpanel"><AdminPanel /></Route>
           <Route path="/userPanel"><UserPanel /></Route>
           <Route path="/login"><Login /></Route>
+          <Route path="/searchResults"><SearchResults /></Route>
           <Route path="/">
             <h1>404 - Not Found</h1><br />
           </Route>
         </Switch>
-        
+        {/* <div>
+            <searchBar />
+            <ul>
+                {media.map((medium) => (
+                    <li key={medium.id}>{medium.name}</li>
+                ))}
+            </ul>
+        </div> */}
       </div>
     </Router>
   );
