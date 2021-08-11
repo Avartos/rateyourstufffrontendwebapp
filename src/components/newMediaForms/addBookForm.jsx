@@ -1,26 +1,17 @@
 import { useState, useEffect } from "react";
 import { useHistory } from "react-router";
 import TextField from "@material-ui/core/TextField";
-import { FormControl } from "@material-ui/core";
-import Select from "@material-ui/core/Select";
-import Input from "@material-ui/core/Input";
-import MenuItem from "@material-ui/core/MenuItem";
-import Checkbox from "@material-ui/core/Checkbox";
-import Chip from "@material-ui/core/Chip";
-import { FormControlLabel } from "@material-ui/core";
-import { makeStyles, useTheme } from "@material-ui/core/styles";
-import Autocomplete, {
-  createFilterOptions,
-} from "@material-ui/lab/Autocomplete";
-
-const filter = createFilterOptions();
+import DefaultTextField from "../formComponents/defaultTextField";
+import DefaultCheckBox from "../formComponents/defaultCheckBox";
+import DefaultSelect from "../formComponents/defaultSelect";
+import DefaultAutoComplete from "../formComponents/defaultAutoComplete";
+import { Button } from "@material-ui/core";
 
 const AddBookForm = () => {
   const [mediumName, setMediumName] = useState("");
   const [releaseDate, setReleaseDate] = useState("");
   const [description, setDescription] = useState("");
   const [isbn, setISBN] = useState("");
-  const [ageRestriction, setAgeRestriction] = useState("");
   const [mediumPoster, setMediumPoster] = useState("");
   const [languages, setLanguages] = useState([]);
   const [genres, setGenres] = useState([]);
@@ -30,39 +21,9 @@ const AddBookForm = () => {
   const [numberOfPages, setNumberOfPages] = useState(0);
   const [isEbook, setIsEbook] = useState(false);
   const [isPrint, setIsPrint] = useState(false);
-
-  const ITEM_HEIGHT = 48;
-  const ITEM_PADDING_TOP = 8;
-  const MenuProps = {
-    PaperProps: {
-      style: {
-        maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
-        width: 250,
-      },
-    },
-  };
-
-  const useStyles = makeStyles((theme) => ({
-    formControl: {
-      margin: theme.spacing(1),
-      minWidth: "100%",
-      maxWidth: 300,
-    },
-    chips: {
-      display: "flex",
-      flexWrap: "wrap",
-    },
-    chip: {
-      margin: 2,
-    },
-    noLabel: {
-      marginTop: theme.spacing(3),
-    },
-  }));
-
-  const classes = useStyles();
-
+  const [currentImage, setCurrentImage] = useState("");
   const [genreList, setGenreList] = useState([]);
+  const [languageList, setLanguageList] = useState([]);
 
   const handleGenreSelect = (e) => {
     if (e.target.value.length <= 5) {
@@ -70,35 +31,16 @@ const AddBookForm = () => {
     }
   };
 
-  const fetchGenres = () => {
-    fetch("http://localhost:5000/rest/genres/all")
+  const fetchData = (targetUrl, title, setter) => {
+    fetch(targetUrl)
       .then((res) => {
         if (!res.ok) {
-          throw Error("Unable to fetch genres");
+          throw Error(`Unable to fetch ${title}`);
         }
         return res.json();
       })
       .then((data) => {
-        setGenreList(data);
-        console.log(data);
-      })
-      .catch((err) => {
-        console.error(err);
-      });
-  };
-
-  const [languageList, setLanguageList] = useState([]);
-
-  const fetchLanguages = () => {
-    fetch("http://localhost:5000/rest/languages/all")
-      .then((res) => {
-        if (!res.ok) {
-          throw Error("Unable to fetch languages");
-        }
-        return res.json();
-      })
-      .then((data) => {
-        setLanguageList(data);
+        setter(data);
       })
       .catch((err) => {
         console.error(err);
@@ -112,12 +54,18 @@ const AddBookForm = () => {
   };
 
   useEffect(() => {
-    fetchGenres();
-    fetchLanguages();
-    fetchPublishers();
+    fetchData(
+      "http://localhost:5000/rest/languages/all",
+      "languages",
+      setLanguageList
+    );
+    fetchData("http://localhost:5000/rest/genres/all", "genres", setGenreList);
+    fetchData(
+      "http://localhost:5000/rest/bookPublishers/all",
+      "publishers",
+      setPublisherList
+    );
   }, []);
-
-  // console.log(publisher);
 
   const handleSubmitForm = (e) => {
     e.preventDefault();
@@ -156,41 +104,22 @@ const AddBookForm = () => {
           body: formData,
         })
           .then((response) => {
-            if(!response.ok) {
-              throw Error ('An error occured while uploading the image');
+            if (!response.ok) {
+              throw Error("An error occured while uploading the image");
             }
             history.push(`/detail/book/${data.id}`);
           })
           .catch((error) => {
             console.log(error);
           });
-        console.log(data);
       })
       .catch((error) => {
         console.error(error);
       });
   };
 
-  const [currentImage, setCurrentImage] = useState("");
-
   const handleSelectImage = (event) => {
     setCurrentImage(URL.createObjectURL(event.target.files[0]));
-  };
-
-  const fetchPublishers = () => {
-    fetch("http://localhost:5000/rest/bookPublishers/all")
-      .then((res) => {
-        if (!res.ok) {
-          throw Error("Unable to retrieve book publishers");
-        }
-        return res.json();
-      })
-      .then((data) => {
-        setPublisherList(data);
-      })
-      .catch((err) => {
-        console.error(err);
-      });
   };
 
   return (
@@ -211,160 +140,68 @@ const AddBookForm = () => {
         }}
       />
 
-      <span className="label">Buchtitel</span>
-      <TextField
-        required
+      <DefaultTextField
+        title="Buchtitel"
         value={mediumName}
-        onChange={(e) => {
-          setMediumName(e.target.value);
-        }}
-        fullWidth
-        variant="filled"
+        setter={setMediumName}
       />
-
-      <span className="label">Veröffentlichungsdatum</span>
-      <TextField
-        type="date"
-        required
+      <DefaultTextField
+        title="Veröffentlicht am"
         value={releaseDate}
-        onChange={(e) => {
-          setReleaseDate(e.target.value);
-        }}
-        fullWidth
-        variant="filled"
+        setter={setReleaseDate}
+        type="date"
       />
 
-      <span className="label">Kurzbeschreibung</span>
-      <TextField
-        multiline
-        rows="10"
-        fullWidth
+      <DefaultTextField
+        title="Kurzbeschreibung"
         value={description}
-        onChange={(e) => {
-          setDescription(e.target.value);
-        }}
-        variant="filled"
+        setter={setDescription}
+        additionalOptions={{ multiline: "multiline", rows: "10" }}
       />
 
-      <span className="label">ISBN</span>
-      <TextField
-        value={isbn}
-        onChange={(e) => {
-          setISBN(e.target.value);
-        }}
-        fullWidth
-        variant="filled"
-      />
+      <DefaultTextField title="ISBN" value={isbn} setter={setISBN} />
 
-      <span className="label">Seitenanzahl</span>
-      <TextField
+      <DefaultTextField
+        title="Seitenanzahl"
         value={numberOfPages}
-        fullWidth
-        onChange={(e) => {
-          setNumberOfPages(e.target.value);
-        }}
+        setter={setNumberOfPages}
+        type="number"
       />
-
-      <FormControl component="fieldset">
-      <FormControlLabel
-          value="Als eBook veröffentlicht"
-          control={<Checkbox checked={isEbook} onChange={() => {setIsEbook(!isEbook)}} color="secondary" />}
-          label="Als eBook veröffentlicht"
-          labelPlacement="start"
-          fullwidth
-        />
-      </FormControl>
-      <FormControl component="fieldset">
-      <FormControlLabel
-          value="Als Printausgabe veröffentlicht"
-          control={<Checkbox checked={isPrint} onChange={() => {setIsPrint(!isPrint)}} color="secondary" />}
-          label="Als Printausgabe veröffentlicht"
-          labelPlacement="start"
-          fullwidth
-        />
-      </FormControl>
-
-      <FormControl className="formControl">
-        <span className="label">Sprachen</span>
-        <Select
-          multiple
-          value={languages}
-          input={<Input />}
-          variant="filled"
-          renderValue={(selected) => (
-            <div className={classes.chips}>
-              {selected.map((value) => (
-                <Chip
-                  key={value}
-                  label={value}
-                  className={classes.chip}
-                  color="primary"
-                />
-              ))}
-            </div>
-          )}
-          MenuProps={MenuProps}
-          onChange={handleLanguageSelect}
-        >
-          {languageList.map((language) => {
-            return (
-              <MenuItem key={language.id} value={language.language}>
-                <Checkbox checked={languages.indexOf(language.language) > -1} />
-                {language.language}
-              </MenuItem>
-            );
-          })}
-        </Select>
-      </FormControl>
-      <FormControl className="formControl">
-        <span className="label">Genres</span>
-        <Select
-          multiple
-          variant="filled"
-          value={genres}
-          input={<Input />}
-          renderValue={(selected) => (
-            <div className={classes.chips}>
-              {selected.map((value) => (
-                <Chip
-                  key={value}
-                  label={value}
-                  className={classes.chip}
-                  color="secondary"
-                  variant="outlined"
-                />
-              ))}
-            </div>
-          )}
-          MenuProps={MenuProps}
-          onChange={handleGenreSelect}
-        >
-          {genreList.map((genre) => {
-            return (
-              <MenuItem key={genre.id} value={genre.genreName}>
-                <Checkbox checked={genres.indexOf(genre.genreName) > -1} />
-                {genre.genreName}
-              </MenuItem>
-            );
-          })}
-        </Select>
-      </FormControl>
-
-      <span className="label">Verlag</span>
-      <Autocomplete
-        id="combo-box-demo"
-        options={publisherList.map((publisher) => publisher.bookPublisherTitle)}
-        getOptionLabel={(option) => option}
-        style={{ width: 300 }}
-        renderInput={(params) => (
-          <TextField variant="filled" {...params} fullwidth onChange={(e) => {setPublisher(e.target.value); console.log(e.target.value)}}/>
+      <DefaultCheckBox title="eBook" value={isEbook} setter={setIsEbook} />
+      <DefaultCheckBox
+        title="Printausgabe"
+        value={isPrint}
+        setter={setIsPrint}
+      />
+      <DefaultSelect
+        title="Sprachen"
+        inputList={languageList.map((language) => {
+          return { id: languageList.id, title: language.language };
+        })}
+        targetValue={languages}
+        setter={handleLanguageSelect}
+      />
+      <DefaultSelect
+        title="Genres"
+        inputList={genreList.map((genre) => {
+          return { id: genre.id, title: genre.genreName };
+        })}
+        targetValue={genres}
+        setter={handleGenreSelect}
+        chipColor="secondary"
+        chipOutline="outlined"
+      />
+      <DefaultAutoComplete
+        title="Verlag"
+        inputValues={publisherList.map(
+          (publisher) => publisher.bookPublisherTitle
         )}
-        freeSolo
-        fullwidth
-        onChange={(e, value) => setPublisher(value)}
-
+        setter={setPublisher}
+        targetValue={publisher}
       />
-      <button>Submit</button>
+      <Button variant="contained" color="primary" type="submit">
+        Buch hinzufügen
+      </Button>
     </form>
   );
 };

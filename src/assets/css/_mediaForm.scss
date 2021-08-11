@@ -15,8 +15,6 @@
   textarea {
     display: block;
     width: 95%;
-    margin: 5px auto;
-    padding: 15px;
     border: none;
     border-radius: 5px;
   }
@@ -30,11 +28,13 @@
   }
 
   .MuiInput-root {
-    display: block;
-    width: 100%;
     *:not(span) {
       color: white !important;
     }
+  }
+
+  * {
+    color: white !important;
   }
 
   .MuiInput-underline::before {
@@ -48,11 +48,6 @@
     width: 100% !important;
   }
 
-  .MuiButtonBase-root {
-    padding: 0px;
-    width: 100% !important;
-  }
-  
 
   .imageWrapper {
     margin: auto;
