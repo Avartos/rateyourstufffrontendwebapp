@@ -7,7 +7,9 @@ import Chip from "@material-ui/core/Chip";
 import Tabs from "../../components/tabs";
 import NewRatingForm from "../rating/newRatingForm";
 import NewCommentForm from "../comments/newCommentForm";
-import {useHistory} from "react-router-dom";
+import { useHistory } from "react-router-dom";
+import { Button } from "@material-ui/core";
+import AddSeasonForm from "../newMediaForms/addSeasonForm";
 
 const BoolOutput = (isTrue) => {
   if (isTrue === true) {
@@ -28,6 +30,7 @@ const SeriesDetails = () => {
   const [handleError, setHandleError] = useState(null);
   const [handleToggleRating, setHandleToggleRating] = useState(false);
   const [handleToggleComment, setHandleToggleComment] = useState(false);
+  const [isSeasonFormVisible, setIsSeasonFormVisible] = useState(false);
 
   const handleSubmitFormRating = (
     e,
@@ -46,17 +49,13 @@ const SeriesDetails = () => {
       givenPoints: valueRate * 2,
     };
 
-    console.log(newRate);
-
     fetch(`http://localhost:5000/rest/ratings/add`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(newRate),
     })
       .then((data) => {
-        console.log(data);
         setHandleToggleRating(false);
-        //Reload page, to get actual average rating
         history.go();
       })
       .catch((error) => {
@@ -82,9 +81,7 @@ const SeriesDetails = () => {
       body: JSON.stringify(newRate),
     })
       .then((data) => {
-        console.log(data);
         setHandleToggleRating(false);
-        //Reload page, to get actual average rating
         history.go();
       })
       .catch((error) => {
@@ -138,7 +135,6 @@ const SeriesDetails = () => {
                 <div className="detailField">
                   <h3>Handlung</h3>
                   <p className="shortDescription">{medium.shortDescription}</p>
-                  {console.log(medium)}
                 </div>
 
                 <div className="detailField">
@@ -180,7 +176,17 @@ const SeriesDetails = () => {
 
             <div className="seasonsDisplay">
               <Tabs seriesId={medium.id}></Tabs>
+              <p>Ist die gewünschte Staffel noch nicht dabei?</p>
+              <Button variant="contained" color="primary" onClick={() => {setIsSeasonFormVisible(!isSeasonFormVisible)}}>
+                {!isSeasonFormVisible ? <span>Neue Staffel hinzufügen</span> : <span>Formular verstecken</span>}
+              </Button>
             </div>
+
+            {isSeasonFormVisible && (
+              <div className="detailGroup">
+                <AddSeasonForm seriesId={id} handleHideSeasonForm={setIsSeasonFormVisible}></AddSeasonForm>
+              </div>
+            )}
 
             <div className="detailGroup">
               <div className="detailField">
