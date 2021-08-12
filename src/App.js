@@ -26,6 +26,7 @@ import Logout from "./components/userManagement/logout";
 import AddSeriesForm from "./components/newMediaForms/addSeriesForm";
 import AddEpisodeForm from "./components/newMediaForms/addEpisodeForm";
 import EditMovieForm from "./components/editMediaForms/editMovieForm";
+import EditBookForm from "./components/editMediaForms/editBookForm";
 
 function App() {
 
@@ -58,6 +59,7 @@ function App() {
 
           {/* Media Editing */}
           <Route path="/edit/movie/:id"><EditMovieForm/></Route>
+          <Route path="/edit/book/:id"><EditBookForm/></Route>
 
           <Route path="/logout"><Logout /></Route>
           <Route path="/">
