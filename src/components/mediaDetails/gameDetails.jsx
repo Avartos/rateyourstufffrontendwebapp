@@ -29,6 +29,23 @@ const GameDetails = () => {
   const [handleToggleComment, setHandleToggleComment] = useState(false);
   const [ratingCount, setRatingCount] = useState(0);
 
+  const fetchRatingCount=() =>{
+    fetch(`http://localhost:5000/rest/ratings/count/${id}`)
+        .then ( res => {
+              if (!res.ok){
+                throw Error("unable to fetch ratingcounts");
+              }
+              return res.json()
+            }
+        )
+        .then (data => {
+          setRatingCount(data);
+        })
+        .catch (error => {
+          console.error(error);
+        })
+  }
+
   const handleSubmitFormRating = (
     e,
     body,
