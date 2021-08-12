@@ -10,8 +10,8 @@ const DefaultAutoComplete = ({ title, inputValues, targetValue, setter }) => {
       <Autocomplete
         options={inputValues}
         getOptionLabel={(option) => option}
-        style={{ width: 300 }}
         fullWidth
+        value={targetValue}
         renderInput={(params) => (
           <TextField
             variant="filled"

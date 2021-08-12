@@ -8,6 +8,7 @@ import NewRatingForm from "../rating/newRatingForm";
 import NewCommentForm from "../comments/newCommentForm";
 import {useHistory} from "react-router-dom";
 import ShowRating from "../rating/showRating";
+import { Button } from "@material-ui/core";
 
 
 const MovieDetails = () => {
@@ -122,6 +123,7 @@ const MovieDetails = () => {
               </div>
 
               <div className="details">
+                <Button onClick={()=>{history.push(`/edit/movie/${id}`)}}>Bearbeiten</Button>
                 <h2 className="title">{medium.mediumName}</h2>
                 <div className="detailField">
                   <span className="smallHeading">Genres</span>
