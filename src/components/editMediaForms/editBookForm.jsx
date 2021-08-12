@@ -1,43 +1,38 @@
 import { useState, useEffect } from "react";
 import { useHistory } from "react-router";
 import DefaultTextField from "../formComponents/defaultTextField";
-import DefaultAutoComplete from "../formComponents/defaultAutoComplete";
+import DefaultCheckBox from "../formComponents/defaultCheckBox";
 import DefaultSelect from "../formComponents/defaultSelect";
-import AgeSelect from "../formComponents/ageSelect";
+import DefaultAutoComplete from "../formComponents/defaultAutoComplete";
 import { Button } from "@material-ui/core";
 import ImagePreview from "../formComponents/imagePreview";
 import { useParams } from "react-router";
 
-const EditMovieForm = () => {
+const EditBookForm = () => {
   const [mediumName, setMediumName] = useState("");
   const [releaseDate, setReleaseDate] = useState("");
   const [description, setDescription] = useState("");
-  const [duration, setDuration] = useState("");
-  const [ageRestriction, setAgeRestriction] = useState("");
+  const [isbn, setISBN] = useState("");
   const [mediumPoster, setMediumPoster] = useState("");
   const [languages, setLanguages] = useState([]);
   const [genres, setGenres] = useState([]);
   const history = useHistory();
-  const { id } = useParams();
-
-  const [genreList, setGenreList] = useState([]);
-  const [networkList, setNetworkList] = useState([]);
-  const [network, setNetwork] = useState(null);
-  const [languageList, setLanguageList] = useState([]);
+  const [publisherList, setPublisherList] = useState([]);
+  const [publisher, setPublisher] = useState("");
+  const [numberOfPages, setNumberOfPages] = useState(0);
+  const [isEbook, setIsEbook] = useState(false);
+  const [isPrint, setIsPrint] = useState(false);
   const [currentImage, setCurrentImage] = useState("");
-  const [picturePath, setPicturePath] = useState('');
+  const [genreList, setGenreList] = useState([]);
+  const [languageList, setLanguageList] = useState([]);
+  const { id } = useParams();
+  const [picturePath, setPicturePath] = useState("");
 
-  const handleGenreSelect = (e) => {
-    if (e.target.value.length <= 5) {
-      setGenres(e.target.value);
-    }
-  };
-
-  const fetchMovie = () => {
-    fetch(`http://localhost:5000/rest/movies/${id}`)
+  const fetchBook = () => {
+    fetch(`http://localhost:5000/rest/books/${id}`)
       .then((res) => {
         if (!res.ok) {
-          throw Error("unable to fetch movie");
+          throw Error("unable to fetch book");
         }
         return res.json();
       })
@@ -46,18 +41,28 @@ const EditMovieForm = () => {
         setReleaseDate(data.releaseDate);
         setCurrentImage(`http://localhost:5000/${data.picturePath}`);
         setDescription(data.shortDescription);
-        setDuration(data.length);
-        setAgeRestriction(data.ageRestriction);
-        if(data.networkNetworkTitle)
-          setNetwork(data.networkNetworkTitle);
         setLanguages(data.languages);
         setGenres(data.genres);
         setPicturePath(data.picturePath);
+        setNumberOfPages(data.numberOfPages);
+        setISBN(data.isbn);
+        setIsEbook(data.isEbook);
+        setIsPrint(data.isPrint);
+        if (data.bookPublisherBookPublisherTitle) {
+          setPublisher(data.bookPublisherBookPublisherTitle);
+        }
+        console.log(data);
       })
       .catch((error) => {
         history.push("/not_found");
         console.error(error);
       });
+  };
+
+  const handleGenreSelect = (e) => {
+    if (e.target.value.length <= 5) {
+      setGenres(e.target.value);
+    }
   };
 
   const fetchData = (targetUrl, title, setter) => {
@@ -83,7 +88,6 @@ const EditMovieForm = () => {
   };
 
   useEffect(() => {
-    fetchMovie();
     fetchData(
       "http://localhost:5000/rest/languages/all",
       "languages",
@@ -91,36 +95,40 @@ const EditMovieForm = () => {
     );
     fetchData("http://localhost:5000/rest/genres/all", "genres", setGenreList);
     fetchData(
-      "http://localhost:5000/rest/networks/all",
-      "networks",
-      setNetworkList
+      "http://localhost:5000/rest/bookPublishers/all",
+      "publishers",
+      setPublisherList
     );
+    fetchBook();
   }, []);
 
   const handleSubmitForm = (e) => {
     e.preventDefault();
-    let movie = {
+    let book = {
       id: id,
       mediumName: mediumName,
       releaseDate: releaseDate,
       shortDescription: description,
-      length: duration,
-      ageRestriction: ageRestriction,
+      length: isbn,
+      numberOfPages: numberOfPages,
       languageStrings: languages,
       genreStrings: genres,
-      networkTitle: network,
+      publisherString: publisher,
+      isEBook: isEbook,
+      isPrint: isPrint,
+      isbn: isbn,
     };
 
-    if(picturePath) {
-      movie.picturePath = picturePath
+    if (picturePath) {
+      book.picturePath = picturePath;
     }
 
-    fetch("http://localhost:5000/rest/movies", {
+    fetch("http://localhost:5000/rest/books", {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(movie),
+      body: JSON.stringify(book),
     })
       .then((res) => {
         if (!res.ok) {
@@ -129,19 +137,21 @@ const EditMovieForm = () => {
         return res.json();
       })
       .then((data) => {
-        console.log(data);
         if (mediumPoster) {
           const formData = new FormData();
           formData.append("image", mediumPoster);
-          fetch(`http://localhost:5000/rest/movies/images/${data.id}`, {
+          fetch(`http://localhost:5000/rest/books/images/${data.id}`, {
             method: "POST",
             body: formData,
           })
             .then((response) => {
-              history.push(`/detail/movie/${data.id}`);
+              if (!response.ok) {
+                throw Error("An error occured while uploading the image");
+              }
+              history.push(`/detail/book/${data.id}`);
             })
             .catch((error) => {
-              console.error(error);
+              console.log(error);
             });
         }
       })
@@ -154,8 +164,15 @@ const EditMovieForm = () => {
     setCurrentImage(URL.createObjectURL(event.target.files[0]));
   };
 
+  useEffect(() => {
+    console.log(publisher);
+  }, [publisher]);
+
   return (
-    <form className="addMediaForm" onSubmit={(e) => handleSubmitForm(e)}>
+    <form
+      className="addMediaForm formControl"
+      onSubmit={(e) => handleSubmitForm(e)}
+    >
       <span className="label">Poster</span>
       <ImagePreview currentImage={currentImage} />
       <input
@@ -168,7 +185,7 @@ const EditMovieForm = () => {
       />
 
       <DefaultTextField
-        title="Filmtitel"
+        title="Buchtitel"
         value={mediumName}
         setter={setMediumName}
       />
@@ -186,26 +203,20 @@ const EditMovieForm = () => {
         additionalOptions={{ multiline: true, rows: "10" }}
       />
 
+      <DefaultTextField title="ISBN" value={isbn} setter={setISBN} />
+
       <DefaultTextField
-        title="Spieldauer (Minuten)"
-        value={duration}
-        setter={setDuration}
+        title="Seitenanzahl"
+        value={numberOfPages}
+        setter={setNumberOfPages}
         type="number"
       />
-
-      <AgeSelect
-        title="Altersfreigabe"
-        value={ageRestriction}
-        setter={setAgeRestriction}
+      <DefaultCheckBox title="eBook" value={isEbook} setter={setIsEbook} />
+      <DefaultCheckBox
+        title="Printausgabe"
+        value={isPrint}
+        setter={setIsPrint}
       />
-
-      <DefaultAutoComplete
-        title="Netzwerk"
-        inputValues={networkList.map((network) => network.networkTitle)}
-        setter={setNetwork}
-        targetValue={network}
-      />
-
       <DefaultSelect
         title="Sprachen"
         inputList={languageList.map((language) => {
@@ -224,12 +235,19 @@ const EditMovieForm = () => {
         chipColor="secondary"
         chipOutline="outlined"
       />
-
+      <DefaultAutoComplete
+        title="Verlag"
+        inputValues={publisherList.map(
+          (publisher) => publisher.bookPublisherTitle
+        )}
+        setter={setPublisher}
+        targetValue={publisher}
+      />
       <Button variant="contained" color="primary" type="submit">
-        Film hinzufügen
+        Buch aktualisieren
       </Button>
     </form>
   );
 };
 
-export default EditMovieForm;
+export default EditBookForm;
