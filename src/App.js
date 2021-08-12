@@ -17,10 +17,14 @@ import GameDetails from './components/mediaDetails/gameDetails';
 import Login from "./components/userManagement/login";
 import AddMovieForm from './components/newMediaForms/addMovieForm';
 import AddMediaForm from './components/newMediaForms/addMediaForm';
+import AddBookForm from "./components/newMediaForms/addBookForm";
+import AddGameForm from "./components/newMediaForms/addGameForm";
 
 import MediaList from "./components/mediaLists/mediaList";
 
 import Logout from "./components/userManagement/logout";
+import AddSeriesForm from "./components/newMediaForms/addSeriesForm";
+import AddEpisodeForm from "./components/newMediaForms/addEpisodeForm";
 
 function App() {
 
@@ -44,6 +48,11 @@ function App() {
           <Route path="/login"><Login /></Route>
           <Route exact path="/add"><AddMediaForm /></Route>
           <Route path="/add/movie"><AddMovieForm></AddMovieForm></Route>
+          <Route path="/add/book"><AddBookForm></AddBookForm></Route>
+          <Route path="/add/series"><AddSeriesForm></AddSeriesForm></Route>
+          <Route path="/add/episode/:id" exact><AddEpisodeForm/></Route>
+          <Route path="/add/game"><AddGameForm/></Route>
+
           <Route path="/logout"><Logout /></Route>
           <Route path="/">
             <h1>404 - Not Found</h1><br />

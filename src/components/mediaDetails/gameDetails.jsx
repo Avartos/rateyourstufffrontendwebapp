@@ -6,7 +6,7 @@ import TabBar from "./tabBar";
 import Chip from "@material-ui/core/Chip";
 import NewRatingForm from "../rating/newRatingForm";
 import NewCommentForm from "../comments/newCommentForm";
-import {useHistory} from "react-router-dom";
+import { useHistory } from "react-router-dom";
 
 const HyphenNecessity = (moreThanOnePlayer) => {
   if (moreThanOnePlayer !== null) {
@@ -144,7 +144,7 @@ const GameDetails = () => {
                         <Chip
                           color="primary"
                           size="small"
-                          label={platform.platformTitle}
+                          label={platform}
                         />
                       );
                     })}

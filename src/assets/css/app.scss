@@ -105,3 +105,13 @@ button {
   border: none;
   border-radius: 5px;
 }
+
+.checkBox {
+  display: block !important;
+  margin-left: 0px;
+  text-align: left;
+
+  .MuiFormControlLabel-label {
+    width: 300px;
+  }
+}

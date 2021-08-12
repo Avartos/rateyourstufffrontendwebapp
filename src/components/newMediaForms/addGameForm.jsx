@@ -7,7 +7,7 @@ import AgeSelect from "../formComponents/ageSelect";
 import { Button } from "@material-ui/core";
 import ImagePreview from "../formComponents/imagePreview";
 
-const AddMovieForm = () => {
+const AddGameForm = () => {
   const [mediumName, setMediumName] = useState("");
   const [releaseDate, setReleaseDate] = useState("");
   const [description, setDescription] = useState("");
@@ -23,6 +23,15 @@ const AddMovieForm = () => {
   const [network, setNetwork] = useState(null);
   const [languageList, setLanguageList] = useState([]);
   const [currentImage, setCurrentImage] = useState("");
+  const [platformList, setPlatformList] = useState([]);
+  const [platforms, setPlatforms] = useState([]);
+
+  const [averagePlaytime, setAveragePlaytime] = useState(0);
+  const [minNumberOfPlayers, setMinNumberOfPlayers] = useState(1);
+  const [maxNumberOfPlayers, setMaxNumberOfPlayers] = useState(1);
+
+  const [publisherList, setPublisherList] = useState([]);
+  const [publisher, setPublisher] = useState("");
 
   const handleGenreSelect = (e) => {
     if (e.target.value.length <= 5) {
@@ -52,6 +61,12 @@ const AddMovieForm = () => {
     }
   };
 
+  const handlePlatformSelect = (e) => {
+    if (e.target.value.length <= 15) {
+      setPlatforms(e.target.value);
+    }
+  };
+
   useEffect(() => {
     fetchData(
       "http://localhost:5000/rest/languages/all",
@@ -64,27 +79,41 @@ const AddMovieForm = () => {
       "networks",
       setNetworkList
     );
+    fetchData(
+      "http://localhost:5000/rest/platforms/all",
+      "platforms",
+      setPlatformList
+    );
+    fetchData(
+      "http://localhost:5000/rest/gamePublisher/all",
+      "publisher",
+      setPublisherList
+    );
   }, []);
 
   const handleSubmitForm = (e) => {
     e.preventDefault();
-    let movie = {
+    let game = {
       mediumName: mediumName,
       releaseDate: releaseDate,
       shortDescription: description,
-      length: duration,
+      averagePlaytime: duration,
       ageRestriction: ageRestriction,
       languageStrings: languages,
       genreStrings: genres,
       networkTitle: network,
+      platformStrings: platforms,
+      minNumberOfGamers: minNumberOfPlayers,
+      maxNumberOfGamers: maxNumberOfPlayers,
+      publisherTitle: publisher
     };
 
-    fetch("http://localhost:5000/rest/movies/add", {
+    fetch("http://localhost:5000/rest/games/add", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(movie),
+      body: JSON.stringify(game),
     })
       .then((res) => {
         if (!res.ok) {
@@ -95,12 +124,12 @@ const AddMovieForm = () => {
       .then((data) => {
         const formData = new FormData();
         formData.append("image", mediumPoster);
-        fetch(`http://localhost:5000/rest/movies/images/${data.id}`, {
+        fetch(`http://localhost:5000/rest/games/images/${data.id}`, {
           method: "POST",
           body: formData,
         })
           .then((response) => {
-            history.push(`/detail/movie/${data.id}`);
+            history.push(`/detail/game/${data.id}`);
           })
           .catch((error) => {
             console.error(error);
@@ -118,7 +147,7 @@ const AddMovieForm = () => {
   return (
     <form className="addMediaForm" onSubmit={(e) => handleSubmitForm(e)}>
       <span className="label">Poster</span>
-      <ImagePreview currentImage={currentImage}/>
+      <ImagePreview currentImage={currentImage} />
       <input
         type="file"
         onChange={(e) => {
@@ -129,7 +158,7 @@ const AddMovieForm = () => {
       />
 
       <DefaultTextField
-        title="Filmtitel"
+        title="Spieltitel"
         value={mediumName}
         setter={setMediumName}
       />
@@ -148,9 +177,23 @@ const AddMovieForm = () => {
       />
 
       <DefaultTextField
-        title="Spieldauer (Minuten)"
+        title="Geschätzte Spieldauer (Minuten)"
         value={duration}
         setter={setDuration}
+        type="number"
+      />
+
+      <DefaultTextField
+        title="Minimale Anzahl an Spielern"
+        value={minNumberOfPlayers}
+        setter={setMinNumberOfPlayers}
+        type="number"
+      />
+
+      <DefaultTextField
+        title="Maximale Anzahl an Spielern"
+        value={maxNumberOfPlayers}
+        setter={setMaxNumberOfPlayers}
         type="number"
       />
 
@@ -161,10 +204,12 @@ const AddMovieForm = () => {
       />
 
       <DefaultAutoComplete
-        title="Netzwerk"
-        inputValues={networkList.map((network) => network.networkTitle)}
-        setter={setNetwork}
-        targetValue={network}
+        title="Publisher"
+        inputValues={publisherList.map(
+          (publisher) => publisher.gamePublisherTitle
+        )}
+        setter={setPublisher}
+        targetValue={publisher}
       />
 
       <DefaultSelect
@@ -186,11 +231,22 @@ const AddMovieForm = () => {
         chipOutline="outlined"
       />
 
+      <DefaultSelect
+        title="Plattformen"
+        inputList={platformList.map((platform) => {
+          return { id: platform.id, title: platform.platformTitle };
+        })}
+        targetValue={platforms}
+        setter={handlePlatformSelect}
+        chipColor="secondary"
+        chipOutline="outlined"
+      />
+
       <Button variant="contained" color="primary" type="submit">
-        Film hinzufügen
+        Spiel hinzufügen
       </Button>
     </form>
   );
 };
 
-export default AddMovieForm;
+export default AddGameForm;

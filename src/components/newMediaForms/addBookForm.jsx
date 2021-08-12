@@ -1,28 +1,30 @@
 import { useState, useEffect } from "react";
 import { useHistory } from "react-router";
+import TextField from "@material-ui/core/TextField";
 import DefaultTextField from "../formComponents/defaultTextField";
-import DefaultAutoComplete from "../formComponents/defaultAutoComplete";
+import DefaultCheckBox from "../formComponents/defaultCheckBox";
 import DefaultSelect from "../formComponents/defaultSelect";
-import AgeSelect from "../formComponents/ageSelect";
+import DefaultAutoComplete from "../formComponents/defaultAutoComplete";
 import { Button } from "@material-ui/core";
 import ImagePreview from "../formComponents/imagePreview";
 
-const AddMovieForm = () => {
+const AddBookForm = () => {
   const [mediumName, setMediumName] = useState("");
   const [releaseDate, setReleaseDate] = useState("");
   const [description, setDescription] = useState("");
-  const [duration, setDuration] = useState("");
-  const [ageRestriction, setAgeRestriction] = useState("");
+  const [isbn, setISBN] = useState("");
   const [mediumPoster, setMediumPoster] = useState("");
   const [languages, setLanguages] = useState([]);
   const [genres, setGenres] = useState([]);
   const history = useHistory();
-
-  const [genreList, setGenreList] = useState([]);
-  const [networkList, setNetworkList] = useState([]);
-  const [network, setNetwork] = useState(null);
-  const [languageList, setLanguageList] = useState([]);
+  const [publisherList, setPublisherList] = useState([]);
+  const [publisher, setPublisher] = useState();
+  const [numberOfPages, setNumberOfPages] = useState(0);
+  const [isEbook, setIsEbook] = useState(false);
+  const [isPrint, setIsPrint] = useState(false);
   const [currentImage, setCurrentImage] = useState("");
+  const [genreList, setGenreList] = useState([]);
+  const [languageList, setLanguageList] = useState([]);
 
   const handleGenreSelect = (e) => {
     if (e.target.value.length <= 5) {
@@ -60,31 +62,34 @@ const AddMovieForm = () => {
     );
     fetchData("http://localhost:5000/rest/genres/all", "genres", setGenreList);
     fetchData(
-      "http://localhost:5000/rest/networks/all",
-      "networks",
-      setNetworkList
+      "http://localhost:5000/rest/bookPublishers/all",
+      "publishers",
+      setPublisherList
     );
   }, []);
 
   const handleSubmitForm = (e) => {
     e.preventDefault();
-    let movie = {
+    let book = {
       mediumName: mediumName,
       releaseDate: releaseDate,
       shortDescription: description,
-      length: duration,
-      ageRestriction: ageRestriction,
+      length: isbn,
+      numberOfPages: numberOfPages,
       languageStrings: languages,
       genreStrings: genres,
-      networkTitle: network,
+      publisherString: publisher,
+      isEBook: isEbook,
+      isPrint: isPrint,
+      isbn: isbn,
     };
 
-    fetch("http://localhost:5000/rest/movies/add", {
+    fetch("http://localhost:5000/rest/books/add", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(movie),
+      body: JSON.stringify(book),
     })
       .then((res) => {
         if (!res.ok) {
@@ -95,15 +100,18 @@ const AddMovieForm = () => {
       .then((data) => {
         const formData = new FormData();
         formData.append("image", mediumPoster);
-        fetch(`http://localhost:5000/rest/movies/images/${data.id}`, {
+        fetch(`http://localhost:5000/rest/books/images/${data.id}`, {
           method: "POST",
           body: formData,
         })
           .then((response) => {
-            history.push(`/detail/movie/${data.id}`);
+            if (!response.ok) {
+              throw Error("An error occured while uploading the image");
+            }
+            history.push(`/detail/book/${data.id}`);
           })
           .catch((error) => {
-            console.error(error);
+            console.log(error);
           });
       })
       .catch((error) => {
@@ -116,7 +124,10 @@ const AddMovieForm = () => {
   };
 
   return (
-    <form className="addMediaForm" onSubmit={(e) => handleSubmitForm(e)}>
+    <form
+      className="addMediaForm formControl"
+      onSubmit={(e) => handleSubmitForm(e)}
+    >
       <span className="label">Poster</span>
       <ImagePreview currentImage={currentImage}/>
       <input
@@ -129,7 +140,7 @@ const AddMovieForm = () => {
       />
 
       <DefaultTextField
-        title="Filmtitel"
+        title="Buchtitel"
         value={mediumName}
         setter={setMediumName}
       />
@@ -147,26 +158,20 @@ const AddMovieForm = () => {
         additionalOptions={{ multiline: "multiline", rows: "10" }}
       />
 
+      <DefaultTextField title="ISBN" value={isbn} setter={setISBN} />
+
       <DefaultTextField
-        title="Spieldauer (Minuten)"
-        value={duration}
-        setter={setDuration}
+        title="Seitenanzahl"
+        value={numberOfPages}
+        setter={setNumberOfPages}
         type="number"
       />
-
-      <AgeSelect
-        title="Altersfreigabe"
-        value={ageRestriction}
-        setter={setAgeRestriction}
+      <DefaultCheckBox title="eBook" value={isEbook} setter={setIsEbook} />
+      <DefaultCheckBox
+        title="Printausgabe"
+        value={isPrint}
+        setter={setIsPrint}
       />
-
-      <DefaultAutoComplete
-        title="Netzwerk"
-        inputValues={networkList.map((network) => network.networkTitle)}
-        setter={setNetwork}
-        targetValue={network}
-      />
-
       <DefaultSelect
         title="Sprachen"
         inputList={languageList.map((language) => {
@@ -185,12 +190,19 @@ const AddMovieForm = () => {
         chipColor="secondary"
         chipOutline="outlined"
       />
-
+      <DefaultAutoComplete
+        title="Verlag"
+        inputValues={publisherList.map(
+          (publisher) => publisher.bookPublisherTitle
+        )}
+        setter={setPublisher}
+        targetValue={publisher}
+      />
       <Button variant="contained" color="primary" type="submit">
-        Film hinzufügen
+        Buch hinzufügen
       </Button>
     </form>
   );
 };
 
-export default AddMovieForm;
+export default AddBookForm;

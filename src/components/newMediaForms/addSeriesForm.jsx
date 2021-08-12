@@ -5,13 +5,13 @@ import DefaultAutoComplete from "../formComponents/defaultAutoComplete";
 import DefaultSelect from "../formComponents/defaultSelect";
 import AgeSelect from "../formComponents/ageSelect";
 import { Button } from "@material-ui/core";
+import DefaultCheckBox from "../formComponents/defaultCheckBox";
 import ImagePreview from "../formComponents/imagePreview";
 
-const AddMovieForm = () => {
+const AddSeriesForm = () => {
   const [mediumName, setMediumName] = useState("");
   const [releaseDate, setReleaseDate] = useState("");
   const [description, setDescription] = useState("");
-  const [duration, setDuration] = useState("");
   const [ageRestriction, setAgeRestriction] = useState("");
   const [mediumPoster, setMediumPoster] = useState("");
   const [languages, setLanguages] = useState([]);
@@ -23,6 +23,8 @@ const AddMovieForm = () => {
   const [network, setNetwork] = useState(null);
   const [languageList, setLanguageList] = useState([]);
   const [currentImage, setCurrentImage] = useState("");
+  const [isCompleted, setIsCompleted] = useState(false);
+  const [averageLength, setAverageLength] = useState();
 
   const handleGenreSelect = (e) => {
     if (e.target.value.length <= 5) {
@@ -68,23 +70,24 @@ const AddMovieForm = () => {
 
   const handleSubmitForm = (e) => {
     e.preventDefault();
-    let movie = {
+    let series = {
       mediumName: mediumName,
       releaseDate: releaseDate,
       shortDescription: description,
-      length: duration,
+      averageLength: averageLength,
       ageRestriction: ageRestriction,
       languageStrings: languages,
       genreStrings: genres,
       networkTitle: network,
+      isCompleted: isCompleted,
     };
 
-    fetch("http://localhost:5000/rest/movies/add", {
+    fetch("http://localhost:5000/rest/series/add", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(movie),
+      body: JSON.stringify(series),
     })
       .then((res) => {
         if (!res.ok) {
@@ -95,12 +98,12 @@ const AddMovieForm = () => {
       .then((data) => {
         const formData = new FormData();
         formData.append("image", mediumPoster);
-        fetch(`http://localhost:5000/rest/movies/images/${data.id}`, {
+        fetch(`http://localhost:5000/rest/series/images/${data.id}`, {
           method: "POST",
           body: formData,
         })
           .then((response) => {
-            history.push(`/detail/movie/${data.id}`);
+            history.push(`/detail/series/${data.id}`);
           })
           .catch((error) => {
             console.error(error);
@@ -129,7 +132,7 @@ const AddMovieForm = () => {
       />
 
       <DefaultTextField
-        title="Filmtitel"
+        title="Serientitel"
         value={mediumName}
         setter={setMediumName}
       />
@@ -148,9 +151,9 @@ const AddMovieForm = () => {
       />
 
       <DefaultTextField
-        title="Spieldauer (Minuten)"
-        value={duration}
-        setter={setDuration}
+        title="Durschnittliche Episodendauer (Minuten)"
+        value={averageLength}
+        setter={setAverageLength}
         type="number"
       />
 
@@ -165,6 +168,11 @@ const AddMovieForm = () => {
         inputValues={networkList.map((network) => network.networkTitle)}
         setter={setNetwork}
         targetValue={network}
+      />
+      <DefaultCheckBox
+        title="Abgeschlossen"
+        value={isCompleted}
+        setter={setIsCompleted}
       />
 
       <DefaultSelect
@@ -187,10 +195,10 @@ const AddMovieForm = () => {
       />
 
       <Button variant="contained" color="primary" type="submit">
-        Film hinzufügen
+        Serie hinzufügen
       </Button>
     </form>
   );
 };
 
-export default AddMovieForm;
+export default AddSeriesForm;
