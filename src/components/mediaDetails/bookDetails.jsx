@@ -6,7 +6,8 @@ import TabBar from "./tabBar";
 import Chip from "@material-ui/core/Chip";
 import NewRatingForm from "../rating/newRatingForm";
 import NewCommentForm from "../comments/newCommentForm";
-import {useHistory} from "react-router-dom";
+import { useHistory } from "react-router-dom";
+import { Button } from "@material-ui/core";
 
 const BoolOutput = (isTrue) => {
   if (isTrue === true) {
@@ -16,7 +17,6 @@ const BoolOutput = (isTrue) => {
 };
 
 const BookDetails = () => {
-  
   const { id } = useParams();
   const {
     data: medium,
@@ -108,6 +108,13 @@ const BookDetails = () => {
                 ></img>
               </div>
               <div className="details">
+                <Button
+                  onClick={() => {
+                    history.push(`/edit/book/${id}`);
+                  }}
+                >
+                  Bearbeiten
+                </Button>
                 <h2 className="title">{medium.mediumName}</h2>
                 <div className="detailField">
                   <span className="smallHeading">Genres</span>
