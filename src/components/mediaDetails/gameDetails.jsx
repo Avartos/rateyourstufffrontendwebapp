@@ -7,6 +7,7 @@ import Chip from "@material-ui/core/Chip";
 import NewRatingForm from "../rating/newRatingForm";
 import NewCommentForm from "../comments/newCommentForm";
 import { useHistory } from "react-router-dom";
+import { Button } from "@material-ui/core";
 
 const HyphenNecessity = (moreThanOnePlayer) => {
   if (moreThanOnePlayer !== null) {
@@ -145,6 +146,13 @@ const GameDetails = () => {
                 ></img>
               </div>
               <div className="details">
+              <Button
+                  onClick={() => {
+                    history.push(`/edit/game/${id}`);
+                  }}
+                >
+                  Bearbeiten
+                </Button>
                 <h2 className="title">{medium.mediumName}</h2>
                 <div className="detailField">
                   <span className="smallHeading">Genres</span>
