@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, {useEffect, useState} from "react";
 import useFetch from "../../hooks/useFetch";
 import { useParams } from "react-router-dom";
 import ReadOnlyRating from "../rating/readOnlyRating";
@@ -28,6 +28,7 @@ const GameDetails = () => {
   const [handleToggleRating, setHandleToggleRating] = useState(false);
   const [handleToggleComment, setHandleToggleComment] = useState(false);
   const [ratingCount, setRatingCount] = useState(0);
+  const [commentCount, setCommentCount] = useState(0);
 
   const fetchRatingCount=() =>{
     fetch(`http://localhost:5000/rest/ratings/count/${id}`)
@@ -45,6 +46,25 @@ const GameDetails = () => {
           console.error(error);
         })
   }
+  useEffect(fetchRatingCount,[]);
+
+  const fetchCommentCount=() =>{
+    fetch(`http://localhost:5000/rest/comments/count/${id}`)
+        .then ( res => {
+              if (!res.ok){
+                throw Error("unable to fetch commentcounts");
+              }
+              return res.json()
+            }
+        )
+        .then (data => {
+          setCommentCount(data);
+        })
+        .catch (error => {
+          console.error(error);
+        })
+  }
+  useEffect(fetchCommentCount,[]);
 
   const handleSubmitFormRating = (
     e,
@@ -255,7 +275,7 @@ const GameDetails = () => {
             )}
 
             <div className="body">
-              <TabBar ratingCount={ratingCount} mediumId={id}></TabBar>
+              <TabBar ratingCount={ratingCount} mediumId={id} commentCount={commentCount}></TabBar>
             </div>
           </div>
         </div>

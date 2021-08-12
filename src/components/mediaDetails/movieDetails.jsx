@@ -23,6 +23,7 @@ const MovieDetails = () => {
   const [handleToggleRating, setHandleToggleRating] = useState(false);
   const [handleToggleComment, setHandleToggleComment] = useState(false);
   const [ratingCount, setRatingCount] = useState(0);
+  const [commentCount, setCommentCount] = useState(0);
 
   const fetchRatingCount=() =>{
     fetch(`http://localhost:5000/rest/ratings/count/${id}`)
@@ -41,6 +42,24 @@ const MovieDetails = () => {
         })
   }
   useEffect(fetchRatingCount,[]);
+
+  const fetchCommentCount=() =>{
+    fetch(`http://localhost:5000/rest/comments/count/${id}`)
+        .then ( res => {
+              if (!res.ok){
+                throw Error("unable to fetch commentcounts");
+              }
+              return res.json()
+            }
+        )
+        .then (data => {
+          setCommentCount(data);
+        })
+        .catch (error => {
+          console.error(error);
+        })
+  }
+  useEffect(fetchCommentCount,[]);
 
   const handleSubmitFormRating = (
     e,
@@ -81,11 +100,10 @@ const MovieDetails = () => {
       });
   };
 
-
   const handleSubmitFormComment = (e, body, currentUser, mediumToComment) => {
     e.preventDefault();
 
-    let newRate = {
+    let newComment = {
       description: body,
       numberOfPosts: 0,
       userMappingId: currentUser,
@@ -95,7 +113,7 @@ const MovieDetails = () => {
     fetch(`http://localhost:5000/rest/comments/add`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(newRate),
+      body: JSON.stringify(newComment),
     })
       .then((data) => {
         console.log(data);
@@ -228,7 +246,7 @@ const MovieDetails = () => {
             )}
 
             <div className="body">
-              <TabBar ratingCount={ratingCount} mediumId={id}></TabBar>
+              <TabBar ratingCount={ratingCount} mediumId={id} commentCount={commentCount}></TabBar>
             </div>
           </div>
         </div>

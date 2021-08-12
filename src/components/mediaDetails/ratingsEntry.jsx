@@ -4,14 +4,14 @@ import ReadOnlyRating from "../rating/readOnlyRating";
 const RatingsEntry = ({rating}) => {
     return (
         <React.Fragment>
-            {rating.userUserName}
+            <span>{rating.userUserName}</span>
             <ReadOnlyRating
                 size="large"
                 value={rating.givenPoints}
                 maxValue={rating.max_POINTS}
                 showValue={true}
             />
-            {rating.description}
+            <span>{rating.description}</span>
         </React.Fragment>
      );
 }

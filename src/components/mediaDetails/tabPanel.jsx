@@ -1,11 +1,13 @@
 import React from 'react';
 
 const TabPanel = (props) => {
-    return ( 
+    return (
         <div className="tabPanel">
-            <span>{props.children}</span>
+            {props.value === props.index && (
+                <span>{props.children}</span>
+            )}
         </div>
-     );
+    );
 }
- 
+
 export default TabPanel;

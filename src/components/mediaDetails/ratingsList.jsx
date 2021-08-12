@@ -15,7 +15,6 @@ const RatingList = ({ratings, handleFetchRatings}) => {
             Zeige Mehr
         </button>
         </React.Fragment>
-
     );
 }
 
