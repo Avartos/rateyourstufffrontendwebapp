@@ -20,8 +20,8 @@ const SignUp = () => {
     const [passwordHashReference, setPasswordHashReference] = useState('')
     const [email, setEmail] = useState('example@rays.com');
     const [errorMessage, setErrorMessage] = useState('');
-    const [validUserStatus, setValidUserStatus] = useState(false)
-    const [validEmailStatus, setValidEmailStatus] = useState(false)
+    const [validUserStatus, setValidUserStatus] = useState(true)
+    const [validEmailStatus, setValidEmailStatus] = useState(true)
     const _router = useHistory();
 
     /**
@@ -79,12 +79,13 @@ const SignUp = () => {
         const isEnabled = false;
         const login = {email, passwordHash, isEnabled}
         const user = {firstName, gender, lastName, secondName, userName, login};
-        emailValidator()
+        //emailValidator();
         /**
          * Check if UserName and EmailStatus are valid values
          */
-        userNameValidator();
+        //userNameValidator();
         isValidPassword();
+        console.log("validUserStatus" + validUserStatus + " / " + "validEmailStatus" + validEmailStatus);
 
         if (validUserStatus === true && validEmailStatus === true && isValidPassword()) {
             fetch('http://localhost:5000/user/add', {
@@ -97,7 +98,7 @@ const SignUp = () => {
             })
             console.log(user);
         } else {
-            setTimeout(() => setErrorMessage(''), 3000);
+            setTimeout(() => setErrorMessage('Error adding user'), 3000);
         }
 
     }
