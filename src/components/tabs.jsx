@@ -82,6 +82,7 @@ export default function SimpleTabs({seriesId}) {
             <Accordion seasonId= {season.id}></Accordion>
             </TabPanel>
           })}
+      
     </div>
   );
 }

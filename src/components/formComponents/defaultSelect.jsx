@@ -64,8 +64,8 @@ const DefaultSelect = ({ title, inputList, targetValue, setter, chipColor="prima
       >
         {inputList.map((option) => {
           return (
-            <MenuItem key={option.id} value={option.title}>
-              <Checkbox checked={targetValue.indexOf(option.title) > -1} />
+            <MenuItem key={'item' + option.id + option.title} value={option.title}>
+              <Checkbox key={'check' + option.id + option.title} checked={targetValue.indexOf(option.title) > -1} />
               {option.title}
             </MenuItem>
           );
