@@ -104,7 +104,7 @@ const MovieDetails = () => {
     e.preventDefault();
 
     let newComment = {
-      description: body,
+      textOfComment: body,
       numberOfPosts: 0,
       userMappingId: currentUser,
       mediumMappingId: mediumToComment,

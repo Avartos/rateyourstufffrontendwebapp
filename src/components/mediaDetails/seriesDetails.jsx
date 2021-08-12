@@ -110,20 +110,20 @@ const SeriesDetails = () => {
   const handleSubmitFormComment = (e, body, currentUser, mediumToComment) => {
     e.preventDefault();
 
-    let newRate = {
-      description: body,
-      numberOfPosts: 0,
-      userMappingId: currentUser,
-      mediumMappingId: mediumToComment,
-    };
+      let newComment = {
+          textOfComment: body,
+          numberOfPosts: 0,
+          userMappingId: currentUser,
+          mediumMappingId: mediumToComment,
+      };
 
     fetch(`http://localhost:5000/rest/comments/add`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(newRate),
+      body: JSON.stringify(newComment),
     })
       .then((data) => {
-        setHandleToggleRating(false);
+          setHandleToggleComment(false);
         history.go();
       })
       .catch((error) => {
