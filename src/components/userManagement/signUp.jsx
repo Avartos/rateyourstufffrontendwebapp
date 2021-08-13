@@ -13,7 +13,6 @@ import {red} from "@material-ui/core/colors";
 const SignUp = () => {
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
-    const [secondName, setSecondName] = useState('');
     const [gender, setGender] = useState('male');
     const [userName, setUserName] = useState('');
     const [passwordHash, setPassword] = useState('');
@@ -22,6 +21,7 @@ const SignUp = () => {
     const [errorMessage, setErrorMessage] = useState('');
     const [validUserStatus, setValidUserStatus] = useState(true)
     const [validEmailStatus, setValidEmailStatus] = useState(true)
+    const [roleName, setRole] = useState("User")
     const _router = useHistory();
 
     /**
@@ -77,8 +77,9 @@ const SignUp = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
         const isEnabled = false;
+        const role = {roleName}
         const login = {email, passwordHash, isEnabled}
-        const user = {firstName, gender, lastName, secondName, userName, login};
+        const user = {firstName, gender, lastName, userName, login, role};
         //emailValidator();
         /**
          * Check if UserName and EmailStatus are valid values
@@ -136,12 +137,6 @@ const SignUp = () => {
                                required
                                value={firstName}
                                onChange={(e) => setFirstName(e.target.value)}
-                        />
-                        <label>Second Name</label>
-                        <input className="signUpInput"
-                               type="text"
-                               value={secondName}
-                               onChange={(e) => setSecondName(e.target.value)}
                         />
                         <label>Last Name</label>
                         <input className="signUpInput"

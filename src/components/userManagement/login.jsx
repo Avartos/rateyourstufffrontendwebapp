@@ -42,6 +42,7 @@ const Login = () => {
                 console.log(decodedData);
                 sessionStorage.setItem("id", decodedData.id);
                 sessionStorage.setItem("username", username);
+                sessionStorage.setItem("role", decodedData.role)
                 sessionStorage.setItem("Bearer ", `Bearer ${data.jwt}`);
                 setTimeout(() => _router.push('/'), 1000);
             })
