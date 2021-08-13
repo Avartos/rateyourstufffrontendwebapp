@@ -31,6 +31,8 @@ import EditGameForm from "./components/editMediaForms/editGameForm";
 import EditSeriesForm from "./components/editMediaForms/editSeriesForm";
 import EditEpisodeForm from "./components/editMediaForms/editEpisodeForm";
 import EditSeasonForm from "./components/editMediaForms/editSeasonForm";
+import AddCollectionForm from "./components/collections/addCollectionForm";
+import CollectionDetails from "./components/collections/collectionDetails";
 
 function App() {
 
@@ -68,6 +70,10 @@ function App() {
           <Route path="/edit/series/:id"><EditSeriesForm/></Route>
           <Route path="/edit/episode/:id"><EditEpisodeForm/></Route>
           <Route path="/edit/season/:id"><EditSeasonForm/></Route>
+
+          {/* Collection Handling */}
+          <Route path="/collection/add"><AddCollectionForm/></Route>
+          <Route path="/collection/:id"><CollectionDetails/></Route>
 
           <Route path="/logout"><Logout /></Route>
           <Route path="/">
