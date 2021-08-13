@@ -28,6 +28,7 @@ import AddEpisodeForm from "./components/newMediaForms/addEpisodeForm";
 import EditMovieForm from "./components/editMediaForms/editMovieForm";
 import EditBookForm from "./components/editMediaForms/editBookForm";
 import EditGameForm from "./components/editMediaForms/editGameForm";
+import EditSeriesForm from "./components/editMediaForms/editSeriesForm";
 
 function App() {
 
@@ -62,6 +63,7 @@ function App() {
           <Route path="/edit/movie/:id"><EditMovieForm/></Route>
           <Route path="/edit/book/:id"><EditBookForm/></Route>
           <Route path="/edit/game/:id"><EditGameForm/></Route>
+          <Route path="/edit/series/:id"><EditSeriesForm/></Route>
 
           <Route path="/logout"><Logout /></Route>
           <Route path="/">

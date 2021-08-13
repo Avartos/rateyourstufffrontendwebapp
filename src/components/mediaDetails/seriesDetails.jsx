@@ -146,6 +146,13 @@ const SeriesDetails = () => {
                 ></img>
               </div>
               <div className="details">
+              <Button
+                  onClick={() => {
+                    history.push(`/edit/series/${id}`);
+                  }}
+                >
+                  Bearbeiten
+                </Button>
                 <h2 className="title">{medium.mediumName}</h2>
                 <div className="detailField">
                   <span className="smallHeading">Genres</span>
