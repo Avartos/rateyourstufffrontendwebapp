@@ -10,6 +10,7 @@ import NewCommentForm from "../comments/newCommentForm";
 import { useHistory } from "react-router-dom";
 import { Button } from "@material-ui/core";
 import AddSeasonForm from "../newMediaForms/addSeasonForm";
+import SmallCollectionList from "./smallCollectionList";
 
 const BoolOutput = (isTrue) => {
   if (isTrue === true) {
@@ -279,6 +280,11 @@ const SeriesDetails = () => {
 
             <div className="body">
               <TabBar ratingCount={ratingCount} mediumId={id} commentCount={commentCount}></TabBar>
+            </div>
+
+            <div className="detailGroup">
+            <span className="heading">Verwandte Sammlungen</span>
+              <SmallCollectionList mediumId={id} />
             </div>
           </div>
         </div>

@@ -33,6 +33,7 @@ import EditEpisodeForm from "./components/editMediaForms/editEpisodeForm";
 import EditSeasonForm from "./components/editMediaForms/editSeasonForm";
 import AddCollectionForm from "./components/collections/addCollectionForm";
 import CollectionDetails from "./components/collections/collectionDetails";
+import CollectionList from "./components/collections/collectionList";
 
 function App() {
 
@@ -74,6 +75,7 @@ function App() {
           {/* Collection Handling */}
           <Route path="/collection/add"><AddCollectionForm/></Route>
           <Route path="/collection/:id"><CollectionDetails/></Route>
+          <Route path="/collections"><CollectionList/></Route>
 
           <Route path="/logout"><Logout /></Route>
           <Route path="/">
