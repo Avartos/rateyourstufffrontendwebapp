@@ -1,0 +1,95 @@
+.collectionList {
+  display: flex;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: left;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.collection {
+  background-color: rgb(41, 41, 41);
+  width: 200px;
+  height: 200px;
+  margin: auto 15px;
+  text-align: center;
+
+  .collectionWrapper {
+    margin: 20px auto;
+    height: 150px;
+    padding: 0;
+    top: 20px;
+    position: relative;
+    max-width: 100px;
+    .collectionImageWrapper {
+      height: 100%;
+      max-width: 100%;
+      position: absolute;
+      top: 0;
+      left: 0;
+      transition: all 0.3s;
+
+      &:last-child {
+        position: relative;
+      }
+
+      overflow: hidden;
+
+      img {
+        height: 100%;
+        margin: 0 auto;
+      }
+    }
+
+    .collectionImageWrapper:first-child,
+    .collectionImageWrapper:nth-child(2) {
+      -webkit-transform: scale(1);
+      transform: scale(1);
+    }
+
+    .collectionImageWrapper:nth-child(3) {
+      -webkit-transform: scale(1);
+      transform: scale(1);
+    }
+
+    .collectionImageWrapper:first-child {
+      -webkit-transform: rotate(-5deg) translateX(-10%) scale(0.9);
+      transform: rotate(-5deg) translateX(-10%) scale(0.9);
+    }
+
+    .collectionImageWrapper:nth-child(2) {
+      -webkit-transform: rotate(5deg) translateX(10%) scale(0.9);
+      transform: rotate(5deg) translateX(10%) scale(0.9);
+    }
+
+    &:hover .collectionImageWrapper:first-child,
+    &:hover .collectionImageWrapper:nth-child(2) {
+      -webkit-transform: scale(0.8);
+      transform: scale(0.8);
+    }
+
+    &:hover .collectionImageWrapper:nth-child(3) {
+      -webkit-transform: scale(0.8);
+      transform: scale(0.8);
+    }
+
+    &:hover .collectionImageWrapper:first-child {
+      -webkit-transform: rotate(-20deg) translateX(-50%) scale(0.8);
+      transform: rotate(-20deg) translateX(-50%) scale(0.8);
+    }
+
+    &:hover .collectionImageWrapper:nth-child(2) {
+      -webkit-transform: rotate(20deg) translateX(50%) scale(0.8);
+      transform: rotate(20deg) translateX(50%) scale(0.8);
+    }
+  }
+}
+
+.smallCollectionList {
+    display: flex;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: left;
+  width: 100%;
+  margin: 0 auto;
+}

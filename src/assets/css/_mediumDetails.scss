@@ -70,9 +70,16 @@
       flex-wrap: wrap;
       flex-grow: 1;
       justify-content: space-evenly;
+      position: relative;
 
       .detailField {
         margin-right: auto;
+      }
+
+      .heading {
+        position: absolute;
+        top: 15px;
+        left: 15px;
       }
     }
 
