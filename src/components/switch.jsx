@@ -6,7 +6,7 @@ export default function Switches() {
     checkedA: true,
     checkedB: true,
   });
-
+  //TODO: En-/Disabling User with Fetch
   const handleChange = (event) => {
     setState({ ...state, [event.target.name]: event.target.checked });
   };
