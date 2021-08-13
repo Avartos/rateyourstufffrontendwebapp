@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, {useEffect, useState} from "react";
 import useFetch from "../../hooks/useFetch";
 import { useParams } from "react-router-dom";
 import ReadOnlyRating from "../rating/readOnlyRating";
@@ -6,7 +6,8 @@ import TabBar from "./tabBar";
 import Chip from "@material-ui/core/Chip";
 import NewRatingForm from "../rating/newRatingForm";
 import NewCommentForm from "../comments/newCommentForm";
-import {useHistory} from "react-router-dom";
+import { useHistory } from "react-router-dom";
+import { Button } from "@material-ui/core";
 
 const BoolOutput = (isTrue) => {
   if (isTrue === true) {
@@ -16,7 +17,6 @@ const BoolOutput = (isTrue) => {
 };
 
 const BookDetails = () => {
-  
   const { id } = useParams();
   const {
     data: medium,
@@ -28,6 +28,46 @@ const BookDetails = () => {
   const [handleError, setHandleError] = useState(null);
   const [handleToggleRating, setHandleToggleRating] = useState(false);
   const [handleToggleComment, setHandleToggleComment] = useState(false);
+  const [ratingCount, setRatingCount] = useState(0);
+  const [commentCount, setCommentCount] = useState(0);
+
+  const fetchRatingCount=() =>{
+    fetch(`http://localhost:5000/rest/ratings/count/${id}`)
+        .then ( res => {
+              if (!res.ok){
+                throw Error("unable to fetch ratingcounts");
+              }
+              return res.json()
+            }
+        )
+        .then (data => {
+          setRatingCount(data);
+        })
+        .catch (error => {
+          console.error(error);
+        })
+  }
+  useEffect(fetchRatingCount,[]);
+
+  const fetchCommentCount=() =>{
+    fetch(`http://localhost:5000/rest/comments/count/${id}`)
+        .then ( res => {
+              if (!res.ok){
+                throw Error("unable to fetch commentcounts");
+              }
+              return res.json()
+            }
+        )
+        .then (data => {
+          setCommentCount(data);
+        })
+        .catch (error => {
+          console.error(error);
+        })
+  }
+  useEffect(fetchCommentCount,[]);
+
+
 
   const handleSubmitFormRating = (
     e,
@@ -70,21 +110,21 @@ const BookDetails = () => {
   const handleSubmitFormComment = (e, body, currentUser, mediumToComment) => {
     e.preventDefault();
 
-    let newRate = {
-      description: body,
-      numberOfPosts: 0,
-      userMappingId: currentUser,
-      mediumMappingId: mediumToComment,
-    };
+      let newComment = {
+          textOfComment: body,
+          numberOfPosts: 0,
+          userMappingId: currentUser,
+          mediumMappingId: mediumToComment,
+      };
 
     fetch(`http://localhost:5000/rest/comments/add`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(newRate),
+      body: JSON.stringify(newComment),
     })
       .then((data) => {
         console.log(data);
-        setHandleToggleRating(false);
+          setHandleToggleComment(false);
         //Reload page, to get actual average rating
         history.go();
       })
@@ -94,6 +134,7 @@ const BookDetails = () => {
         );
       });
   };
+
 
   return (
     <React.Fragment>
@@ -108,6 +149,13 @@ const BookDetails = () => {
                 ></img>
               </div>
               <div className="details">
+                <Button
+                  onClick={() => {
+                    history.push(`/edit/book/${id}`);
+                  }}
+                >
+                  Bearbeiten
+                </Button>
                 <h2 className="title">{medium.mediumName}</h2>
                 <div className="detailField">
                   <span className="smallHeading">Genres</span>
@@ -224,7 +272,7 @@ const BookDetails = () => {
             )}
 
             <div className="body">
-              <TabBar></TabBar>
+              <TabBar ratingCount={ratingCount} mediumId={id} commentCount={commentCount}></TabBar>
             </div>
           </div>
         </div>

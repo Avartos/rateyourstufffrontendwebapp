@@ -25,6 +25,11 @@ import MediaList from "./components/mediaLists/mediaList";
 import Logout from "./components/userManagement/logout";
 import AddSeriesForm from "./components/newMediaForms/addSeriesForm";
 import AddEpisodeForm from "./components/newMediaForms/addEpisodeForm";
+import EditMovieForm from "./components/editMediaForms/editMovieForm";
+import EditBookForm from "./components/editMediaForms/editBookForm";
+import EditGameForm from "./components/editMediaForms/editGameForm";
+import EditSeriesForm from "./components/editMediaForms/editSeriesForm";
+import EditEpisodeForm from "./components/editMediaForms/editEpisodeForm";
 
 function App() {
 
@@ -46,12 +51,21 @@ function App() {
           <Route path="/adminpanel"><AdminPanel /></Route>
           <Route path="/userPanel"><UserPanel /></Route>
           <Route path="/login"><Login /></Route>
+
+          {/* Media Creation */}
           <Route exact path="/add"><AddMediaForm /></Route>
           <Route path="/add/movie"><AddMovieForm></AddMovieForm></Route>
           <Route path="/add/book"><AddBookForm></AddBookForm></Route>
           <Route path="/add/series"><AddSeriesForm></AddSeriesForm></Route>
           <Route path="/add/episode/:id" exact><AddEpisodeForm/></Route>
           <Route path="/add/game"><AddGameForm/></Route>
+
+          {/* Media Editing */}
+          <Route path="/edit/movie/:id"><EditMovieForm/></Route>
+          <Route path="/edit/book/:id"><EditBookForm/></Route>
+          <Route path="/edit/game/:id"><EditGameForm/></Route>
+          <Route path="/edit/series/:id"><EditSeriesForm/></Route>
+          <Route path="/edit/episode/:id"><EditEpisodeForm/></Route>
 
           <Route path="/logout"><Logout /></Route>
           <Route path="/">

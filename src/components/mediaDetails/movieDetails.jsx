@@ -8,6 +8,7 @@ import NewRatingForm from "../rating/newRatingForm";
 import NewCommentForm from "../comments/newCommentForm";
 import {useHistory} from "react-router-dom";
 import ShowRating from "../rating/showRating";
+import { Button } from "@material-ui/core";
 
 
 const MovieDetails = () => {
@@ -22,6 +23,7 @@ const MovieDetails = () => {
   const [handleToggleRating, setHandleToggleRating] = useState(false);
   const [handleToggleComment, setHandleToggleComment] = useState(false);
   const [ratingCount, setRatingCount] = useState(0);
+  const [commentCount, setCommentCount] = useState(0);
 
   const fetchRatingCount=() =>{
     fetch(`http://localhost:5000/rest/ratings/count/${id}`)
@@ -40,6 +42,24 @@ const MovieDetails = () => {
         })
   }
   useEffect(fetchRatingCount,[]);
+
+  const fetchCommentCount=() =>{
+    fetch(`http://localhost:5000/rest/comments/count/${id}`)
+        .then ( res => {
+              if (!res.ok){
+                throw Error("unable to fetch commentcounts");
+              }
+              return res.json()
+            }
+        )
+        .then (data => {
+          setCommentCount(data);
+        })
+        .catch (error => {
+          console.error(error);
+        })
+  }
+  useEffect(fetchCommentCount,[]);
 
   const handleSubmitFormRating = (
     e,
@@ -80,12 +100,11 @@ const MovieDetails = () => {
       });
   };
 
-
   const handleSubmitFormComment = (e, body, currentUser, mediumToComment) => {
     e.preventDefault();
 
-    let newRate = {
-      description: body,
+    let newComment = {
+      textOfComment: body,
       numberOfPosts: 0,
       userMappingId: currentUser,
       mediumMappingId: mediumToComment,
@@ -94,7 +113,7 @@ const MovieDetails = () => {
     fetch(`http://localhost:5000/rest/comments/add`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(newRate),
+      body: JSON.stringify(newComment),
     })
       .then((data) => {
         console.log(data);
@@ -122,6 +141,7 @@ const MovieDetails = () => {
               </div>
 
               <div className="details">
+                <Button onClick={()=>{history.push(`/edit/movie/${id}`)}}>Bearbeiten</Button>
                 <h2 className="title">{medium.mediumName}</h2>
                 <div className="detailField">
                   <span className="smallHeading">Genres</span>
@@ -226,7 +246,7 @@ const MovieDetails = () => {
             )}
 
             <div className="body">
-              <TabBar ratingCount={ratingCount}></TabBar>
+              <TabBar ratingCount={ratingCount} mediumId={id} commentCount={commentCount}></TabBar>
             </div>
           </div>
         </div>
