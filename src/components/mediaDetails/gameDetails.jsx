@@ -146,7 +146,7 @@ const GameDetails = () => {
                 ></img>
               </div>
               <div className="details">
-              <Button
+                <Button
                   onClick={() => {
                     history.push(`/edit/game/${id}`);
                   }}
@@ -186,11 +186,7 @@ const GameDetails = () => {
                   <span>
                     {medium.platforms.map((platform) => {
                       return (
-                        <Chip
-                          color="primary"
-                          size="small"
-                          label={platform}
-                        />
+                        <Chip color="primary" size="small" label={platform} />
                       );
                     })}
                   </span>

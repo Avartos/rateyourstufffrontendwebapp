@@ -98,6 +98,13 @@ export default function CustomizedAccordions({ seasonId }) {
                     </div>
 
                     <div className="episodeDetailDisplayMiddle">
+                      <Button
+                        onClick={() => {
+                          history.push(`/edit/episode/${episode.id}`);
+                        }}
+                      >
+                        Bearbeiten
+                      </Button>
                       <div className="episodeDetailGroup">
                         <div className="episodeDetailField">
                           <span className="smallHeading"></span>
@@ -139,8 +146,14 @@ export default function CustomizedAccordions({ seasonId }) {
             </Accordion>
           );
         })}
-        <p>Ist die gesuchte Episode noch nicht vorhanden?</p>
-        <Button variant="contained" color="primary" onClick={() => history.push(`/add/episode/${seasonId}`)}>Neue Episode hinzufügen</Button>
+      <p>Ist die gesuchte Episode noch nicht vorhanden?</p>
+      <Button
+        variant="contained"
+        color="primary"
+        onClick={() => history.push(`/add/episode/${seasonId}`)}
+      >
+        Neue Episode hinzufügen
+      </Button>
     </div>
   );
 }
