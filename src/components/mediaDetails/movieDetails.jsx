@@ -10,6 +10,7 @@ import {useHistory} from "react-router-dom";
 import ShowRating from "../rating/showRating";
 import { Button } from "@material-ui/core";
 import SmallCollectionList from "./smallCollectionList";
+import AddMediumToCollectionForm from "../collections/addMediumToCollectionForm";
 
 
 const MovieDetails = () => {
@@ -253,6 +254,8 @@ const MovieDetails = () => {
             <div className="detailGroup">
             <span className="heading">Verwandte Sammlungen</span>
               <SmallCollectionList mediumId={id} />
+              
+              <AddMediumToCollectionForm mediumId={id}/>      
             </div>
           </div>
         </div>

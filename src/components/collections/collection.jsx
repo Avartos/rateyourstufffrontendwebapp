@@ -11,8 +11,8 @@ const Collection = ({ collection, mediumId = null }) => {
       const currentMediaIndex = tempMedia
         .findIndex(medium => medium.id == mediumId);
       const tempMedium = tempMedia[currentMediaIndex];
-      tempMedia[currentMediaIndex] = tempMedia[3];
-      tempMedia[3] = tempMedium;
+      tempMedia[currentMediaIndex] = tempMedia[2];
+      tempMedia[2] = tempMedium;
     }
 
     console.log(tempMedia);
@@ -22,7 +22,6 @@ const Collection = ({ collection, mediumId = null }) => {
         return medium.picturePath;
       }).slice(0,3)
     );
-    console.log(mediaImages);
   };
 
   useEffect(() => {

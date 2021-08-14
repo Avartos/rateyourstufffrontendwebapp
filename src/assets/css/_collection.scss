@@ -3,7 +3,7 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: left;
-  width: 100%;
+  width: 75%;
   margin: 0 auto;
 }
 
@@ -91,5 +91,10 @@
   flex-wrap: wrap;
   justify-content: left;
   width: 100%;
+  margin: 0 auto;
+}
+
+.collectionDetails {
+  width: 80%;
   margin: 0 auto;
 }
