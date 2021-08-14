@@ -11,6 +11,7 @@ import { useHistory } from "react-router-dom";
 import { Button } from "@material-ui/core";
 import AddSeasonForm from "../newMediaForms/addSeasonForm";
 import SmallCollectionList from "./smallCollectionList";
+import AddMediumToCollectionForm from "../collections/addMediumToCollectionForm";
 
 const BoolOutput = (isTrue) => {
   if (isTrue === true) {
@@ -285,6 +286,7 @@ const SeriesDetails = () => {
             <div className="detailGroup">
             <span className="heading">Verwandte Sammlungen</span>
               <SmallCollectionList mediumId={id} />
+              <AddMediumToCollectionForm mediumId={id}/>   
             </div>
           </div>
         </div>

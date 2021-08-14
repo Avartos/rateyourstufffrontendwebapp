@@ -9,6 +9,7 @@ import NewCommentForm from "../comments/newCommentForm";
 import { useHistory } from "react-router-dom";
 import { Button } from "@material-ui/core";
 import SmallCollectionList from "./smallCollectionList";
+import AddMediumToCollectionForm from "../collections/addMediumToCollectionForm";
 
 const BoolOutput = (isTrue) => {
   if (isTrue === true) {
@@ -279,6 +280,7 @@ const BookDetails = () => {
             <div className="detailGroup">
             <span className="heading">Verwandte Sammlungen</span>
               <SmallCollectionList mediumId={id} />
+              <AddMediumToCollectionForm mediumId={id}/>   
             </div>
           </div>
         </div>
