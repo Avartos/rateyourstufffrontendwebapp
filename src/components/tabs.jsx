@@ -1,19 +1,19 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { makeStyles } from '@material-ui/core/styles';
-import AppBar from '@material-ui/core/AppBar';
-import Tabs from '@material-ui/core/Tabs';
-import Tab from '@material-ui/core/Tab';
-import Typography from '@material-ui/core/Typography';
-import Box from '@material-ui/core/Box';
-import Accordion from '../components/accordion';
+import React from "react";
+import PropTypes from "prop-types";
+import { makeStyles } from "@material-ui/core/styles";
+import AppBar from "@material-ui/core/AppBar";
+import Tabs from "@material-ui/core/Tabs";
+import Tab from "@material-ui/core/Tab";
+import Typography from "@material-ui/core/Typography";
+import Box from "@material-ui/core/Box";
+import Accordion from "../components/accordion";
 import useFetch from "../hooks/useFetch";
-
-
+import { Button } from "@material-ui/core";
+import { useHistory } from "react-router";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
-  
+
   return (
     <div
       role="tabpanel"
@@ -40,18 +40,17 @@ TabPanel.propTypes = {
 function a11yProps(index) {
   return {
     id: `simple-tab-${index}`,
-    'aria-controls': `simple-tabpanel-${index}`,
+    "aria-controls": `simple-tabpanel-${index}`,
   };
 }
 
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
-    
   },
 }));
 
-export default function SimpleTabs({seriesId}) {
+export default function SimpleTabs({ seriesId }) {
   const {
     data: seasons,
     isPending,
@@ -64,25 +63,38 @@ export default function SimpleTabs({seriesId}) {
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
-  
+
   return (
-    
     <div className={classes.root}>
       <AppBar position="static">
-        <Tabs value={value} onChange={handleChange} aria-label="simple tabs example" variant="scrollable"
-          scrollButtons="auto">
-          {!isPending && seasons.map(season=>{
-            return <Tab label={season.seasonTitle} key={season.id} {...a11yProps(0)} />
-          })}
-          
+        <Tabs
+          value={value}
+          onChange={handleChange}
+          aria-label="simple tabs example"
+          variant="scrollable"
+          scrollButtons="auto"
+        >
+          {!isPending &&
+            seasons.map((season) => {
+              return (
+                <Tab
+                  label={season.seasonTitle}
+                  key={season.id}
+                  {...a11yProps(0)}
+                />
+              );
+            })}
         </Tabs>
       </AppBar>
-      {!isPending && seasons.map(season=>{
-            return <TabPanel value={value} index={season.seasonNumber -1}>
-            <Accordion seasonId= {season.id}></Accordion>
+
+      {!isPending &&
+        seasons.map((season) => {
+          return (
+            <TabPanel value={value} index={seasons.indexOf(season)}>
+              <Accordion seasonId={season.id}></Accordion>
             </TabPanel>
-          })}
-      
+          );
+        })}
     </div>
   );
 }
