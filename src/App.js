@@ -1,6 +1,7 @@
 
 // functional imports
 import { BrowserRouter as Router, Route, Switch, Link } from "react-router-dom";
+import authorization from "./core/authorization";
 
 //component imports
 import './App.css';
@@ -29,14 +30,14 @@ import EditMovieForm from "./components/editMediaForms/editMovieForm";
 import EditBookForm from "./components/editMediaForms/editBookForm";
 import EditGameForm from "./components/editMediaForms/editGameForm";
 import EditSeriesForm from "./components/editMediaForms/editSeriesForm";
-import EditEpisodeForm from "./components/editMediaForms/editEpisodeForm";
+import EditEpisodeForm from "./components/editMediaForms/editEpisodeForm"
+
 import EditSeasonForm from "./components/editMediaForms/editSeasonForm";
 import AddCollectionForm from "./components/collections/addCollectionForm";
 import CollectionDetails from "./components/collections/collectionDetails";
 import CollectionList from "./components/collections/collectionList";
 
 function App() {
-
   return (
     <Router>
       <div className="App">
@@ -51,10 +52,10 @@ function App() {
           <Route exact path="/media/series"><MediaList title="Serien" urlPath="series/all" mediaType={'series'}/></Route>
           <Route exact path="/media/books"><MediaList title="Bücher" urlPath="books/all" mediaType={'book'}/></Route>
           <Route exact path="/media/games"><MediaList title="Spiele" urlPath="games/all" mediaType={'game'}/></Route>
-          <Route path="/signup" ><SignUp /></Route>
-          <Route path="/adminpanel"><AdminPanel /></Route>
-          <Route path="/userPanel"><UserPanel /></Route>
-          <Route path="/login"><Login /></Route>
+          {!authorization.isLoggedIn() && <Route path="/signup"><SignUp/></Route>}
+          {authorization.isAdmin() && <Route path="/adminpanel"><AdminPanel/></Route>}
+          {authorization.isUser() && <Route path="/userPanel"><UserPanel/></Route>}
+          {!authorization.isLoggedIn() && <Route path="/login"><Login/></Route>}
 
           {/* Media Creation */}
           <Route exact path="/add"><AddMediaForm /></Route>

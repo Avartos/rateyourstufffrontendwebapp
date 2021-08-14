@@ -15,7 +15,7 @@
   };
   
   const isLoggedIn = () => {
-    return sessionStorage.getItem("accessToken") !== null;
+    return sessionStorage.getItem("Bearer ") !== null;
   };
   
   const getUserId = () => {

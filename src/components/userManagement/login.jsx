@@ -1,7 +1,6 @@
 import {useState} from "react";
 import {decodeJWT} from "../decodeJWT";
 import {useHistory} from "react-router-dom";
-import RedirectingComponent from "./redirectingComponent";
 
 /**
  * Component to provide a user login
@@ -44,7 +43,7 @@ const Login = () => {
                 sessionStorage.setItem("username", username);
                 sessionStorage.setItem("role", decodedData.role)
                 sessionStorage.setItem("Bearer ", `Bearer ${data.jwt}`);
-                setTimeout(() => _router.push('/'), 1000);
+                setTimeout(() => _router.go('/'), 500);
             })
             .catch((error) => {
                 setError(

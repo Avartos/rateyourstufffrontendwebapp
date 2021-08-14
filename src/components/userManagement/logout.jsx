@@ -10,7 +10,7 @@ const Logout = () => {
     return (
         <div className="loggedOut">
             {sessionStorage.clear()}
-            {setTimeout(() => _router.push('/'), 1000)}
+            {setTimeout(() => _router.go(), 1000)}
         </div>
     )
 }
