@@ -68,10 +68,19 @@ export default function CustomizedAccordions({ seasonId }) {
 
   return (
     <div>
+      <Button
+        onClick={() => {
+          history.push(`/edit/season/${seasonId}`);
+        }}
+      >
+        Bearbeiten
+      </Button>
+
       {!isPending &&
         episodes.map((episode) => {
           return (
             <Accordion
+              key={`episode${episode.id}`}
               className="Accordion"
               square
               expanded={expanded === episode.episodeNumber}

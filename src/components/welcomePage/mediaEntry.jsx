@@ -1,9 +1,9 @@
 import { Link } from "react-router-dom";
 import ReadOnlyRating from "../rating/readOnlyRating";
-import Chip from '@material-ui/core/Chip';
+import Chip from "@material-ui/core/Chip";
+import React from "react";
 
-const MediaEntry = ({ medium, mediaType }) => {
-
+const MediaEntry = ({ medium, mediaType, handleDelete }) => {
   const shortenString = (targetString, maxLength, moreTextSymbol) => {
     let shortenedString = targetString;
     if (targetString != null && targetString.length > maxLength) {
@@ -12,33 +12,44 @@ const MediaEntry = ({ medium, mediaType }) => {
     return shortenedString;
   };
 
-    return (
+  return (
     <Link className="link" to={`/detail/${mediaType}/${medium.id}`}>
-        <div className="mediaEntry">
+      <div className="mediaEntry">
         <div className="previewImageWrapper">
-            <img
-                src={`http://localhost:5000/${medium.picturePath}`}
-                alt="poster"
-            ></img>
+          <img
+            src={`http://localhost:5000/${medium.picturePath}`}
+            alt="poster"
+          ></img>
         </div>
-        
+
         <div className="previewContent">
-            <h3 className="title" title={medium.mediumName}>{shortenString(medium.mediumName, 20, '...')}</h3>
-            <div className="details">
-                <span>{medium.releaseDate}</span>
-                <span>
-                    {medium.genres.slice(0,3).map((genre) => {
-                      return (
-                        <Chip color="primary" size="small" key={genre} label={genre}/>
-                      );
-                    })}
-                  </span>
-                <span>
-                    <ReadOnlyRating size="small" value={medium.averageRating} maxValue={medium.max_RATING_POINTS} ></ReadOnlyRating>
-                </span>
-            </div>
+          <h3 className="title" title={medium.mediumName}>
+            {shortenString(medium.mediumName, 20, "...")}
+          </h3>
+          <div className="details">
+            <span>{medium.releaseDate}</span>
+            <span>
+              {medium.genres.slice(0, 3).map((genre) => {
+                return (
+                  <Chip
+                    color="primary"
+                    size="small"
+                    key={genre}
+                    label={genre}
+                  />
+                );
+              })}
+            </span>
+            <span>
+              <ReadOnlyRating
+                size="small"
+                value={medium.averageRating}
+                maxValue={medium.max_RATING_POINTS}
+              ></ReadOnlyRating>
+            </span>
+          </div>
         </div>
-        </div>
+      </div>
     </Link>
   );
 };
