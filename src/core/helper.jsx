@@ -19,7 +19,7 @@
   };
   
   const getUserId = () => {
-      return 1;
+      return sessionStorage.getItem('id');
   }
 
   const isAdmin = () => {
