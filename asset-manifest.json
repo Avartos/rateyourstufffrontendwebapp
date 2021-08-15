@@ -1,17 +1,17 @@
 {
   "files": {
     "main.css": "/rateyourstufffrontendwebapp/static/css/main.afa5cebe.chunk.css",
-    "main.js": "/rateyourstufffrontendwebapp/static/js/main.1c72f3b2.chunk.js",
-    "main.js.map": "/rateyourstufffrontendwebapp/static/js/main.1c72f3b2.chunk.js.map",
-    "runtime-main.js": "/rateyourstufffrontendwebapp/static/js/runtime-main.bf48f2d8.js",
-    "runtime-main.js.map": "/rateyourstufffrontendwebapp/static/js/runtime-main.bf48f2d8.js.map",
-    "static/js/2.84ed1dd4.chunk.js": "/rateyourstufffrontendwebapp/static/js/2.84ed1dd4.chunk.js",
-    "static/js/2.84ed1dd4.chunk.js.map": "/rateyourstufffrontendwebapp/static/js/2.84ed1dd4.chunk.js.map",
-    "static/js/3.d29ed053.chunk.js": "/rateyourstufffrontendwebapp/static/js/3.d29ed053.chunk.js",
-    "static/js/3.d29ed053.chunk.js.map": "/rateyourstufffrontendwebapp/static/js/3.d29ed053.chunk.js.map",
+    "main.js": "/rateyourstufffrontendwebapp/static/js/main.9ffcc202.chunk.js",
+    "main.js.map": "/rateyourstufffrontendwebapp/static/js/main.9ffcc202.chunk.js.map",
+    "runtime-main.js": "/rateyourstufffrontendwebapp/static/js/runtime-main.d23cdd2f.js",
+    "runtime-main.js.map": "/rateyourstufffrontendwebapp/static/js/runtime-main.d23cdd2f.js.map",
+    "static/js/2.02fed15d.chunk.js": "/rateyourstufffrontendwebapp/static/js/2.02fed15d.chunk.js",
+    "static/js/2.02fed15d.chunk.js.map": "/rateyourstufffrontendwebapp/static/js/2.02fed15d.chunk.js.map",
+    "static/js/3.e1af0071.chunk.js": "/rateyourstufffrontendwebapp/static/js/3.e1af0071.chunk.js",
+    "static/js/3.e1af0071.chunk.js.map": "/rateyourstufffrontendwebapp/static/js/3.e1af0071.chunk.js.map",
     "index.html": "/rateyourstufffrontendwebapp/index.html",
     "static/css/main.afa5cebe.chunk.css.map": "/rateyourstufffrontendwebapp/static/css/main.afa5cebe.chunk.css.map",
-    "static/js/2.84ed1dd4.chunk.js.LICENSE.txt": "/rateyourstufffrontendwebapp/static/js/2.84ed1dd4.chunk.js.LICENSE.txt",
+    "static/js/2.02fed15d.chunk.js.LICENSE.txt": "/rateyourstufffrontendwebapp/static/js/2.02fed15d.chunk.js.LICENSE.txt",
     "static/media/books.fad26ce6.svg": "/rateyourstufffrontendwebapp/static/media/books.fad26ce6.svg",
     "static/media/games.b99276ff.svg": "/rateyourstufffrontendwebapp/static/media/games.b99276ff.svg",
     "static/media/history.8acf4fc5.svg": "/rateyourstufffrontendwebapp/static/media/history.8acf4fc5.svg",
@@ -27,9 +27,9 @@
     "static/media/series.fb2c4498.svg": "/rateyourstufffrontendwebapp/static/media/series.fb2c4498.svg"
   },
   "entrypoints": [
-    "static/js/runtime-main.bf48f2d8.js",
-    "static/js/2.84ed1dd4.chunk.js",
+    "static/js/runtime-main.d23cdd2f.js",
+    "static/js/2.02fed15d.chunk.js",
     "static/css/main.afa5cebe.chunk.css",
-    "static/js/main.1c72f3b2.chunk.js"
+    "static/js/main.9ffcc202.chunk.js"
   ]
 }
