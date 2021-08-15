@@ -43,7 +43,7 @@ function App() {
       <div className="App">
         <HeaderBar />
         <Switch>
-          <Route exact path="/"><WelcomePage></WelcomePage></Route>
+          <Route exact path={["/", "/rateyourstufffrontendwebapp"]}><WelcomePage></WelcomePage></Route>
           <Route exact path="/detail/movie/:id"><MovieDetails/></Route>
           <Route exact path="/detail/book/:id"><BookDetails/></Route>
           <Route exact path="/detail/series/:id"><SeriesDetails/></Route>
