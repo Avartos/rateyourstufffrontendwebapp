@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import DefaultTextField from "../formComponents/defaultTextField";
 import { Button } from "@material-ui/core";
-import { useParams } from "react-router";
-import { useHistory } from "react-router";
+import { useParams } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 
 const EditSeasonForm = () => {
   const [seasonTitle, setSeasonTitle] = useState("");

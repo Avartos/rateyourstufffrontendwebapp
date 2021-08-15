@@ -7,7 +7,7 @@ import Typography from "@material-ui/core/Typography";
 import useFetch from "../hooks/useFetch";
 import ReadOnlyRating from "./rating/readOnlyRating";
 import { Button } from "@material-ui/core";
-import { useHistory } from "react-router";
+import { useHistory } from "react-router-dom";
 
 const Accordion = withStyles({
   root: {

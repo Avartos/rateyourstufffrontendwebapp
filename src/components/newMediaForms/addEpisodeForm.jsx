@@ -1,12 +1,12 @@
 import { useState, useEffect } from "react";
-import { useHistory } from "react-router";
+import { useHistory } from "react-router-dom";
 import DefaultTextField from "../formComponents/defaultTextField";
 import DefaultAutoComplete from "../formComponents/defaultAutoComplete";
 import DefaultSelect from "../formComponents/defaultSelect";
 import AgeSelect from "../formComponents/ageSelect";
 import { Button } from "@material-ui/core";
 import ImagePreview from "../formComponents/imagePreview";
-import { useParams } from "react-router";
+import { useParams } from "react-router-dom";
 
 const AddEpisodeForm = () => {
   const [mediumName, setMediumName] = useState("");

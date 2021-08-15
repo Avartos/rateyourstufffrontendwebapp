@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useHistory } from "react-router";
+import { useHistory } from "react-router-dom";
 import DefaultTextField from "../formComponents/defaultTextField";
 import DefaultAutoComplete from "../formComponents/defaultAutoComplete";
 import DefaultSelect from "../formComponents/defaultSelect";
