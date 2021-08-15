@@ -5,6 +5,7 @@ import MediaEntry from "../welcomePage/mediaEntry";
 import { Button } from "@material-ui/core";
 import DefaultTextField from "../formComponents/defaultTextField";
 import React from "react";
+import helper from "../../core/helper";
 
 const CollectionDetails = () => {
   const { id } = useParams();
@@ -113,7 +114,7 @@ const CollectionDetails = () => {
         </div>
       )}
 
-      {!isEditModeActive && <Button onClick={() => {setIsEditModeActive(true)}}>Bearbeiten</Button>}
+      {!isEditModeActive && (collection && collection.userId == helper.getUserId) && <Button onClick={() => {setIsEditModeActive(true)}}>Bearbeiten</Button>}
       {isEditModeActive && <Button onClick={handleSubmitChanges}>Neue Bezeichnung übernehmen</Button>}
       {isEditModeActive && <Button onClick={() => {setIsEditModeActive(false); setCollectionTitle(collection.title)}}>Abbrechen</Button>}
 

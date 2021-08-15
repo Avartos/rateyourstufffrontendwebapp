@@ -10,6 +10,7 @@ import { useHistory } from "react-router-dom";
 import { Button } from "@material-ui/core";
 import SmallCollectionList from "./smallCollectionList";
 import AddMediumToCollectionForm from "../collections/addMediumToCollectionForm";
+import helper from "../../core/helper";
 
 const HyphenNecessity = (moreThanOnePlayer) => {
   if (moreThanOnePlayer !== null) {
@@ -289,7 +290,7 @@ const GameDetails = () => {
             <div className="detailGroup">
             <span className="heading">Verwandte Sammlungen</span>
               <SmallCollectionList mediumId={id} />
-              <AddMediumToCollectionForm mediumId={id}/>   
+              {helper.isLoggedIn() && <AddMediumToCollectionForm mediumId={id}/>}   
             </div>
           </div>
         </div>

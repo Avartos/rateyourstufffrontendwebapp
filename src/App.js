@@ -36,6 +36,7 @@ import EditSeasonForm from "./components/editMediaForms/editSeasonForm";
 import AddCollectionForm from "./components/collections/addCollectionForm";
 import CollectionDetails from "./components/collections/collectionDetails";
 import CollectionList from "./components/collections/collectionList";
+import helper from "./core/helper";
 
 function App() {
   return (
@@ -58,27 +59,28 @@ function App() {
           {!authorization.isLoggedIn() && <Route path="/login"><Login/></Route>}
 
           {/* Media Creation */}
-          <Route exact path="/add"><AddMediaForm /></Route>
-          <Route path="/add/movie"><AddMovieForm></AddMovieForm></Route>
-          <Route path="/add/book"><AddBookForm></AddBookForm></Route>
-          <Route path="/add/series"><AddSeriesForm></AddSeriesForm></Route>
-          <Route path="/add/episode/:id" exact><AddEpisodeForm/></Route>
-          <Route path="/add/game"><AddGameForm/></Route>
 
+          {helper.isLoggedIn() && <Route exact path="/add"><AddMediaForm /></Route>}
+          {helper.isLoggedIn() && <Route path="/add/movie"><AddMovieForm></AddMovieForm></Route>}
+          {helper.isLoggedIn() && <Route path="/add/book"><AddBookForm></AddBookForm></Route>}
+          {helper.isLoggedIn() && <Route path="/add/series"><AddSeriesForm></AddSeriesForm></Route>}
+          {helper.isLoggedIn() && <Route path="/add/episode/:id" exact><AddEpisodeForm/></Route>}
+          {helper.isLoggedIn() && <Route path="/add/game"><AddGameForm/></Route>}
+          
           {/* Media Editing */}
-          <Route path="/edit/movie/:id"><EditMovieForm/></Route>
-          <Route path="/edit/book/:id"><EditBookForm/></Route>
-          <Route path="/edit/game/:id"><EditGameForm/></Route>
-          <Route path="/edit/series/:id"><EditSeriesForm/></Route>
-          <Route path="/edit/episode/:id"><EditEpisodeForm/></Route>
-          <Route path="/edit/season/:id"><EditSeasonForm/></Route>
+          {helper.isLoggedIn() && <Route path="/edit/movie/:id"><EditMovieForm/></Route>}
+          {helper.isLoggedIn() && <Route path="/edit/book/:id"><EditBookForm/></Route>}
+          {helper.isLoggedIn() && <Route path="/edit/game/:id"><EditGameForm/></Route>}
+          {helper.isLoggedIn() && <Route path="/edit/series/:id"><EditSeriesForm/></Route>}
+          {helper.isLoggedIn() && <Route path="/edit/episode/:id"><EditEpisodeForm/></Route>}
+          {helper.isLoggedIn() && <Route path="/edit/season/:id"><EditSeasonForm/></Route>}
 
           {/* Collection Handling */}
-          <Route path="/collection/add"><AddCollectionForm/></Route>
+          {helper.isLoggedIn() && <Route path="/collection/add"><AddCollectionForm/></Route>}
           <Route path="/collection/:id"><CollectionDetails/></Route>
           <Route path="/collections"><CollectionList/></Route>
 
-          <Route path="/logout"><Logout /></Route>
+          {helper.isLoggedIn() && <Route path="/logout"><Logout /></Route>}
           <Route path="/">
             <h1>404 - Not Found</h1><br />
           </Route>

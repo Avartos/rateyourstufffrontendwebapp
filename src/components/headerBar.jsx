@@ -17,11 +17,14 @@ const HeaderBar = () => {
         sessionStorage.clear();
         history.go('/');
     }
+
+    const [toggleBarIsVisible, setToggleBarIsVisible] = useState(false);
+
     return (
         <nav className="navbar">
           <div className="leftside">
-            <NavItem icon={<MenuIcon />}>
-              <Togglebar></Togglebar>
+            <NavItem icon={<MenuIcon />} isVisible={toggleBarIsVisible} handleSetVisible={setToggleBarIsVisible}>
+              <Togglebar handleSetVisible={setToggleBarIsVisible}></Togglebar>
             </NavItem>
             <Link className="link" to="/"><h2>rateYourStuff</h2></Link>
           </div>
@@ -36,15 +39,11 @@ const HeaderBar = () => {
 }
 
 function NavItem(props) {
-  const [open, setOpen] = useState(false);
 
   return (
     <li className="nav-item">
-      <a href="#" className="icon-button" onClick={() => setOpen(!open)}>
-        {props.icon}
-      </a>
-
-      {open && props.children}
+      <span className="icon-button" onClick={() => props.handleSetVisible(!props.isVisible)}>{props.icon}</span>
+      {props.isVisible && props.children}
     </li>
   );
 }

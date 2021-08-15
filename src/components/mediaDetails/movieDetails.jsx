@@ -11,6 +11,7 @@ import ShowRating from "../rating/showRating";
 import { Button } from "@material-ui/core";
 import SmallCollectionList from "./smallCollectionList";
 import AddMediumToCollectionForm from "../collections/addMediumToCollectionForm";
+import helper from "../../core/helper";
 
 
 const MovieDetails = () => {
@@ -255,7 +256,7 @@ const MovieDetails = () => {
             <span className="heading">Verwandte Sammlungen</span>
               <SmallCollectionList mediumId={id} />
               
-              <AddMediumToCollectionForm mediumId={id}/>      
+              {helper.isLoggedIn() && <AddMediumToCollectionForm mediumId={id}/>}      
             </div>
           </div>
         </div>
