@@ -36,8 +36,6 @@ const UserPreview = ({user}) => {
                     <th>{user.login.email}</th>
                     <th><Switch />{user.login.isEnabled}</th>
                     <th><div className="deleteButton"><button onClick={() => handleDelete(user.id)}>Delete</button></div></th>
-                    
-                
             </tr>
         </table>
         </div>
