@@ -22,6 +22,7 @@ import AddBookForm from "./components/newMediaForms/addBookForm";
 import AddGameForm from "./components/newMediaForms/addGameForm";
 
 import MediaList from "./components/mediaLists/mediaList";
+import SearchResultList from "./components/mediaLists/searchResultList";
 
 import Logout from "./components/userManagement/logout";
 import AddSeriesForm from "./components/newMediaForms/addSeriesForm";
@@ -53,6 +54,7 @@ function App() {
           <Route exact path="/media/series"><MediaList title="Serien" urlPath="series/all" mediaType={'series'}/></Route>
           <Route exact path="/media/books"><MediaList title="Bücher" urlPath="books/all" mediaType={'book'}/></Route>
           <Route exact path="/media/games"><MediaList title="Spiele" urlPath="games/all" mediaType={'game'}/></Route>
+          <Route exact path="/searchResults"><SearchResultList /></Route>
           {!authorization.isLoggedIn() && <Route path="/signup"><SignUp/></Route>}
           {authorization.isAdmin() && <Route path="/adminpanel"><AdminPanel/></Route>}
           {authorization.isUser() && <Route path="/userPanel"><UserPanel/></Route>}
