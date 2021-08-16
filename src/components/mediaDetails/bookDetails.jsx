@@ -12,6 +12,7 @@ import SmallCollectionList from "./smallCollectionList";
 import AddMediumToCollectionForm from "../collections/addMediumToCollectionForm";
 import helper from "../../core/helper";
 
+
 const BoolOutput = (isTrue) => {
   if (isTrue === true) {
     return "ja";
@@ -70,6 +71,33 @@ const BookDetails = () => {
   }
   useEffect(fetchCommentCount,[]);
 
+  const handleSubmitFormComment = (e, body, currentUser, mediumToComment) => {
+      e.preventDefault();
+
+      let newComment = {
+          textOfComment: body,
+          numberOfPosts: 0,
+          userMappingId: currentUser,
+          mediumMappingId: mediumToComment,
+        };
+
+        fetch(`http://localhost:5000/rest/comments/add`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(newComment),
+        })
+            .then((data) => {
+                console.log(data);
+                setHandleToggleComment(false);
+                //Reload page, to get actual average rating
+                history.go();
+            })
+            .catch((error) => {
+                setHandleError(
+                    "Das Formular konnte nicht abgeschickt werden (" + handleError + ")"
+                );
+            });
+  };
 
 
   const handleSubmitFormRating = (
@@ -89,15 +117,12 @@ const BookDetails = () => {
       givenPoints: valueRate * 2,
     };
 
-    console.log(newRate);
-
     fetch(`http://localhost:5000/rest/ratings/add`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(newRate),
     })
       .then((data) => {
-        console.log(data);
         setHandleToggleRating(false);
         //Reload page, to get actual average rating
         history.go();
@@ -109,35 +134,6 @@ const BookDetails = () => {
         );
       });
   };
-
-  const handleSubmitFormComment = (e, body, currentUser, mediumToComment) => {
-    e.preventDefault();
-
-      let newComment = {
-          textOfComment: body,
-          numberOfPosts: 0,
-          userMappingId: currentUser,
-          mediumMappingId: mediumToComment,
-      };
-
-    fetch(`http://localhost:5000/rest/comments/add`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(newComment),
-    })
-      .then((data) => {
-        console.log(data);
-          setHandleToggleComment(false);
-        //Reload page, to get actual average rating
-        history.go();
-      })
-      .catch((error) => {
-        setHandleError(
-          "Das Formular konnte nicht abgeschickt werden (" + handleError + ")"
-        );
-      });
-  };
-
 
   return (
     <React.Fragment>
@@ -275,13 +271,13 @@ const BookDetails = () => {
             )}
 
             <div className="body">
-              <TabBar ratingCount={ratingCount} mediumId={id} commentCount={commentCount}></TabBar>
+              <TabBar ratingCount={ratingCount} medium={medium} mediumId={id} commentCount={commentCount}></TabBar>
             </div>
 
             <div className="detailGroup">
             <span className="heading">Verwandte Sammlungen</span>
               <SmallCollectionList mediumId={id} />
-              {helper.isLoggedIn() && <AddMediumToCollectionForm mediumId={id}/>}   
+              {helper.isLoggedIn() && <AddMediumToCollectionForm mediumId={id}/>}
             </div>
           </div>
         </div>

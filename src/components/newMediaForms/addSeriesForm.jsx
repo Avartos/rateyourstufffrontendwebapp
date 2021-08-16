@@ -127,7 +127,6 @@ const AddSeriesForm = () => {
         onChange={(e) => {
           handleSelectImage(e);
           setMediumPoster(e.target.files[0]);
-          console.log(e.target.files[0]);
         }}
       />
 
@@ -147,7 +146,7 @@ const AddSeriesForm = () => {
         title="Kurzbeschreibung"
         value={description}
         setter={setDescription}
-        additionalOptions={{ multiline: "multiline", rows: "10" }}
+        additionalOptions={{ multiline: true, rows: "10" }}
       />
 
       <DefaultTextField

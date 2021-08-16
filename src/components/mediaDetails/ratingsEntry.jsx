@@ -1,17 +1,19 @@
 import React from "react";
 import ReadOnlyRating from "../rating/readOnlyRating";
+import {Divider} from "@material-ui/core";
 
 const RatingsEntry = ({rating}) => {
     return (
         <React.Fragment>
-            <span>{rating.userUserName}</span>
+            <h3>{rating.userUserName}</h3>
             <ReadOnlyRating
                 size="large"
                 value={rating.givenPoints}
                 maxValue={rating.max_POINTS}
                 showValue={true}
             />
-            <span>{rating.description}</span>
+            <label>{rating.description}</label>
+            <Divider />
         </React.Fragment>
      );
 }

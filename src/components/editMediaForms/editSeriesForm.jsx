@@ -51,7 +51,6 @@ const EditSeriesForm = () => {
         setCurrentImage(`http://localhost:5000/${data.picturePath}`);
         setAverageLength(data.averageLength);
         setIsCompleted(data.isCompleted);
-        console.log(data);
       })
       .catch((error) => {
         history.push("/not_found");
@@ -165,7 +164,6 @@ const EditSeriesForm = () => {
         onChange={(e) => {
           handleSelectImage(e);
           setMediumPoster(e.target.files[0]);
-          console.log(e.target.files[0]);
         }}
       />
 

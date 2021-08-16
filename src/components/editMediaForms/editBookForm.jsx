@@ -51,7 +51,6 @@ const EditBookForm = () => {
         if (data.bookPublisherBookPublisherTitle) {
           setPublisher(data.bookPublisherBookPublisherTitle);
         }
-        console.log(data);
       })
       .catch((error) => {
         history.push("/not_found");
@@ -151,7 +150,7 @@ const EditBookForm = () => {
               history.push(`/detail/book/${data.id}`);
             })
             .catch((error) => {
-              console.log(error);
+              console.error(error);
             });
         }
       })
@@ -165,7 +164,7 @@ const EditBookForm = () => {
   };
 
   useEffect(() => {
-    console.log(publisher);
+    console.error(publisher);
   }, [publisher]);
 
   return (
@@ -180,7 +179,6 @@ const EditBookForm = () => {
         onChange={(e) => {
           handleSelectImage(e);
           setMediumPoster(e.target.files[0]);
-          console.log(e.target.files[0]);
         }}
       />
 
