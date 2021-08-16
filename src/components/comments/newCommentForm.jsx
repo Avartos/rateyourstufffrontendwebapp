@@ -2,7 +2,7 @@ import { useState } from "react";
 
 const NewCommentForm = ({handleSubmitFormComment, medium}) =>{
     const [body, setBody] = useState("");
-    const [currentUser, setCurrentUser] = useState(1)
+    const [currentUser, setCurrentUser] = useState(sessionStorage.getItem("id"))
     const [error, setError] = useState(null);
 
     return (

@@ -5,7 +5,7 @@ import React, {useEffect, useState} from "react";
 import RatingList from "./ratingsList";
 import CommentList from "./commentList";
 
-const TabBar = ({ratingCount,commentCount, mediumId}) => {
+const TabBar = ({ratingCount,commentCount, medium, mediumId}) => {
     const [ratings, setRatings] = useState([]);
     const [comments, setComments] = useState([]);
     const numberOfRatingsPerPage = 2;
@@ -77,7 +77,7 @@ const TabBar = ({ratingCount,commentCount, mediumId}) => {
         </TabPanel>
 
         <TabPanel value={value} index={1}>
-            {showValue === 0 && <CommentList comments={comments} handleFetchComments={fetchCommentsFromMedium}>Kommentare</CommentList>}
+            {showValue === 0 && <CommentList comments={comments} handleFetchComments={fetchCommentsFromMedium} medium={medium}>Kommentare</CommentList>}
         </TabPanel>
 
     </React.Fragment>
