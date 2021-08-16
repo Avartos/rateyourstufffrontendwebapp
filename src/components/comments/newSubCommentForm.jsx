@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 
-function NewSubCommentForm(handleSubComment, comment, medium) {
+const NewSubCommentForm = ({handleSubComment, comment, medium}) => {
     const [body, setBody] = useState("");
     const [currentUser, setCurrentUser] = useState(sessionStorage.getItem("id"));
     const [error, setError] = useState(null);
@@ -18,9 +18,7 @@ function NewSubCommentForm(handleSubComment, comment, medium) {
                               setBody(e.target.value);
                           }}>
                 </textarea>
-                <div>
                     <button className="primaryButton">Antworten</button>
-                </div>
             </form>
         </div>
     );

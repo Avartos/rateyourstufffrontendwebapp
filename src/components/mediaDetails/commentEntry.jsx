@@ -12,6 +12,8 @@ const CommentEntry = ({comment, medium}) => {
     const [handleError, setHandleError] = useState(null);
     const history = useHistory();
 
+    
+
     const handleEditComment = (e, body, currentUser, mediumToComment, postNumbers, commentId) => {
         e.preventDefault();
 
@@ -23,16 +25,17 @@ const CommentEntry = ({comment, medium}) => {
             mediumMappingId: mediumToComment,
         };
 
+        console.log(updatedComment);
+
         fetch(`http://localhost:5000/rest/comments`, {
             method: "PUT",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(updatedComment),
         })
             .then((data) => {
-                console.log(data);
                 setHandleToggleEdit(false);
                 //Reload page, to get actual average rating
-                history.go();
+                // history.go();
             })
             .catch((error) => {
                 setHandleError(
@@ -62,7 +65,7 @@ const CommentEntry = ({comment, medium}) => {
                 console.log(data);
                 setHandleToggleSubComment(false);
                 //Reload page, to get actual average rating
-                history.go();
+                // history.go();
             })
             .catch((error) => {
                 setHandleError(
