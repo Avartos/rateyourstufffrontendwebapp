@@ -27,7 +27,6 @@ const CollectionDetails = () => {
       })
       .then((data) => {
         setCollection(data);
-        console.log(collection);
         setCollectionTitle(data.title);
         fetch(`http://localhost:5000/rest/media/collection/${id}`)
           .then((res) => {
@@ -49,7 +48,7 @@ const CollectionDetails = () => {
       .catch((err) => {
         setError(error);
         setIsPending(false);
-        console.log(err);
+        console.error(err);
       });
   };
 

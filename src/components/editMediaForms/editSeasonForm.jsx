@@ -20,7 +20,6 @@ const EditSeasonForm = () => {
       return res.json();
     })
     .then((data) => {
-      console.log(data);
       setSeasonTitle(data.seasonTitle);
       setSeasonNumber(data.seasonNumber);
       setSeriesId(data.mediumId);
@@ -42,7 +41,6 @@ const EditSeasonForm = () => {
       seriesMappingId: seriesId,
     };
 
-    console.log(season);
 
     fetch('http://localhost:5000/rest/seasons', {
       method: "PUT",

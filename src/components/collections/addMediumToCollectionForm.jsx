@@ -59,7 +59,6 @@ const AddMediumToCollectionForm = ({ mediumId }) => {
     <React.Fragment>
       {collections.length > 0 && (
         <div className="addMediumToCollectionForm">
-          {console.log(collections)}
           <Button onClick={() => setIsAddToCollectionVisible(true)}>
             Medium zu einer Sammlung hinzufügen
           </Button>

@@ -48,7 +48,6 @@ const EditEpisodeForm = () => {
         setEpisodeNumber(data.episodeNumber);
         setDuration(data.length);
         setSeriesTitle(data.seriesTitle);
-        console.log(data);
       })
       .catch((error) => {
         console.error(error);

@@ -89,15 +89,12 @@ const BookDetails = () => {
       givenPoints: valueRate * 2,
     };
 
-    console.log(newRate);
-
     fetch(`http://localhost:5000/rest/ratings/add`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(newRate),
     })
       .then((data) => {
-        console.log(data);
         setHandleToggleRating(false);
         //Reload page, to get actual average rating
         history.go();
@@ -126,7 +123,6 @@ const BookDetails = () => {
       body: JSON.stringify(newComment),
     })
       .then((data) => {
-        console.log(data);
           setHandleToggleComment(false);
         //Reload page, to get actual average rating
         history.go();
