@@ -98,6 +98,10 @@ Button:hover {
   
 }
 
+.editAndReplyButton:hover{
+  background-color: $buttonHoverColor
+}
+
 form button:active {
   background-color: $buttonPressedColor;
 }

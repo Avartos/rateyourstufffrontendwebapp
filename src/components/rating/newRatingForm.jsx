@@ -3,7 +3,7 @@ import {Rating} from "@material-ui/lab";
 
 const NewRatingForm = ({handleSubmitFormRating, medium}) =>{
         const [body, setBody] = useState("");
-        const [currentUser, setCurrentUser] = useState(1);
+        const [currentUser, setCurrentUser] = useState(sessionStorage.getItem("id"));
         const [valueRate, setValueRate] = useState(0);
 
 
