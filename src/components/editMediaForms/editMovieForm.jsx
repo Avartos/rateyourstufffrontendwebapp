@@ -6,7 +6,7 @@ import DefaultSelect from "../formComponents/defaultSelect";
 import AgeSelect from "../formComponents/ageSelect";
 import { Button } from "@material-ui/core";
 import ImagePreview from "../formComponents/imagePreview";
-import { useParams } from "react-router-dom";
+import { useParams } from "react-router";
 
 const EditMovieForm = () => {
   const [mediumName, setMediumName] = useState("");
