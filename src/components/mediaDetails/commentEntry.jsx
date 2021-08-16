@@ -30,7 +30,8 @@ const CommentEntry = ({comment, medium}) => {
 
         fetch(`http://localhost:5000/rest/comments`, {
             method: "PUT",
-            headers: { "Content-Type": "application/json" },
+            headers: { "Content-Type": "application/json",
+                "Authorization": sessionStorage.getItem("Bearer ")},
             body: JSON.stringify(updatedComment),
         })
             .then((data) => {
@@ -59,7 +60,8 @@ const CommentEntry = ({comment, medium}) => {
 
         fetch(`http://localhost:5000/rest/comments/add`, {
             method: "POST",
-            headers: { "Content-Type": "application/json" },
+            headers: { "Content-Type": "application/json",
+                "Authorization": sessionStorage.getItem("Bearer ")},
             body: JSON.stringify(newSubComment),
         })
             .then((data) => {
