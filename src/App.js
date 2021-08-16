@@ -45,7 +45,7 @@ function App() {
   
 
   return (
-    <Router>
+    <Router basename={"rateyourstufffrontendwebapp"}>
       <div className="App">
         <HeaderBar />
         <Switch>
