@@ -9,17 +9,17 @@ const AddSeasonForm = ({ seriesId, handleHideSeasonForm }) => {
   const handleAddSeason = (e) => {
     e.preventDefault();
 
-    
     const season = {
       seasonNumber: seasonNumber,
       seasonTitle: seasonTitle,
       seriesMappingId: seriesId,
     };
 
-    fetch('http://localhost:5000/rest/seasons/add', {
+    fetch("http://localhost:5000/rest/seasons/add", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        Authorization: sessionStorage.getItem("Bearer "),
       },
       body: JSON.stringify(season),
     })
@@ -29,14 +29,13 @@ const AddSeasonForm = ({ seriesId, handleHideSeasonForm }) => {
         }
       })
       .then(() => {
-          handleHideSeasonForm(false);
-      }) 
+        handleHideSeasonForm(false);
+      })
       .catch((error) => {
         console.error(error);
       });
   };
 
- 
   return (
     <form action="" onSubmit={handleAddSeason}>
       <h2>Neue Staffel hinzufügen</h2>

@@ -126,6 +126,7 @@ const EditBookForm = () => {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
+        Authorization: sessionStorage.getItem("Bearer "),
       },
       body: JSON.stringify(book),
     })
@@ -141,6 +142,9 @@ const EditBookForm = () => {
           formData.append("image", mediumPoster);
           fetch(`http://localhost:5000/rest/books/images/${data.id}`, {
             method: "POST",
+            headers: {
+              Authorization: sessionStorage.getItem("Bearer "),
+            },
             body: formData,
           })
             .then((response) => {

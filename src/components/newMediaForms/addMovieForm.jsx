@@ -83,6 +83,7 @@ const AddMovieForm = () => {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        Authorization: sessionStorage.getItem("Bearer "),
       },
       body: JSON.stringify(movie),
     })
@@ -97,6 +98,9 @@ const AddMovieForm = () => {
         formData.append("image", mediumPoster);
         fetch(`http://localhost:5000/rest/movies/images/${data.id}`, {
           method: "POST",
+          headers: {
+            Authorization: sessionStorage.getItem("Bearer "),
+          },
           body: formData,
         })
           .then((response) => {
@@ -118,7 +122,7 @@ const AddMovieForm = () => {
   return (
     <form className="addMediaForm" onSubmit={(e) => handleSubmitForm(e)}>
       <span className="label">Poster</span>
-      <ImagePreview currentImage={currentImage}/>
+      <ImagePreview currentImage={currentImage} />
       <input
         type="file"
         onChange={(e) => {

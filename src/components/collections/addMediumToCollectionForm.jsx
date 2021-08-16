@@ -38,6 +38,7 @@ const AddMediumToCollectionForm = ({ mediumId }) => {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
+          Authorization: sessionStorage.getItem("Bearer "),
         },
       }
     )
