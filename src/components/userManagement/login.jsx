@@ -1,6 +1,6 @@
 import {useState} from "react";
 import {decodeJWT} from "../decodeJWT";
-import {useHistory} from "react-router-dom";
+import {useHistory} from "react-router";
 
 /**
  * Component to provide a user login

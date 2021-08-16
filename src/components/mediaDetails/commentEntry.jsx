@@ -3,7 +3,7 @@ import {Divider} from "@material-ui/core";
 import CreateIcon from '@material-ui/icons/Create';
 import ReplyIcon from '@material-ui/icons/Reply';
 import EditCommentForm from "../comments/editCommentForm";
-import { useHistory } from "react-router-dom";
+import { useHistory } from "react-router";
 import NewSubCommentForm from "../comments/newSubCommentForm";
 
 const CommentEntry = ({comment, medium}) => {

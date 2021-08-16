@@ -1,12 +1,12 @@
 import { useState, useEffect } from "react";
-import { useHistory } from "react-router-dom";
+import { useHistory } from "react-router";
 import DefaultTextField from "../formComponents/defaultTextField";
 import DefaultAutoComplete from "../formComponents/defaultAutoComplete";
 import DefaultSelect from "../formComponents/defaultSelect";
 import AgeSelect from "../formComponents/ageSelect";
 import { Button } from "@material-ui/core";
 import ImagePreview from "../formComponents/imagePreview";
-import { useParams } from "react-router-dom";
+import { useParams } from "react-router";
 
 const EditGameForm = () => {
   const [mediumName, setMediumName] = useState("");

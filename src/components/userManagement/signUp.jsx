@@ -1,6 +1,6 @@
 import {useState} from "react";
 import RedirectingComponent from "./redirectingComponent";
-import {useHistory} from "react-router-dom";
+import {useHistory} from "react-router";
 import useFetch from "../../hooks/useFetch";
 import {red} from "@material-ui/core/colors";
 

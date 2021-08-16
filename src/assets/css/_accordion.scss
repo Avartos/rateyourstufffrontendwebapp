@@ -41,14 +41,16 @@
 }
 
 .Accordion {
-    
+    width:100%;
     padding: 0px;
+    cursor: pointer;
 }
 
 .episodeDetailDisplay {
     display: flex;
     height: 148px;
     justify-content: flex-start;
+    
 }
 
 .episodeDetailDisplayMiddle{
@@ -56,6 +58,7 @@
     flex-direction: column;
     min-width:50%;
     margin-top: 20px;
+    
     
 }
 

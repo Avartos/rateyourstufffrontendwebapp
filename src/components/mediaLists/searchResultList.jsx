@@ -3,7 +3,7 @@ import MediaEntry from "../welcomePage/mediaEntry";
 
 
 
-import {useLocation} from "react-router-dom";
+import {useLocation} from "react-router";
 
 
 const SearchList = () => {

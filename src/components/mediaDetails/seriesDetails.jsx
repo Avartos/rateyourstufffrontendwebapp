@@ -1,13 +1,13 @@
 import React, {useEffect, useState} from "react";
 import useFetch from "../../hooks/useFetch";
-import { useParams } from "react-router-dom";
+import { useParams } from "react-router";
 import ReadOnlyRating from "../rating/readOnlyRating";
 import TabBar from "./tabBar";
 import Chip from "@material-ui/core/Chip";
 import Tabs from "../../components/tabs";
 import NewRatingForm from "../rating/newRatingForm";
 import NewCommentForm from "../comments/newCommentForm";
-import { useHistory } from "react-router-dom";
+import { useHistory } from "react-router";
 import { Button } from "@material-ui/core";
 import AddSeasonForm from "../newMediaForms/addSeasonForm";
 import SmallCollectionList from "./smallCollectionList";
@@ -147,7 +147,7 @@ const SeriesDetails = () => {
                 ></img>
               </div>
               <div className="details">
-              <Button
+              <Button 
                   onClick={() => {
                     history.push(`/edit/series/${id}`);
                   }}

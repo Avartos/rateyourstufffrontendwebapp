@@ -6,7 +6,7 @@ import TabBar from "./tabBar";
 import Chip from "@material-ui/core/Chip";
 import NewRatingForm from "../rating/newRatingForm";
 import NewCommentForm from "../comments/newCommentForm";
-import {useHistory} from "react-router-dom";
+import {useHistory} from "react-router";
 import ShowRating from "../rating/showRating";
 import { Button } from "@material-ui/core";
 import SmallCollectionList from "./smallCollectionList";
@@ -14,13 +14,13 @@ import AddMediumToCollectionForm from "../collections/addMediumToCollectionForm"
 import helper from "../../core/helper";
 
 
-const MovieDetails = () => {
+const EpisodeDetails = () => {
   const { id } = useParams();
   const {
     data: medium,
     isPending,
     error,
-  } = useFetch(`http://localhost:5000/rest/movies/${id}`);
+  } = useFetch(`http://localhost:5000/rest/episodes/${id}`);
   const history = useHistory();
   const [handleError, setHandleError] = useState(null);
   const [handleToggleRating, setHandleToggleRating] = useState(false);
@@ -265,4 +265,4 @@ const MovieDetails = () => {
   );
 };
 
-export default MovieDetails;
+export default EpisodeDetails;

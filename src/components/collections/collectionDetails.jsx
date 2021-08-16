@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { useParams } from "react-router";
 import { useState } from "react";
 import { useEffect } from "react";
 import MediaEntry from "../welcomePage/mediaEntry";
