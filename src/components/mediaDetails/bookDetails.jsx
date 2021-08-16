@@ -80,7 +80,8 @@ const BookDetails = () => {
 
     fetch(`http://localhost:5000/rest/comments/add`, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: { "Content-Type": "application/json",
+        "Authorization": sessionStorage.getItem("Bearer "),},
       body: JSON.stringify(newComment),
     })
       .then((data) => {
@@ -115,7 +116,8 @@ const BookDetails = () => {
 
     fetch(`http://localhost:5000/rest/ratings/add`, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: { "Content-Type": "application/json",
+        "Authorization": sessionStorage.getItem("Bearer "),},
       body: JSON.stringify(newRate),
     })
       .then((data) => {

@@ -10,9 +10,12 @@ const CommentList = ({comments, handleFetchComments, medium}) => {
                     return  <CommentEntry key={comment.id} comment={comment} medium={medium}></CommentEntry>
                 })
             }
+            {comments.length >1 &&
             <button className="primaryButton" onClick={handleFetchComments}>
                 Zeige Mehr Kommentare
             </button>
+            }
+
         </React.Fragment>
      );
 }
