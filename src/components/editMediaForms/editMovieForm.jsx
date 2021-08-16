@@ -129,7 +129,6 @@ const EditMovieForm = () => {
         return res.json();
       })
       .then((data) => {
-        console.log(data);
         if (mediumPoster) {
           const formData = new FormData();
           formData.append("image", mediumPoster);
@@ -163,7 +162,6 @@ const EditMovieForm = () => {
         onChange={(e) => {
           handleSelectImage(e);
           setMediumPoster(e.target.files[0]);
-          console.log(e.target.files[0]);
         }}
       />
 

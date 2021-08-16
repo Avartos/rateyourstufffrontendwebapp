@@ -15,8 +15,6 @@ const Collection = ({ collection, mediumId = null }) => {
       tempMedia[2] = tempMedium;
     }
 
-    console.log(tempMedia);
-
     setMediaImages(
       tempMedia.map((medium) => {
         return medium.picturePath;

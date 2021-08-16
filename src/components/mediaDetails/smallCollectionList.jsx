@@ -19,7 +19,6 @@ const SmallCollectionList = ({ mediumId }) => {
       })
       .then((data) => {
         setCollections(data);
-        console.log(data);
       })
       .catch((err) => {
         console.error(err);

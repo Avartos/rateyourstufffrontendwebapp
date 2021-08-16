@@ -17,24 +17,6 @@ const AgeSelect = ({title, value, setter}) => {
       },
     };
   
-    const useStyles = makeStyles((theme) => ({
-      formControl: {
-        margin: theme.spacing(1),
-        minWidth: "100%",
-        maxWidth: 300,
-      },
-      chips: {
-        display: "flex",
-        flexWrap: "wrap",
-      },
-      chip: {
-        margin: 2,
-      },
-      noLabel: {
-        marginTop: theme.spacing(3),
-      },
-    }));
-  
     return ( 
         <FormControl className="formControl">
         <span className="label">{title}</span>

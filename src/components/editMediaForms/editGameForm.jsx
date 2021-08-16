@@ -65,7 +65,6 @@ const EditGameForm = () => {
         setPublisher(data.gamePublisherGamePublisherTitle);
         setPlatforms(data.platforms);
         setCurrentImage(`http://localhost:5000/${data.picturePath}`);
-        console.log(data);
       })
       .catch((error) => {
         history.push("/not_found");
@@ -192,7 +191,6 @@ const EditGameForm = () => {
         onChange={(e) => {
           handleSelectImage(e);
           setMediumPoster(e.target.files[0]);
-          console.log(e.target.files[0]);
         }}
       />
 
