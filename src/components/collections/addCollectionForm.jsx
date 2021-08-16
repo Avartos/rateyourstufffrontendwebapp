@@ -17,6 +17,7 @@ const AddCollectionForm = ({ handleCloseForm }) => {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        Authorization: sessionStorage.getItem("Bearer "),
       },
       body: JSON.stringify(collection),
     })

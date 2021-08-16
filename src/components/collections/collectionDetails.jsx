@@ -65,6 +65,7 @@ const CollectionDetails = () => {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
+        Authorization: sessionStorage.getItem("Bearer "),
       },
       body: JSON.stringify(updatedCollection),
     })
@@ -88,6 +89,7 @@ const CollectionDetails = () => {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
+        Authorization: sessionStorage.getItem("Bearer "),
       },
     })
     .then(res => {

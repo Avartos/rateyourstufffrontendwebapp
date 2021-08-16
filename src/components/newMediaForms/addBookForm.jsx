@@ -88,6 +88,7 @@ const AddBookForm = () => {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        Authorization: sessionStorage.getItem("Bearer "),
       },
       body: JSON.stringify(book),
     })
@@ -102,6 +103,9 @@ const AddBookForm = () => {
         formData.append("image", mediumPoster);
         fetch(`http://localhost:5000/rest/books/images/${data.id}`, {
           method: "POST",
+          headers: {
+            Authorization: sessionStorage.getItem("Bearer "),
+          },
           body: formData,
         })
           .then((response) => {
@@ -129,7 +133,7 @@ const AddBookForm = () => {
       onSubmit={(e) => handleSubmitForm(e)}
     >
       <span className="label">Poster</span>
-      <ImagePreview currentImage={currentImage}/>
+      <ImagePreview currentImage={currentImage} />
       <input
         type="file"
         onChange={(e) => {

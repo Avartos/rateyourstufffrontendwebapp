@@ -25,7 +25,7 @@ const EditEpisodeForm = () => {
   const [languageList, setLanguageList] = useState([]);
   const [currentImage, setCurrentImage] = useState("");
 
-  const [seriesTitle, setSeriesTitle] = useState('');
+  const [seriesTitle, setSeriesTitle] = useState("");
 
   const fetchEpisode = () => {
     fetch(`http://localhost:5000/rest/episodes/${id}`)
@@ -112,6 +112,7 @@ const EditEpisodeForm = () => {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
+        Authorization: sessionStorage.getItem("Bearer "),
       },
       body: JSON.stringify(episode),
     })
@@ -127,6 +128,9 @@ const EditEpisodeForm = () => {
           formData.append("image", mediumPoster);
           fetch(`http://localhost:5000/rest/episodes/images/${data.id}`, {
             method: "POST",
+            headers: {
+              Authorization: sessionStorage.getItem("Bearer "),
+            },
             body: formData,
           })
             .then((response) => {
@@ -149,7 +153,7 @@ const EditEpisodeForm = () => {
   return (
     <form className="addMediaForm" onSubmit={(e) => handleSubmitForm(e)}>
       <h2>{`${seriesTitle} >> Staffel ${seasonId}`}</h2>
-      
+
       <span className="label">Poster</span>
       <ImagePreview currentImage={currentImage} />
       <input
