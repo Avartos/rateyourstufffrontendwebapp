@@ -19,8 +19,8 @@ const SignUp = () => {
     const [passwordHashReference, setPasswordHashReference] = useState('')
     const [email, setEmail] = useState('example@rays.com');
     const [errorMessage, setErrorMessage] = useState('');
-    const [validUserStatus, setValidUserStatus] = useState(true)
-    const [validEmailStatus, setValidEmailStatus] = useState(true)
+    const [validUserStatus, setValidUserStatus] = useState('')
+    const [validEmailStatus, setValidEmailStatus] = useState('')
     const [roleName, setRole] = useState("User")
     const _router = useHistory();
 
@@ -29,8 +29,9 @@ const SignUp = () => {
      * @return true if email address isn´t currently taken, Status 418 if the email is currently stored in database.
      */
     function emailValidator() {
-        fetch(`http://localhost:5000/login/check/is=${email}`, {
-            method: 'GET', mode: 'no-cors'
+        fetch(`http://localhost:5000/login/check/`, {
+            method: 'POST',
+            body: email
         }).then((response) => {
             setValidEmailStatus(response.status === 418)
         }).catch(error => {
@@ -80,11 +81,11 @@ const SignUp = () => {
         const role = {roleName}
         const login = {email, passwordHash, isEnabled}
         const user = {firstName, gender, lastName, userName, login, role};
-        //emailValidator();
+        emailValidator();
         /**
          * Check if UserName and EmailStatus are valid values
          */
-        //userNameValidator();
+        userNameValidator();
         isValidPassword();
         console.log("validUserStatus" + validUserStatus + " / " + "validEmailStatus" + validEmailStatus);
 
