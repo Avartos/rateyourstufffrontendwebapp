@@ -51,6 +51,7 @@ const AddGameForm = ({handleAddMessage}) => {
         setter(data);
       })
       .catch((err) => {
+        handleAddMessage('error', 'Fehler', err.message);
         console.error(err);
       });
   };
@@ -117,8 +118,11 @@ const AddGameForm = ({handleAddMessage}) => {
       body: JSON.stringify(game),
     })
       .then((res) => {
-        if (!res.ok) {
-          throw Error;
+        if(res.status === 418) {
+          throw Error ('Das Medium existiert bereits');
+        }
+        else if (!res.ok) {
+          throw Error ('Unbekannter Fehler beim Anlegen des Mediums');
         }
         return res.json();
       })
@@ -146,7 +150,15 @@ const AddGameForm = ({handleAddMessage}) => {
   };
 
   const handleSelectImage = (event) => {
-    setCurrentImage(URL.createObjectURL(event.target.files[0]));
+    const file = event.target.files[0];
+    if(file.size/1024 >= 3000) {
+      handleAddMessage('error', 'Fehler', 'Bilder dürfen eine Dateigröße von 3MB nicht überschreiten!');
+    } else if(file.type !== 'image/png' && file.type !== 'image/jpeg' && file.type !== 'image/jpg') {
+      handleAddMessage('error', 'Fehler', 'Bitte laden Sie nur .jpg oder .png Dateien hoch!');
+    }
+    else {
+      setCurrentImage(URL.createObjectURL(event.target.files[0]));
+    }
   };
 
   return (

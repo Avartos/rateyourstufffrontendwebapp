@@ -8,7 +8,7 @@ import { Button } from "@material-ui/core";
 import ImagePreview from "../formComponents/imagePreview";
 import { useParams } from "react-router";
 
-const EditBookForm = () => {
+const EditBookForm = ({ handleAddMessage }) => {
   const [mediumName, setMediumName] = useState("");
   const [releaseDate, setReleaseDate] = useState("");
   const [description, setDescription] = useState("");
@@ -32,7 +32,7 @@ const EditBookForm = () => {
     fetch(`http://localhost:5000/rest/books/${id}`)
       .then((res) => {
         if (!res.ok) {
-          throw Error("unable to fetch book");
+          throw Error("Das gewünschte Buch kann nicht abgerufen werden.");
         }
         return res.json();
       })
@@ -53,6 +53,7 @@ const EditBookForm = () => {
         }
       })
       .catch((error) => {
+        handleAddMessage("error", "Fehler", error.message);
         history.push("/not_found");
         console.error(error);
       });
@@ -68,15 +69,17 @@ const EditBookForm = () => {
     fetch(targetUrl)
       .then((res) => {
         if (!res.ok) {
-          throw Error(`Unable to fetch ${title}`);
+          throw Error(`Fehler beim Abrufen von ${title}`);
         }
         return res.json();
       })
       .then((data) => {
         setter(data);
       })
-      .catch((err) => {
-        console.error(err);
+      .catch((error) => {
+        handleAddMessage("error", "Fehler", error.message);
+
+        console.error(error.message);
       });
   };
 
@@ -131,8 +134,10 @@ const EditBookForm = () => {
       body: JSON.stringify(book),
     })
       .then((res) => {
-        if (!res.ok) {
-          throw Error;
+        if (res.status === 418) {
+          throw Error("Das Medium existiert bereits");
+        } else if (!res.ok) {
+          throw Error("Unbekannter Fehler beim Anlegen des Mediums");
         }
         return res.json();
       })
@@ -149,27 +154,45 @@ const EditBookForm = () => {
           })
             .then((response) => {
               if (!response.ok) {
-                throw Error("An error occured while uploading the image");
+                throw Error("Fehler beim Upload des Bildes.");
               }
+              handleAddMessage(
+                "success",
+                "Aktualisiert",
+                "Das Buch wurde aktualisiert"
+              );
               history.push(`/detail/book/${data.id}`);
             })
             .catch((error) => {
+              handleAddMessage("error", "Fehler", error.message);
               console.error(error);
             });
+        } else {
+          handleAddMessage(
+            "success",
+            "Aktualisiert",
+            "Das Buch wurde aktualisiert"
+          );
+          history.push(`/detail/book/${data.id}`);
         }
       })
       .catch((error) => {
+        handleAddMessage("error", "Fehler", error.message);
         console.error(error);
       });
   };
 
   const handleSelectImage = (event) => {
-    setCurrentImage(URL.createObjectURL(event.target.files[0]));
+    const file = event.target.files[0];
+    if(file.size/1024 >= 3000) {
+      handleAddMessage('error', 'Fehler', 'Bilder dürfen eine Dateigröße von 3MB nicht überschreiten!');
+    } else if(file.type !== 'image/png' && file.type !== 'image/jpeg' && file.type !== 'image/jpg') {
+      handleAddMessage('error', 'Fehler', 'Bitte laden Sie nur .jpg oder .png Dateien hoch!');
+    }
+    else {
+      setCurrentImage(URL.createObjectURL(event.target.files[0]));
+    }
   };
-
-  useEffect(() => {
-    console.error(publisher);
-  }, [publisher]);
 
   return (
     <form
