@@ -7,6 +7,7 @@ import DefaultAutoComplete from "../formComponents/defaultAutoComplete";
 import { Button } from "@material-ui/core";
 import ImagePreview from "../formComponents/imagePreview";
 import { useParams } from "react-router";
+import isbnCheck from "../../core/isbnCheck";
 
 const EditBookForm = ({ handleAddMessage }) => {
   const [mediumName, setMediumName] = useState("");
@@ -46,6 +47,7 @@ const EditBookForm = ({ handleAddMessage }) => {
         setPicturePath(data.picturePath);
         setNumberOfPages(data.numberOfPages);
         setISBN(data.isbn);
+        handleCheckIfISBNIsValid(data.isbn);
         setIsEbook(data.isEbook);
         setIsPrint(data.isPrint);
         if (data.bookPublisherBookPublisherTitle) {
@@ -104,8 +106,16 @@ const EditBookForm = ({ handleAddMessage }) => {
     fetchBook();
   }, []);
 
+  const [isValidIsbn, setIsValidIsbn] = useState(false);
+
   const handleSubmitForm = (e) => {
     e.preventDefault();
+
+    if (!isValidIsbn) {
+      handleAddMessage("error", "Fehler", "Die eingegebene ISBN ist ungültig");
+      return;
+    }
+
     let book = {
       id: id,
       mediumName: mediumName,
@@ -182,14 +192,34 @@ const EditBookForm = ({ handleAddMessage }) => {
       });
   };
 
+  const handleCheckIfISBNIsValid = (isbn) => {
+    console.log("test");
+    if (isbnCheck.isValidISBN10(isbn) || isbnCheck.isValidISBN13(isbn)) {
+      setIsValidIsbn(true);
+    } else {
+      setIsValidIsbn(false);
+    }
+  };
+
   const handleSelectImage = (event) => {
     const file = event.target.files[0];
-    if(file.size/1024 >= 3000) {
-      handleAddMessage('error', 'Fehler', 'Bilder dürfen eine Dateigröße von 3MB nicht überschreiten!');
-    } else if(file.type !== 'image/png' && file.type !== 'image/jpeg' && file.type !== 'image/jpg') {
-      handleAddMessage('error', 'Fehler', 'Bitte laden Sie nur .jpg oder .png Dateien hoch!');
-    }
-    else {
+    if (file.size / 1024 >= 3000) {
+      handleAddMessage(
+        "error",
+        "Fehler",
+        "Bilder dürfen eine Dateigröße von 3MB nicht überschreiten!"
+      );
+    } else if (
+      file.type !== "image/png" &&
+      file.type !== "image/jpeg" &&
+      file.type !== "image/jpg"
+    ) {
+      handleAddMessage(
+        "error",
+        "Fehler",
+        "Bitte laden Sie nur .jpg oder .png Dateien hoch!"
+      );
+    } else {
       setCurrentImage(URL.createObjectURL(event.target.files[0]));
     }
   };
@@ -228,7 +258,16 @@ const EditBookForm = ({ handleAddMessage }) => {
         additionalOptions={{ multiline: true, rows: "10" }}
       />
 
-      <DefaultTextField title="ISBN" value={isbn} setter={setISBN} />
+      <DefaultTextField
+        title="ISBN"
+        value={isbn}
+        isError={!isValidIsbn}
+        helperText="Bitte gültige ISBN10 (Bsp.: 3-551-35405-7) oder ISBN13 (Bsp.: 978-3-5513-5405-1) eingeben"
+        setter={(isbn) => {
+          setISBN(isbn);
+          handleCheckIfISBNIsValid(isbn);
+        }}
+      />
 
       <DefaultTextField
         title="Seitenanzahl"

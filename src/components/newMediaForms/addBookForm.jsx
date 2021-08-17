@@ -7,8 +7,9 @@ import DefaultSelect from "../formComponents/defaultSelect";
 import DefaultAutoComplete from "../formComponents/defaultAutoComplete";
 import { Button } from "@material-ui/core";
 import ImagePreview from "../formComponents/imagePreview";
+import isbnCheck from "../../core/isbnCheck";
 
-const AddBookForm = ({handleAddMessage}) => {
+const AddBookForm = ({ handleAddMessage }) => {
   const [mediumName, setMediumName] = useState("");
   const [releaseDate, setReleaseDate] = useState("");
   const [description, setDescription] = useState("");
@@ -44,7 +45,7 @@ const AddBookForm = ({handleAddMessage}) => {
         setter(data);
       })
       .catch((err) => {
-        handleAddMessage('error', 'Fehler', err.message);
+        handleAddMessage("error", "Fehler", err.message);
         console.error(err);
       });
   };
@@ -71,6 +72,12 @@ const AddBookForm = ({handleAddMessage}) => {
 
   const handleSubmitForm = (e) => {
     e.preventDefault();
+    if(!isValidIsbn) {
+      handleAddMessage('error', 'Fehler', 'Die eingegebene ISBN ist ungültig');
+      return;
+    }
+
+    
     let book = {
       mediumName: mediumName,
       releaseDate: releaseDate,
@@ -94,11 +101,10 @@ const AddBookForm = ({handleAddMessage}) => {
       body: JSON.stringify(book),
     })
       .then((res) => {
-        if(res.status === 418) {
-          throw Error ('Das Medium existiert bereits');
-        }
-        else if (!res.ok) {
-          throw Error ('Unbekannter Fehler beim Anlegen des Mediums');
+        if (res.status === 418) {
+          throw Error("Das Medium existiert bereits");
+        } else if (!res.ok) {
+          throw Error("Unbekannter Fehler beim Anlegen des Mediums");
         }
         return res.json();
       })
@@ -114,31 +120,57 @@ const AddBookForm = ({handleAddMessage}) => {
         })
           .then((response) => {
             if (!response.ok) {
-              throw Error('Bildupload fehlgeschlagen');
+              throw Error("Bildupload fehlgeschlagen");
             }
-            handleAddMessage('success', 'Buch angelegt', 'Das neue Buch wurde erfolgreich angelegt.');
+            handleAddMessage(
+              "success",
+              "Buch angelegt",
+              "Das neue Buch wurde erfolgreich angelegt."
+            );
             history.push(`/detail/book/${data.id}`);
           })
           .catch((error) => {
-            handleAddMessage('error', 'Fehler', error.message);
+            handleAddMessage("error", "Fehler", error.message);
             console.error(error);
           });
       })
       .catch((error) => {
-        handleAddMessage('error', 'Fehler', error.message);
+        handleAddMessage("error", "Fehler", error.message);
         console.error(error);
       });
   };
 
   const handleSelectImage = (event) => {
     const file = event.target.files[0];
-    if(file.size/1024 >= 3000) {
-      handleAddMessage('error', 'Fehler', 'Bilder dürfen eine Dateigröße von 3MB nicht überschreiten!');
-    } else if(file.type !== 'image/png' && file.type !== 'image/jpeg' && file.type !== 'image/jpg') {
-      handleAddMessage('error', 'Fehler', 'Bitte laden Sie nur .jpg oder .png Dateien hoch!');
-    }
-    else {
+    if (file.size / 1024 >= 3000) {
+      handleAddMessage(
+        "error",
+        "Fehler",
+        "Bilder dürfen eine Dateigröße von 3MB nicht überschreiten!"
+      );
+    } else if (
+      file.type !== "image/png" &&
+      file.type !== "image/jpeg" &&
+      file.type !== "image/jpg"
+    ) {
+      handleAddMessage(
+        "error",
+        "Fehler",
+        "Bitte laden Sie nur .jpg oder .png Dateien hoch!"
+      );
+    } else {
       setCurrentImage(URL.createObjectURL(event.target.files[0]));
+    }
+  };
+
+  const [isValidIsbn, setIsValidIsbn] = useState(false);
+
+  const handleCheckIfISBNIsValid = (isbn) => {
+    console.log("test");
+    if (isbnCheck.isValidISBN10(isbn) || isbnCheck.isValidISBN13(isbn)) {
+      setIsValidIsbn(true);
+    } else {
+      setIsValidIsbn(false);
     }
   };
 
@@ -176,7 +208,16 @@ const AddBookForm = ({handleAddMessage}) => {
         additionalOptions={{ multiline: true, rows: "10" }}
       />
 
-      <DefaultTextField title="ISBN" value={isbn} setter={setISBN} />
+      <DefaultTextField
+        title="ISBN"
+        value={isbn}
+        isError={!isValidIsbn}
+        helperText="Bitte gültige ISBN10 (Bsp.: 3-551-35405-7) oder ISBN13 (Bsp.: 978-3-5513-5405-1) eingeben"
+        setter={(isbn) => {
+          setISBN(isbn);
+          handleCheckIfISBNIsValid(isbn);
+        }}
+      />
 
       <DefaultTextField
         title="Seitenanzahl"
@@ -216,7 +257,7 @@ const AddBookForm = ({handleAddMessage}) => {
         setter={setPublisher}
         targetValue={publisher}
       />
-      <Button variant="contained" color="primary" type="submit" >
+      <Button variant="contained" color="primary" type="submit">
         Buch hinzufügen
       </Button>
     </form>
