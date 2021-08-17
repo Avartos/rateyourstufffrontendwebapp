@@ -1,0 +1,19 @@
+@import "./variables";
+
+.messageListWrapper {
+  position: sticky;
+  right: 0;
+  top: 0;
+  width: 100%;
+  z-index: 9999;
+  .messageList {
+      position: absolute;
+    //   position: sticky;
+    top: $headerHeight/2 + 10px;
+    width: 300px;
+    right: 0;
+    .MuiAlert-root {
+      margin: 5px;
+    }
+  }
+}

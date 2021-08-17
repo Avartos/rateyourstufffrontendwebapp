@@ -25,26 +25,52 @@ const ChangeUserData = ({user}) => {
 
     const loginId = user.login.id;
 
-    /*function emailValidator() {
-        fetch(`http://localhost:5000/login/check/is=${email}`, {
-            method: 'GET', mode: 'no-cors'
-        }).then((response) => {
-            setValidEmailStatus(response.status === 418)
-        }).catch(error => {
-            setErrorMessage("Email bereits vergeben!")
+    /**
+     * Function is comparing a given email address from form with all stored email-addresses in database and
+     * @return true if email address isn´t currently taken, Status 418 if the email is currently stored in database.
+     */
+    const checkIsValidEmail = async () =>  {
+        console.log(email);
+        return fetch(`http://localhost:5000/login/check/`, {
+            method: "POST",
+            body: email,
         })
+            .then((response) => {
+                console.log('EMail ' + response.status);
+                if (!response.ok) {
+                    throw Error("Email bereits vergeben!");
+                }
+                setValidEmailStatus(true)
+                return true;
+            })
+            .catch((error) => {
+                setValidEmailStatus(false);
+                return true;
+            });
     }
 
-    function userNameValidator() {
-        fetch(`http://localhost:5000/user/check/is=${userName}`, {
-            method: 'GET'
-        }).then((response) => {
-            setValidUserStatus(response.status === 418)
-
-        }).catch(error => {
-            setErrorMessage("Username bereits vergeben!")
+    /**
+     * Function is comparing a given user name address from form with all stored user name in database and
+     * @return true if user name isn´t currently taken, Status 418 if the user name is currently stored in database.
+     */
+    const checkIsValidUserName = async () => {
+        console.log(userName);
+        return fetch(`http://localhost:5000/user/check/is=${userName}`, {
+            method: "GET",
         })
-    }*/
+            .then((response) => {
+                if (!response.ok) {
+                    throw Error("Username bereits vergeben!");
+                }
+                setValidUserStatus(true)
+                return true;
+            })
+            .catch((error) => {
+                setValidUserStatus(false)
+                setErrorMessage(error.message);
+                return false;
+            });
+    }
 
     /**
      * Function is checking if a password and his reference are eqal
@@ -52,53 +78,72 @@ const ChangeUserData = ({user}) => {
      * @param passwordHashReference from repeat password field of form
      * @returns {boolean} true if the both passwords are eqal
      */
-    // --- Functions
+        // --- Functions
     const validPassword = (passwordHash, passwordHashReference) => {
-        if (passwordHash === passwordHashReference) {
-            return true;
+            if (passwordHash === passwordHashReference) {
+                return true;
+            }
+            return false;
         }
-        return false;
-    }
-
 
 
     /**
      * This function should update the user data like User Name
      * @param e default event parameter
      */
-    const handleUserUpdate = (e) => {
+    const handleUserUpdate = async (e) => {
         e.preventDefault();
         const updatedUser = {id: user.id, firstName, lastName, gender, secondName, userName, login_id: loginId};
-
-        fetch('http://localhost:5000/user', {
-            method: 'PUT',
-            headers: {"Content-Type": "application/json"},
-            body: JSON.stringify(updatedUser)
-        }).then(() => {
-            console.log('User successfully updated');
-        })
-        console.log(user);
+        const isValidUsername = await checkIsValidUserName();
+        if (isValidUsername === true) {
+            fetch('http://localhost:5000/user', {
+                method: 'PUT',
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": sessionStorage.getItem("Bearer "),
+                },
+                body: JSON.stringify(updatedUser)
+            }).then((response) => {
+                if (!response.ok) {
+                    throw Error("Update des Profiles fehlgeschlagen!");
+                }
+            }).catch((error) => {
+                setErrorMessage(error.message);
+            });
+            console.log(user);
+        } else {
+            setErrorMessage("Username bereits vergeben!")
+        }
     }
 
     /**
      * This function should update all Account Data like Email and Password
      * @param e
      */
-    const handleAccountUpdate = (e) => {
+    const handleAccountUpdate = async (e) => {
         e.preventDefault();
-        const login = {id: user.login.id , isEnabled: user.login.isEnabled, email, passwordHash};
-        if (validPassword(passwordHash, passwordHashReference)){
+        const login = {id: user.login.id, isEnabled: user.login.isEnabled, email, passwordHash};
+        const isValidEmail = await checkIsValidEmail();
+        if (isValidEmail === true && validPassword(passwordHash, passwordHashReference)) {
             fetch('http://localhost:5000/login', {
                 method: 'PUT',
-                headers: {"Content-Type": "application/json"},
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": sessionStorage.getItem("Bearer "),
+                },
                 body: JSON.stringify(login)
-            }).then(() => {
+            }).then((response) => {
+                if(!response.ok){
+                    throw Error("Updaten der Account - Daten fehlgeschlagen!");
+                }
                 console.log('Account successfully updated');
-            })
+            }).catch(error => {
+                setErrorMessage(error.message);
+            });
             console.log(user);
         } else {
             console.log('Password Check failed');
-            setError('non similar passwords');
+            setError('Passwörter müssen identisch sein!');
         }
     }
 
@@ -106,21 +151,21 @@ const ChangeUserData = ({user}) => {
     return (
         <div className="changeUserData">
             <div className="userInformationDisplay">
-            {/*<h2>Here you can change User Data</h2>*/}
+                {/*<h2>Here you can change User Data</h2>*/}
                 <div className="userInformationBox">
                     <h2>Personal Data:</h2>
                     <form onSubmit={handleUserUpdate}>
                         <label>User Name</label>
                         <input className="dataChangeInput"
-                            type="test"
-                            value={userName}
-                            onChange={(e) => setUserName(e.target.value)}
+                               type="test"
+                               value={userName}
+                               onChange={(e) => setUserName(e.target.value)}
                         />
                         <label>First Name</label>
                         <input className="dataChangeInput"
-                            type="text"
-                            value={firstName}
-                            onChange={(e) => setFirstName(e.target.value)}
+                               type="text"
+                               value={firstName}
+                               onChange={(e) => setFirstName(e.target.value)}
                         />
                         {/* <label>Second Name</label>
                         <input className="dataChangeInput"
@@ -130,33 +175,33 @@ const ChangeUserData = ({user}) => {
                         /> */}
                         <label>Last Name</label>
                         <input className="dataChangeInput"
-                            type="text"
-                            value={lastName}
-                            onChange={(e) => setLastName(e.target.value)}
+                               type="text"
+                               value={lastName}
+                               onChange={(e) => setLastName(e.target.value)}
                         />
                         <button className="changeButton">Update Profile</button>
                     </form>
                 </div>
                 <div className="userInformationBox">
                     <h2>Security Data:</h2>
-                    <form onSubmit={(e) => handleAccountUpdate(e)}>
+                    <form onSubmit={handleAccountUpdate}>
                         <label>Email</label>
                         <input className="dataChangeInput"
-                            type="email"
-                            value={email}
-                            onChange={(e) => setEmail(this.target.value)}
+                               type="email"
+                               value={email}
+                               onChange={(e) => setEmail(e.target.value)}
                         />
                         <label>Password</label>
                         <input className="dataChangeInput"
-                            type="password"
-                            value={passwordHash}
-                            onChange={(e) => setPassword(e.target.value)}
+                               type="password"
+                               value={passwordHash}
+                               onChange={(e) => setPassword(e.target.value)}
                         />
                         <label>Repeat Password</label>
                         <input className="dataChangeInput"
-                            type="password"
-                            value={passwordHashReference}
-                            onChange={(e) => setPasswordReference(e.target.value)}
+                               type="password"
+                               value={passwordHashReference}
+                               onChange={(e) => setPasswordReference(e.target.value)}
                         />
                         <button className="changeButton">Save Password</button>
                         {error}

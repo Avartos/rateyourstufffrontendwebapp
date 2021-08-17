@@ -20,7 +20,8 @@ const UserPreview = ({user}) => {
 
     const handleDelete = (id) => {
         fetch(`http://localhost:5000/user/${user.id}`, {
-            method: 'DELETE', headers: {
+            method: 'DELETE',
+            headers: {
                 "Content-Type": "application/json",
                 "Authorization": sessionStorage.getItem("Bearer "),
             },

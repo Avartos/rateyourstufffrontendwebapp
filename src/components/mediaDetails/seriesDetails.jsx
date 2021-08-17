@@ -287,7 +287,6 @@ const SeriesDetails = () => {
             <div className="detailGroup">
             <span className="heading">Verwandte Sammlungen</span>
               <SmallCollectionList mediumId={id} />
-              {helper.isLoggedIn() && <AddMediumToCollectionForm mediumId={id}/>}   
             </div>
           </div>
         </div>

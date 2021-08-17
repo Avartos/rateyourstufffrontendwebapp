@@ -7,7 +7,7 @@ import DefaultTextField from "../formComponents/defaultTextField";
 import React from "react";
 import helper from "../../core/helper";
 
-const CollectionDetails = () => {
+const CollectionDetails = ({handleAddMessage}) => {
   const { id } = useParams();
 
   const [collection, setCollection] = useState(null);

@@ -7,8 +7,9 @@ import DefaultAutoComplete from "../formComponents/defaultAutoComplete";
 import { Button } from "@material-ui/core";
 import ImagePreview from "../formComponents/imagePreview";
 import { useParams } from "react-router";
+import isbnCheck from "../../core/isbnCheck";
 
-const EditBookForm = () => {
+const EditBookForm = ({ handleAddMessage }) => {
   const [mediumName, setMediumName] = useState("");
   const [releaseDate, setReleaseDate] = useState("");
   const [description, setDescription] = useState("");
@@ -32,7 +33,7 @@ const EditBookForm = () => {
     fetch(`http://localhost:5000/rest/books/${id}`)
       .then((res) => {
         if (!res.ok) {
-          throw Error("unable to fetch book");
+          throw Error("Das gewünschte Buch kann nicht abgerufen werden.");
         }
         return res.json();
       })
@@ -46,6 +47,7 @@ const EditBookForm = () => {
         setPicturePath(data.picturePath);
         setNumberOfPages(data.numberOfPages);
         setISBN(data.isbn);
+        handleCheckIfISBNIsValid(data.isbn);
         setIsEbook(data.isEbook);
         setIsPrint(data.isPrint);
         if (data.bookPublisherBookPublisherTitle) {
@@ -53,6 +55,7 @@ const EditBookForm = () => {
         }
       })
       .catch((error) => {
+        handleAddMessage("error", "Fehler", error.message);
         history.push("/not_found");
         console.error(error);
       });
@@ -68,15 +71,17 @@ const EditBookForm = () => {
     fetch(targetUrl)
       .then((res) => {
         if (!res.ok) {
-          throw Error(`Unable to fetch ${title}`);
+          throw Error(`Fehler beim Abrufen von ${title}`);
         }
         return res.json();
       })
       .then((data) => {
         setter(data);
       })
-      .catch((err) => {
-        console.error(err);
+      .catch((error) => {
+        handleAddMessage("error", "Fehler", error.message);
+
+        console.error(error.message);
       });
   };
 
@@ -101,8 +106,16 @@ const EditBookForm = () => {
     fetchBook();
   }, []);
 
+  const [isValidIsbn, setIsValidIsbn] = useState(false);
+
   const handleSubmitForm = (e) => {
     e.preventDefault();
+
+    if (!isValidIsbn) {
+      handleAddMessage("error", "Fehler", "Die eingegebene ISBN ist ungültig");
+      return;
+    }
+
     let book = {
       id: id,
       mediumName: mediumName,
@@ -131,8 +144,10 @@ const EditBookForm = () => {
       body: JSON.stringify(book),
     })
       .then((res) => {
-        if (!res.ok) {
-          throw Error;
+        if (res.status === 418) {
+          throw Error("Das Medium existiert bereits");
+        } else if (!res.ok) {
+          throw Error("Unbekannter Fehler beim Anlegen des Mediums");
         }
         return res.json();
       })
@@ -149,27 +164,65 @@ const EditBookForm = () => {
           })
             .then((response) => {
               if (!response.ok) {
-                throw Error("An error occured while uploading the image");
+                throw Error("Fehler beim Upload des Bildes.");
               }
+              handleAddMessage(
+                "success",
+                "Aktualisiert",
+                "Das Buch wurde aktualisiert"
+              );
               history.push(`/detail/book/${data.id}`);
             })
             .catch((error) => {
+              handleAddMessage("error", "Fehler", error.message);
               console.error(error);
             });
+        } else {
+          handleAddMessage(
+            "success",
+            "Aktualisiert",
+            "Das Buch wurde aktualisiert"
+          );
+          history.push(`/detail/book/${data.id}`);
         }
       })
       .catch((error) => {
+        handleAddMessage("error", "Fehler", error.message);
         console.error(error);
       });
   };
 
-  const handleSelectImage = (event) => {
-    setCurrentImage(URL.createObjectURL(event.target.files[0]));
+  const handleCheckIfISBNIsValid = (isbn) => {
+    console.log("test");
+    if (isbnCheck.isValidISBN10(isbn) || isbnCheck.isValidISBN13(isbn)) {
+      setIsValidIsbn(true);
+    } else {
+      setIsValidIsbn(false);
+    }
   };
 
-  useEffect(() => {
-    console.error(publisher);
-  }, [publisher]);
+  const handleSelectImage = (event) => {
+    const file = event.target.files[0];
+    if (file.size / 1024 >= 3000) {
+      handleAddMessage(
+        "error",
+        "Fehler",
+        "Bilder dürfen eine Dateigröße von 3MB nicht überschreiten!"
+      );
+    } else if (
+      file.type !== "image/png" &&
+      file.type !== "image/jpeg" &&
+      file.type !== "image/jpg"
+    ) {
+      handleAddMessage(
+        "error",
+        "Fehler",
+        "Bitte laden Sie nur .jpg oder .png Dateien hoch!"
+      );
+    } else {
+      setCurrentImage(URL.createObjectURL(event.target.files[0]));
+    }
+  };
 
   return (
     <form
@@ -205,7 +258,16 @@ const EditBookForm = () => {
         additionalOptions={{ multiline: true, rows: "10" }}
       />
 
-      <DefaultTextField title="ISBN" value={isbn} setter={setISBN} />
+      <DefaultTextField
+        title="ISBN"
+        value={isbn}
+        isError={!isValidIsbn}
+        helperText="Bitte gültige ISBN10 (Bsp.: 3-551-35405-7) oder ISBN13 (Bsp.: 978-3-5513-5405-1) eingeben"
+        setter={(isbn) => {
+          setISBN(isbn);
+          handleCheckIfISBNIsValid(isbn);
+        }}
+      />
 
       <DefaultTextField
         title="Seitenanzahl"

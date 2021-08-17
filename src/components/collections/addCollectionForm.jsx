@@ -3,7 +3,7 @@ import DefaultTextField from "../formComponents/defaultTextField";
 import { useState } from "react";
 import { Button } from "@material-ui/core";
 
-const AddCollectionForm = ({ handleCloseForm }) => {
+const AddCollectionForm = ({ handleCloseForm, handleAddMessage }) => {
   const [title, setTitle] = useState("");
 
   const handleSubmitForm = (e) => {

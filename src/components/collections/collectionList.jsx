@@ -13,7 +13,7 @@ const CollectionList = () => {
   const COLLECTIONS_PER_PAGE = 15;
   const [isCollectionFormVisible, setIsCollectionFormVisible] = useState(false);
 
-  const fetchCollections = () => {
+  const fetchCollections = ({handleAddMessage}) => {
     fetch(
       `http://localhost:5000/rest/collections/user/${helper.getUserId()}?size=${COLLECTIONS_PER_PAGE}&page=${currentPage}`
     )
