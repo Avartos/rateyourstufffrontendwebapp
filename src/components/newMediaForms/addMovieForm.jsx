@@ -7,7 +7,7 @@ import AgeSelect from "../formComponents/ageSelect";
 import { Button } from "@material-ui/core";
 import ImagePreview from "../formComponents/imagePreview";
 
-const AddMovieForm = () => {
+const AddMovieForm = ({handleAddMessage}) => {
   const [mediumName, setMediumName] = useState("");
   const [releaseDate, setReleaseDate] = useState("");
   const [description, setDescription] = useState("");
@@ -104,6 +104,7 @@ const AddMovieForm = () => {
           body: formData,
         })
           .then((response) => {
+            handleAddMessage('success', 'Buch angelegt', 'Das neue Buch wurde erfolgreich angelegt.');
             history.push(`/detail/movie/${data.id}`);
           })
           .catch((error) => {

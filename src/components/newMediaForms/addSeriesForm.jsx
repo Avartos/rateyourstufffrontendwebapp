@@ -8,7 +8,7 @@ import { Button } from "@material-ui/core";
 import DefaultCheckBox from "../formComponents/defaultCheckBox";
 import ImagePreview from "../formComponents/imagePreview";
 
-const AddSeriesForm = () => {
+const AddSeriesForm = ({handleAddMessage}) => {
   const [mediumName, setMediumName] = useState("");
   const [releaseDate, setReleaseDate] = useState("");
   const [description, setDescription] = useState("");
@@ -107,6 +107,7 @@ const AddSeriesForm = () => {
           body: formData,
         })
           .then((response) => {
+            handleAddMessage('success', 'Serie angelegt', 'Die neue Serie wurde erfolgreich angelegt.');
             history.push(`/detail/series/${data.id}`);
           })
           .catch((error) => {

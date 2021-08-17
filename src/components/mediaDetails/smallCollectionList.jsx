@@ -1,6 +1,9 @@
+import React from "react";
 import { useState } from "react";
 import { useEffect } from "react";
 import Collection from "../collections/collection";
+import authorization from "../../core/authorization";
+import AddMediumToCollectionForm from "../collections/addMediumToCollectionForm";
 
 const SmallCollectionList = ({ mediumId }) => {
   const [collections, setCollections] = useState([]);
@@ -28,11 +31,23 @@ const SmallCollectionList = ({ mediumId }) => {
   useEffect(fetchCollections, []);
 
   return (
-    <div className="smallCollectionList">
-      {collections.length >= 0 && collections.map((collection) => {
-        return <Collection key={collection.id} collection={collection} mediumId={mediumId}></Collection>;
-      })}
-    </div>
+    <React.Fragment>
+      <div className="smallCollectionList">
+        {collections.length >= 0 &&
+          collections.map((collection) => {
+            return (
+              <Collection
+                key={collection.id}
+                collection={collection}
+                mediumId={mediumId}
+              ></Collection>
+            );
+          })}
+      </div>
+      {authorization.isLoggedIn() && (
+        <AddMediumToCollectionForm mediumId={mediumId} handleUpdateCollectionData={fetchCollections} />
+      )}
+    </React.Fragment>
   );
 };
 

@@ -6,7 +6,7 @@ import { Button } from "@material-ui/core";
 import ImagePreview from "../formComponents/imagePreview";
 import { useParams } from "react-router";
 
-const AddEpisodeForm = () => {
+const AddEpisodeForm = ({handleAddMessage}) => {
   const [mediumName, setMediumName] = useState("");
   const [releaseDate, setReleaseDate] = useState("");
   const [description, setDescription] = useState("");
@@ -98,6 +98,7 @@ const AddEpisodeForm = () => {
           body: formData,
         })
           .then((response) => {
+            handleAddMessage('success', 'Buch angelegt', 'Das neue Buch wurde erfolgreich angelegt.');
             history.push(`/detail/episode/${data.id}`);
           })
           .catch((error) => {

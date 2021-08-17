@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import DefaultTextField from "../formComponents/defaultTextField";
 import { Button } from "@material-ui/core";
 
-const AddSeasonForm = ({ seriesId, handleHideSeasonForm }) => {
+const AddSeasonForm = ({ seriesId, handleHideSeasonForm, handleAddMessage }) => {
   const [seasonTitle, setSeasonTitle] = useState("");
   const [seasonNumber, setSeasonNumber] = useState(0);
 
@@ -29,6 +29,7 @@ const AddSeasonForm = ({ seriesId, handleHideSeasonForm }) => {
         }
       })
       .then(() => {
+        handleAddMessage('success', 'Staffel angelegt', 'Die neue Staffel wurde erfolgreich angelegt.');
         handleHideSeasonForm(false);
       })
       .catch((error) => {
