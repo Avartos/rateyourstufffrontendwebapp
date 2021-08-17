@@ -7,7 +7,7 @@ import DefaultTextField from "../formComponents/defaultTextField";
 import React from "react";
 import helper from "../../core/helper";
 
-const CollectionDetails = ({handleAddMessage}) => {
+const CollectionDetails = ({ handleAddMessage }) => {
   const { id } = useParams();
 
   const [collection, setCollection] = useState(null);
@@ -15,7 +15,7 @@ const CollectionDetails = ({handleAddMessage}) => {
   const [error, setError] = useState(null);
   const [media, setMedia] = useState([]);
   const [isEditModeActive, setIsEditModeActive] = useState(false);
-  const [collectionTitle, setCollectionTitle] = useState('');
+  const [collectionTitle, setCollectionTitle] = useState("");
 
   const fetchCollection = () => {
     fetch(`http://localhost:5000/rest/collections/${id}`)
@@ -31,7 +31,7 @@ const CollectionDetails = ({handleAddMessage}) => {
         fetch(`http://localhost:5000/rest/media/collection/${id}`)
           .then((res) => {
             if (!res.ok) {
-              throw Error("Unable to fetch Media");
+              throw Error("Fehler beim Abrufen der Medien");
             }
             return res.json();
           })
@@ -41,14 +41,16 @@ const CollectionDetails = ({handleAddMessage}) => {
           })
           .catch((error) => {
             setError(error);
+            handleAddMessage("error", "Fehler", error.message);
             setIsPending(false);
             console.error(error);
           });
       })
-      .catch((err) => {
+      .catch((error) => {
+        handleAddMessage("error", "Fehler", error.message);
         setError(error);
         setIsPending(false);
-        console.error(err);
+        console.error(error);
       });
   };
 
@@ -59,7 +61,7 @@ const CollectionDetails = ({handleAddMessage}) => {
     const updatedCollection = {
       title: collectionTitle,
       id: collection.id,
-    }
+    };
 
     fetch(`http://localhost:5000/rest/collections`, {
       method: "PUT",
@@ -69,56 +71,90 @@ const CollectionDetails = ({handleAddMessage}) => {
       },
       body: JSON.stringify(updatedCollection),
     })
-    .then(res => {
-      if(!res.ok) {
-        throw Error ('Unable to update collection');
-      }
-      return res.json();
-    })
-    .then(() => {
-      setIsEditModeActive(false);
-    })
-    .catch(err => {
-      console.error(err);
-    })
-  }
+      .then((res) => {
+        if (!res.ok) {
+          throw Error("Fehler beim Aktualisieren der Collection");
+        }
+        return res.json();
+      })
+      .then(() => {
+        setIsEditModeActive(false);
+      })
+      .catch((error) => {
+        handleAddMessage("error", "Fehler", error.message);
+        console.error(error);
+      });
+  };
 
   const handleDeleteMedium = (mediumId) => {
-    const medium = {id: mediumId};
-    fetch(`http://localhost:5000/rest/collections/${collection.id}/medium/${mediumId}`, {
-      method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: sessionStorage.getItem("Bearer "),
-      },
-    })
-    .then(res => {
-      if(!res.ok) {
-        throw Error ('Unable to update collection');
+    const medium = { id: mediumId };
+    fetch(
+      `http://localhost:5000/rest/collections/${collection.id}/medium/${mediumId}`,
+      {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: sessionStorage.getItem("Bearer "),
+        },
       }
-      return res.json();
-    })
-    .then((data) => {
-      fetchCollection();
-    })
-    .catch(err => {
-      console.error(err);
-    })
-  }
+    )
+      .then((res) => {
+        if (!res.ok) {
+          throw Error("Fehler beim Entfernen des Mediums");
+        }
+        return res.json();
+      })
+      .then((data) => {
+        fetchCollection();
+      })
+      .catch((error) => {
+        handleAddMessage("error", "Fehler", error.message);
+        console.error(error);
+      });
+  };
 
   return (
     <div className="collectionDetails">
       {!isPending && !error && (
         <div>
           {!isEditModeActive && <h2>"{collectionTitle}"</h2>}
-          {isEditModeActive && <DefaultTextField title="Bezeichnung" value={collectionTitle} setter={setCollectionTitle}/>}
+          {isEditModeActive && (
+            <DefaultTextField
+              title="Bezeichnung"
+              value={collectionTitle}
+              setter={setCollectionTitle}
+            />
+          )}
           <span>von {collection.userUserName}</span>
         </div>
       )}
 
-      {!isEditModeActive && (collection && collection.userId == helper.getUserId()) && <Button onClick={() => {setIsEditModeActive(true)}}>Bearbeiten</Button>}
-      {isEditModeActive && <Button onClick={handleSubmitChanges}>Neue Bezeichnung übernehmen</Button>}
-      {isEditModeActive && <Button onClick={() => {setIsEditModeActive(false); setCollectionTitle(collection.title)}}>Abbrechen</Button>}
+      {!isEditModeActive &&
+        collection &&
+        collection.userId == helper.getUserId() && (
+          <Button
+            onClick={() => {
+              setIsEditModeActive(true);
+            }}
+          >
+            Bearbeiten
+          </Button>
+        )}
+      {isEditModeActive && (
+        <Button onClick={handleSubmitChanges}>
+          Neue Bezeichnung übernehmen
+        </Button>
+      )}
+      {isEditModeActive && (
+        <Button
+          onClick={() => {
+            setIsEditModeActive(false);
+            setCollectionTitle(collection.title);
+          }}
+        >
+          Abbrechen
+        </Button>
+      )}
 
       {!isPending &&
         !error &&
@@ -126,13 +162,20 @@ const CollectionDetails = ({handleAddMessage}) => {
           return (
             <React.Fragment>
               <MediaEntry
-              medium={medium}
-              key={medium.id}
-              mediaType={medium.mediaType}
-            />
-            {isEditModeActive && <Button onClick={() => {handleDeleteMedium(medium.id)}}>{medium.mediumName} aus der Sammlung entfernen</Button>}
+                medium={medium}
+                key={medium.id}
+                mediaType={medium.mediaType}
+              />
+              {isEditModeActive && (
+                <Button
+                  onClick={() => {
+                    handleDeleteMedium(medium.id);
+                  }}
+                >
+                  {medium.mediumName} aus der Sammlung entfernen
+                </Button>
+              )}
             </React.Fragment>
-            
           );
         })}
     </div>

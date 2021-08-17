@@ -4,16 +4,29 @@ import { IconButton } from "@material-ui/core";
 import CloseIcon from "@material-ui/icons/Close";
 import { useEffect } from "react";
 import { useState } from "react";
+import { useRef } from "react";
 
 const Message = ({ message, handleRemoveMessage }) => {
   const [isVisible, setIsVisible] = useState(true);
+  const [autoClose, setAutoClose] = useState(() =>
+    setTimeout(() => {
+      fadeOutMessage();
+    }, 6000)
+  );
+
+  // useEffect(() => {
+  //   const timeout = ;
+  // }, []);
 
   useEffect(() => {
-    setIsVisible(true);
-  }, []);
+    if (!isVisible)
+      setTimeout(() => {
+        handleRemoveMessage(message.id);
+      }, 3000);
+  }, [isVisible]);
 
   const fadeOutMessage = () => {
-    handleRemoveMessage(message.id);
+    setIsVisible(false);
   };
 
   return (
