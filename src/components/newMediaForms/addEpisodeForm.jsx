@@ -19,7 +19,6 @@ const AddEpisodeForm = () => {
   const history = useHistory();
   const { id } = useParams();
 
-
   const [genreList, setGenreList] = useState([]);
   const [languageList, setLanguageList] = useState([]);
   const [currentImage, setCurrentImage] = useState("");
@@ -71,13 +70,14 @@ const AddEpisodeForm = () => {
       languageStrings: languages,
       genreStrings: genres,
       seasonMappingId: id,
-      episodeNumber: episodeNumber
+      episodeNumber: episodeNumber,
     };
 
     fetch("http://localhost:5000/rest/episodes/add", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        Authorization: sessionStorage.getItem("Bearer "),
       },
       body: JSON.stringify(episode),
     })
@@ -92,6 +92,9 @@ const AddEpisodeForm = () => {
         formData.append("image", mediumPoster);
         fetch(`http://localhost:5000/rest/episodes/images/${data.id}`, {
           method: "POST",
+          headers: {
+            Authorization: sessionStorage.getItem("Bearer "),
+          },
           body: formData,
         })
           .then((response) => {
@@ -113,7 +116,7 @@ const AddEpisodeForm = () => {
   return (
     <form className="addMediaForm" onSubmit={(e) => handleSubmitForm(e)}>
       <span className="label">Poster</span>
-      <ImagePreview currentImage={currentImage}/>
+      <ImagePreview currentImage={currentImage} />
       <input
         type="file"
         onChange={(e) => {
@@ -128,13 +131,12 @@ const AddEpisodeForm = () => {
         setter={setMediumName}
       />
 
-        <DefaultTextField 
-            title="Episodennummer"
-            value={episodeNumber}
-            setter={setEpisodeNumber}
-            type="number"
-        />
-
+      <DefaultTextField
+        title="Episodennummer"
+        value={episodeNumber}
+        setter={setEpisodeNumber}
+        type="number"
+      />
 
       <DefaultTextField
         title="Veröffentlicht am"

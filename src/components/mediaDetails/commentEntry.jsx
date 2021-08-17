@@ -5,12 +5,15 @@ import ReplyIcon from '@material-ui/icons/Reply';
 import EditCommentForm from "../comments/editCommentForm";
 import { useHistory } from "react-router";
 import NewSubCommentForm from "../comments/newSubCommentForm";
+import useFetch from "../../hooks/useFetch";
 
 const CommentEntry = ({comment, medium}) => {
     const [handleToggleEdit, setHandleToggleEdit] = useState(false);
     const [handleToggleSubComment, setHandleToggleSubComment] = useState(false);
     const [handleError, setHandleError] = useState(null);
     const history = useHistory();
+
+    
 
     const handleEditComment = (e, body, currentUser, mediumToComment, postNumbers, commentId) => {
         e.preventDefault();
@@ -23,16 +26,18 @@ const CommentEntry = ({comment, medium}) => {
             mediumMappingId: mediumToComment,
         };
 
+        console.log(updatedComment);
+
         fetch(`http://localhost:5000/rest/comments`, {
             method: "PUT",
-            headers: { "Content-Type": "application/json" },
+            headers: { "Content-Type": "application/json",
+                "Authorization": sessionStorage.getItem("Bearer ")},
             body: JSON.stringify(updatedComment),
         })
             .then((data) => {
-                console.log(data);
                 setHandleToggleEdit(false);
                 //Reload page, to get actual average rating
-                history.go();
+                // history.go();
             })
             .catch((error) => {
                 setHandleError(
@@ -55,14 +60,15 @@ const CommentEntry = ({comment, medium}) => {
 
         fetch(`http://localhost:5000/rest/comments/add`, {
             method: "POST",
-            headers: { "Content-Type": "application/json" },
+            headers: { "Content-Type": "application/json",
+                "Authorization": sessionStorage.getItem("Bearer ")},
             body: JSON.stringify(newSubComment),
         })
             .then((data) => {
                 console.log(data);
                 setHandleToggleSubComment(false);
                 //Reload page, to get actual average rating
-                history.go();
+                // history.go();
             })
             .catch((error) => {
                 setHandleError(
@@ -71,11 +77,12 @@ const CommentEntry = ({comment, medium}) => {
             });
     };
 
-
     return (
         <React.Fragment>
             <h3>{comment.userUserName}</h3>
             <label>{comment.textOfComment}</label>
+
+            {comment.userId == sessionStorage.getItem("id") &&
             <CreateIcon className="editAndReplyButton" onClick={() => {
                 setHandleToggleEdit(!handleToggleEdit);
                 if (handleToggleEdit === true) {
@@ -83,6 +90,7 @@ const CommentEntry = ({comment, medium}) => {
                 }
             }}>
             </CreateIcon>
+            }
 
             <ReplyIcon className="editAndReplyButton" onClick={() => {
                 setHandleToggleSubComment(!handleToggleSubComment);
@@ -91,6 +99,7 @@ const CommentEntry = ({comment, medium}) => {
                 }
             }}>
             </ReplyIcon>
+
 
             {handleToggleEdit &&(
             <EditCommentForm handleEditComment={handleEditComment} comment={comment} medium={medium}/>

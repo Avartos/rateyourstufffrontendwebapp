@@ -47,7 +47,7 @@ function App() {
   
 
   return (
-    <Router>
+    <Router basename={"rateyourstufffrontendwebapp"}>
       <div className="App">
         <HeaderBar />
         <Switch>
@@ -66,6 +66,7 @@ function App() {
           {authorization.isAdmin() && <Route path="/adminpanel"><AdminPanel/></Route>}
           {authorization.isUser() && <Route path="/userPanel"><UserPanel/></Route>}
           {!authorization.isLoggedIn() && <Route path="/login"><Login/></Route>}
+          {authorization.isLoggedIn() && <Route path="/login"><WelcomePage/></Route>}
 
           {/* Media Creation */}
 

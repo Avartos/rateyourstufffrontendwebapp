@@ -6,7 +6,6 @@ const NewCommentForm = ({handleSubmitFormComment, medium}) =>{
     const [error, setError] = useState(null);
 
     return (
-
         <div className="newCommentForm">
             <form className="detailField"
                   onSubmit={(e) => {

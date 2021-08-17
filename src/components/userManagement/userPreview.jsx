@@ -1,4 +1,5 @@
 import Switch from '../../components/switch';
+import {useState} from "react";
 
 /**
  * Component shows the User data of all users in database
@@ -8,11 +9,15 @@ import Switch from '../../components/switch';
  * @return {JSX.Element}
  * @constructor
  */
+
 const UserPreview = ({user}) => {
     /**
      * Function consumes the id of chosen user and is sending a delete request to backend
      * @param id
      */
+
+    const { login, setLogin } = useState(user.login);
+
     const handleDelete = (id) => {
         fetch(`http://localhost:5000/user/${user.id}`, {
             method: 'DELETE', headers: {
@@ -25,6 +30,7 @@ const UserPreview = ({user}) => {
             console.log(error);
         })
     }
+    console.log({login});
     //TODO loginRoles (dropdown w. checkboxes...)n
     return (
         <div className="user-preview">
@@ -33,8 +39,8 @@ const UserPreview = ({user}) => {
                     <th>{user.id}</th>
                     <th>{user.firstName + ' ' + user.lastName}</th>
                     <th>{user.userName}</th>
-                    <th>{user.login.email}</th>
-                    <th><Switch />{user.login.isEnabled}</th>
+                    <th>{login.email}</th>
+                    <th><Switch />{login.isEnabled}</th>
                     <th><div className="deleteButton"><button onClick={() => handleDelete(user.id)}>Delete</button></div></th>
                     
                 

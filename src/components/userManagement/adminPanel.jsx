@@ -8,6 +8,7 @@ import UserPreview from "./userPreview";
  */
 const AdminPanel = () => {
     const {data: users, isPending, error} = useFetch("http://localhost:5000/user/all");
+
     return (
         <div className="adminPanel">
             <h2>User Management:</h2>
@@ -25,7 +26,6 @@ const AdminPanel = () => {
                 <div className="userDisplay">
                     {!isPending && users != null
                     && users.map((user) => {
-                        console.log("User" + user);
                         return <UserPreview user={user} key={user.id}/>
                     })
                     }

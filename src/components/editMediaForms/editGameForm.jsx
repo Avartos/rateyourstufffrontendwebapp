@@ -148,6 +148,7 @@ const EditGameForm = () => {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
+        Authorization: sessionStorage.getItem("Bearer "),
       },
       body: JSON.stringify(game),
     })
@@ -163,6 +164,9 @@ const EditGameForm = () => {
           formData.append("image", mediumPoster);
           fetch(`http://localhost:5000/rest/games/images/${data.id}`, {
             method: "POST",
+            headers: {
+              Authorization: sessionStorage.getItem("Bearer "),
+            },
             body: formData,
           })
             .then((response) => {
