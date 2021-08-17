@@ -1,8 +1,8 @@
 {
   "files": {
     "main.css": "/rateyourstufffrontendwebapp/static/css/main.fbdec5ac.chunk.css",
-    "main.js": "/rateyourstufffrontendwebapp/static/js/main.fd4ec68f.chunk.js",
-    "main.js.map": "/rateyourstufffrontendwebapp/static/js/main.fd4ec68f.chunk.js.map",
+    "main.js": "/rateyourstufffrontendwebapp/static/js/main.b8869aec.chunk.js",
+    "main.js.map": "/rateyourstufffrontendwebapp/static/js/main.b8869aec.chunk.js.map",
     "runtime-main.js": "/rateyourstufffrontendwebapp/static/js/runtime-main.8f5b71d9.js",
     "runtime-main.js.map": "/rateyourstufffrontendwebapp/static/js/runtime-main.8f5b71d9.js.map",
     "static/js/2.781fac62.chunk.js": "/rateyourstufffrontendwebapp/static/js/2.781fac62.chunk.js",
@@ -29,6 +29,6 @@
     "static/js/runtime-main.8f5b71d9.js",
     "static/js/2.781fac62.chunk.js",
     "static/css/main.fbdec5ac.chunk.css",
-    "static/js/main.fd4ec68f.chunk.js"
+    "static/js/main.b8869aec.chunk.js"
   ]
 }
