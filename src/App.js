@@ -93,7 +93,7 @@ function App() {
           <Route exact path="/searchResults"><SearchResultList /></Route>
           {!authorization.isLoggedIn() && <Route path="/signup"><SignUp handleAddMessage={handleAddMessage}/></Route>}
           {authorization.isAdmin() && <Route path="/adminpanel"><AdminPanel handleAddMessage={handleAddMessage}/></Route>}
-          {authorization.isUser() && <Route path="/userPanel"><UserPanel handleAddMessage={handleAddMessage}/></Route>}
+          {authorization.isUser() && <Route path="/myAccount"><UserPanel handleAddMessage={handleAddMessage}/></Route>}
           {!authorization.isLoggedIn() && <Route path="/login"><Login handleAddMessage={handleAddMessage}/></Route>}
           {authorization.isLoggedIn() && <Route path="/login"><WelcomePage handleAddMessage={handleAddMessage}/></Route>}
 

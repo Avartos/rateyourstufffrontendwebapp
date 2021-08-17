@@ -94,8 +94,8 @@ const ChangeUserData = ({user}) => {
     const handleUserUpdate = async (e) => {
         e.preventDefault();
         const updatedUser = {id: user.id, firstName, lastName, gender, secondName, userName, login_id: loginId};
-        const isValidUsername = await checkIsValidUserName();
-        if (isValidUsername === true) {
+        //const isValidUsername = await checkIsValidUserName();
+        //if (isValidUsername === true) {
             fetch('http://localhost:5000/user', {
                 method: 'PUT',
                 headers: {
@@ -111,10 +111,10 @@ const ChangeUserData = ({user}) => {
                 setErrorMessage(error.message);
             });
             console.log(user);
-        } else {
-            setErrorMessage("Username bereits vergeben!")
-        }
-    }
+        //} else {
+        //    setErrorMessage("Username bereits vergeben!")
+   //     }
+   }
 
     /**
      * This function should update all Account Data like Email and Password
@@ -123,8 +123,8 @@ const ChangeUserData = ({user}) => {
     const handleAccountUpdate = async (e) => {
         e.preventDefault();
         const login = {id: user.login.id, isEnabled: user.login.isEnabled, email, passwordHash};
-        const isValidEmail = await checkIsValidEmail();
-        if (isValidEmail === true && validPassword(passwordHash, passwordHashReference)) {
+        //const isValidEmail = await checkIsValidEmail();
+        if (validPassword(passwordHash, passwordHashReference)) {
             fetch('http://localhost:5000/login', {
                 method: 'PUT',
                 headers: {
@@ -140,7 +140,7 @@ const ChangeUserData = ({user}) => {
             }).catch(error => {
                 setErrorMessage(error.message);
             });
-            console.log(user);
+            //console.log(user);
         } else {
             console.log('Password Check failed');
             setError('Passwörter müssen identisch sein!');
@@ -159,6 +159,7 @@ const ChangeUserData = ({user}) => {
                         <input className="dataChangeInput"
                                type="test"
                                value={userName}
+                               readOnly
                                onChange={(e) => setUserName(e.target.value)}
                         />
                         <label>First Name</label>
