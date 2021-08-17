@@ -2,7 +2,11 @@ import React, { useState, useEffect } from "react";
 import DefaultTextField from "../formComponents/defaultTextField";
 import { Button } from "@material-ui/core";
 
-const AddSeasonForm = ({ seriesId, handleHideSeasonForm, handleAddMessage }) => {
+const AddSeasonForm = ({
+  seriesId,
+  handleHideSeasonForm,
+  handleAddMessage,
+}) => {
   const [seasonTitle, setSeasonTitle] = useState("");
   const [seasonNumber, setSeasonNumber] = useState(0);
 
@@ -24,12 +28,18 @@ const AddSeasonForm = ({ seriesId, handleHideSeasonForm, handleAddMessage }) => 
       body: JSON.stringify(season),
     })
       .then((res) => {
-        if (!res.ok) {
-          throw Error("Unable to add new Season");
+        if (res.status === 418) {
+          throw Error("Das Medium existiert bereits");
+        } else if (!res.ok) {
+          throw Error("Unbekannter Fehler beim Anlegen des Mediums");
         }
       })
       .then(() => {
-        handleAddMessage('success', 'Staffel angelegt', 'Die neue Staffel wurde erfolgreich angelegt.');
+        handleAddMessage(
+          "success",
+          "Staffel angelegt",
+          "Die neue Staffel wurde erfolgreich angelegt."
+        );
         handleHideSeasonForm(false);
       })
       .catch((error) => {
