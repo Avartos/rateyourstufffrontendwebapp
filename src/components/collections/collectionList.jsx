@@ -4,9 +4,13 @@ import { useEffect } from "react";
 import Collection from "./collection";
 import React from "react";
 import { Button } from "@material-ui/core";
-import { useHistory } from "react-router-dom";
 import AddCollectionForm from "./addCollectionForm";
 
+/**
+ * This component can be used to display all collections of a certain user
+ * @param {*} param0 
+ * @returns 
+ */
 const CollectionList = ({ handleAddMessage }) => {
   const [collections, setCollections] = useState([]);
   const [currentPage, setCurrentPage] = useState(0);

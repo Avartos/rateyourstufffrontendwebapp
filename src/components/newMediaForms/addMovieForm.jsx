@@ -7,6 +7,11 @@ import AgeSelect from "../formComponents/ageSelect";
 import { Button } from "@material-ui/core";
 import ImagePreview from "../formComponents/imagePreview";
 
+/**
+ * This component can be used to add a new movie to the database
+ * @param {*} param0 
+ * @returns 
+ */
 const AddMovieForm = ({ handleAddMessage }) => {
   const [mediumName, setMediumName] = useState("");
   const [releaseDate, setReleaseDate] = useState("");

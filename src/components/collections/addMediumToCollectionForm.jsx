@@ -6,10 +6,13 @@ import { Autocomplete } from "@material-ui/lab";
 import { TextField } from "@material-ui/core";
 import React from "react";
 
+/**
+ * This component can be used to add a new medium to an existing collection
+ * @param {*} param0 
+ * @returns 
+ */
 const AddMediumToCollectionForm = ({ mediumId, handleUpdateCollectionData, handleAddMessage }) => {
   const [collections, setCollections] = useState([]);
-  const [isAddToCollectionVisible, setIsAddToCollectionVisible] =
-    useState(false);
 
   const [currentCollection, setCurrentCollection] = useState(null);
 

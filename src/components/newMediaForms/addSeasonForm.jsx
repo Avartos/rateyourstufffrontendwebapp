@@ -1,7 +1,12 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import DefaultTextField from "../formComponents/defaultTextField";
 import { Button } from "@material-ui/core";
 
+/**
+ * This component can be used to add a new movie to the database
+ * @param {*} param0 
+ * @returns 
+ */
 const AddSeasonForm = ({
   seriesId,
   handleHideSeasonForm,

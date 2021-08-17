@@ -1,6 +1,12 @@
 import React, { useState, useEffect } from "react";
 import MediaEntry from "../welcomePage/mediaEntry";
 
+/**
+ * This component is used to list media.
+ * It offers a button to load more media, if there is more than the specified amount of media per page
+ * @param {*} param0
+ * @returns
+ */
 const MediaList = ({ urlPath, title, mediaType, handleAddMessage }) => {
   const [media, setMedia] = useState([]);
   const [isPending, setIsPending] = useState(true);
@@ -32,7 +38,7 @@ const MediaList = ({ urlPath, title, mediaType, handleAddMessage }) => {
       })
       .catch((error) => {
         console.error(error);
-        handleAddMessage('error', 'Fehler', error.message);
+        handleAddMessage("error", "Fehler", error.message);
       });
   };
 
@@ -62,7 +68,9 @@ const MediaList = ({ urlPath, title, mediaType, handleAddMessage }) => {
       </div>
 
       {!isPending && buttonIsVisible && (
-        <button className="primaryButton" onClick={handleLoadMore}>Mehr Laden...</button>
+        <button className="primaryButton" onClick={handleLoadMore}>
+          Mehr Laden...
+        </button>
       )}
     </div>
   );

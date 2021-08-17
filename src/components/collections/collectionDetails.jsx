@@ -8,6 +8,11 @@ import React from "react";
 import helper from "../../core/helper";
 import { useHistory } from "react-router";
 
+/**
+ * This component can be used to view and edit the details of an existing collection
+ * @param {*} param0 
+ * @returns 
+ */
 const CollectionDetails = ({ handleAddMessage }) => {
   const { id } = useParams();
 
@@ -89,7 +94,6 @@ const CollectionDetails = ({ handleAddMessage }) => {
   };
 
   const handleDeleteMedium = (mediumId) => {
-    const medium = { id: mediumId };
     fetch(
       `http://localhost:5000/rest/collections/${collection.id}/medium/${mediumId}`,
       {
@@ -116,8 +120,8 @@ const CollectionDetails = ({ handleAddMessage }) => {
   };
 
   const handleDeleteCollection = () => {
-    fetch(`http://localhost:5000/rest/collections/${collection.id}`,{
-      method: 'DELETE',
+    fetch(`http://localhost:5000/rest/collections/${collection.id}`, {
+      method: "DELETE",
       headers: {
         Authorization: sessionStorage.getItem("Bearer "),
       },

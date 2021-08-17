@@ -6,6 +6,11 @@ import { Button } from "@material-ui/core";
 import ImagePreview from "../formComponents/imagePreview";
 import { useParams } from "react-router";
 
+/**
+ * This component is used to add a new component to the database
+ * @param {*} param0 
+ * @returns 
+ */
 const AddEpisodeForm = ({handleAddMessage}) => {
   const [mediumName, setMediumName] = useState("");
   const [releaseDate, setReleaseDate] = useState("");

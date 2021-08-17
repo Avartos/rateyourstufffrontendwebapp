@@ -4,6 +4,11 @@ import { Button } from "@material-ui/core";
 import { useParams } from "react-router";
 import { useHistory } from "react-router";
 
+/**
+ * This component can be used to edit a season from the database
+ * @param {*} param0 
+ * @returns 
+ */
 const EditSeasonForm = ({handleAddMessage}) => {
   const [seasonTitle, setSeasonTitle] = useState("");
   const [seasonNumber, setSeasonNumber] = useState(0);

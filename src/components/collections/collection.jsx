@@ -2,6 +2,11 @@ import { useState } from "react";
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
 
+/**
+ * This component represents a single media collection
+ * @param {*} param0 
+ * @returns 
+ */
 const Collection = ({ collection, mediumId = null }) => {
   const [mediaImages, setMediaImages] = useState([]);
   const prepareMediaImages = () => {

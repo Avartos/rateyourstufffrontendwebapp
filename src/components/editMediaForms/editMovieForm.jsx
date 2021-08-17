@@ -8,6 +8,11 @@ import { Button } from "@material-ui/core";
 import ImagePreview from "../formComponents/imagePreview";
 import { useParams } from "react-router";
 
+/**
+ * This component can be used to edit a movie from the database
+ * @param {*} param0 
+ * @returns 
+ */
 const EditMovieForm = ({handleAddMessage}) => {
   const [mediumName, setMediumName] = useState("");
   const [releaseDate, setReleaseDate] = useState("");

@@ -4,8 +4,13 @@ import { IconButton } from "@material-ui/core";
 import CloseIcon from "@material-ui/icons/Close";
 import { useEffect } from "react";
 import { useState } from "react";
-import { useRef } from "react";
 
+/**
+ * This component is a message that can be displayed a the top right corner of the screen
+ * A Message can be either closed automatically or will close after a certain amount of time
+ * @param {*} param0
+ * @returns
+ */
 const Message = ({ message, handleRemoveMessage }) => {
   const [isVisible, setIsVisible] = useState(true);
   const [autoClose, setAutoClose] = useState(() =>
