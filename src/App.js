@@ -31,6 +31,7 @@ import EditBookForm from "./components/editMediaForms/editBookForm";
 import EditGameForm from "./components/editMediaForms/editGameForm";
 import EditSeriesForm from "./components/editMediaForms/editSeriesForm";
 import EditEpisodeForm from "./components/editMediaForms/editEpisodeForm"
+import { useState } from "react";
 
 import EditSeasonForm from "./components/editMediaForms/editSeasonForm";
 import AddCollectionForm from "./components/collections/addCollectionForm";
@@ -39,8 +40,12 @@ import CollectionList from "./components/collections/collectionList";
 import helper from "./core/helper";
 
 function App() {
+
+  const [messages, setMessages] = useState([]);
+  
+
   return (
-    <Router>
+    <Router basename={"rateyourstufffrontendwebapp"}>
       <div className="App">
         <HeaderBar />
         <Switch>
@@ -57,6 +62,7 @@ function App() {
           {authorization.isAdmin() && <Route path="/adminpanel"><AdminPanel/></Route>}
           {authorization.isUser() && <Route path="/userPanel"><UserPanel/></Route>}
           {!authorization.isLoggedIn() && <Route path="/login"><Login/></Route>}
+          {authorization.isLoggedIn() && <Route path="/login"><WelcomePage/></Route>}
 
           {/* Media Creation */}
 

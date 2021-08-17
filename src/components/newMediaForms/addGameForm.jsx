@@ -105,13 +105,14 @@ const AddGameForm = () => {
       platformStrings: platforms,
       minNumberOfGamers: minNumberOfPlayers,
       maxNumberOfGamers: maxNumberOfPlayers,
-      publisherTitle: publisher
+      publisherTitle: publisher,
     };
 
     fetch("http://localhost:5000/rest/games/add", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        Authorization: sessionStorage.getItem("Bearer "),
       },
       body: JSON.stringify(game),
     })
@@ -126,6 +127,9 @@ const AddGameForm = () => {
         formData.append("image", mediumPoster);
         fetch(`http://localhost:5000/rest/games/images/${data.id}`, {
           method: "POST",
+          headers: {
+            Authorization: sessionStorage.getItem("Bearer "),
+          },
           body: formData,
         })
           .then((response) => {
@@ -153,7 +157,6 @@ const AddGameForm = () => {
         onChange={(e) => {
           handleSelectImage(e);
           setMediumPoster(e.target.files[0]);
-          console.log(e.target.files[0]);
         }}
       />
 
@@ -173,7 +176,7 @@ const AddGameForm = () => {
         title="Kurzbeschreibung"
         value={description}
         setter={setDescription}
-        additionalOptions={{ multiline: "multiline", rows: "10" }}
+        additionalOptions={{ multiline: true, rows: "10" }}
       />
 
       <DefaultTextField

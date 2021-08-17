@@ -51,7 +51,6 @@ const EditBookForm = () => {
         if (data.bookPublisherBookPublisherTitle) {
           setPublisher(data.bookPublisherBookPublisherTitle);
         }
-        console.log(data);
       })
       .catch((error) => {
         history.push("/not_found");
@@ -127,6 +126,7 @@ const EditBookForm = () => {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
+        Authorization: sessionStorage.getItem("Bearer "),
       },
       body: JSON.stringify(book),
     })
@@ -142,6 +142,9 @@ const EditBookForm = () => {
           formData.append("image", mediumPoster);
           fetch(`http://localhost:5000/rest/books/images/${data.id}`, {
             method: "POST",
+            headers: {
+              Authorization: sessionStorage.getItem("Bearer "),
+            },
             body: formData,
           })
             .then((response) => {
@@ -151,7 +154,7 @@ const EditBookForm = () => {
               history.push(`/detail/book/${data.id}`);
             })
             .catch((error) => {
-              console.log(error);
+              console.error(error);
             });
         }
       })
@@ -165,7 +168,7 @@ const EditBookForm = () => {
   };
 
   useEffect(() => {
-    console.log(publisher);
+    console.error(publisher);
   }, [publisher]);
 
   return (
@@ -180,7 +183,6 @@ const EditBookForm = () => {
         onChange={(e) => {
           handleSelectImage(e);
           setMediumPoster(e.target.files[0]);
-          console.log(e.target.files[0]);
         }}
       />
 

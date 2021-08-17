@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import useFetch from "../../hooks/useFetch";
 import { useParams } from "react-router-dom";
 import ReadOnlyRating from "../rating/readOnlyRating";
@@ -34,43 +34,68 @@ const BookDetails = () => {
   const [ratingCount, setRatingCount] = useState(0);
   const [commentCount, setCommentCount] = useState(0);
 
-  const fetchRatingCount=() =>{
+  const fetchRatingCount = () => {
     fetch(`http://localhost:5000/rest/ratings/count/${id}`)
-        .then ( res => {
-              if (!res.ok){
-                throw Error("unable to fetch ratingcounts");
-              }
-              return res.json()
-            }
-        )
-        .then (data => {
-          setRatingCount(data);
-        })
-        .catch (error => {
-          console.error(error);
-        })
-  }
-  useEffect(fetchRatingCount,[]);
+      .then((res) => {
+        if (!res.ok) {
+          throw Error("unable to fetch ratingcounts");
+        }
+        return res.json();
+      })
+      .then((data) => {
+        setRatingCount(data);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
+  useEffect(fetchRatingCount, []);
 
-  const fetchCommentCount=() =>{
+  const fetchCommentCount = () => {
     fetch(`http://localhost:5000/rest/comments/count/${id}`)
-        .then ( res => {
-              if (!res.ok){
-                throw Error("unable to fetch commentcounts");
-              }
-              return res.json()
-            }
-        )
-        .then (data => {
-          setCommentCount(data);
-        })
-        .catch (error => {
-          console.error(error);
-        })
-  }
-  useEffect(fetchCommentCount,[]);
+      .then((res) => {
+        if (!res.ok) {
+          throw Error("unable to fetch commentcounts");
+        }
+        return res.json();
+      })
+      .then((data) => {
+        setCommentCount(data);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
+  useEffect(fetchCommentCount, []);
 
+  const handleSubmitFormComment = (e, body, currentUser, mediumToComment) => {
+    e.preventDefault();
 
+    let newComment = {
+      textOfComment: body,
+      numberOfPosts: 0,
+      userMappingId: currentUser,
+      mediumMappingId: mediumToComment,
+    };
+
+    fetch(`http://localhost:5000/rest/comments/add`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json",
+        "Authorization": sessionStorage.getItem("Bearer "),},
+      body: JSON.stringify(newComment),
+    })
+      .then((data) => {
+        console.log(data);
+        setHandleToggleComment(false);
+        //Reload page, to get actual average rating
+        // history.go();
+      })
+      .catch((error) => {
+        setHandleError(
+          "Das Formular konnte nicht abgeschickt werden (" + handleError + ")"
+        );
+      });
+  };
 
   const handleSubmitFormRating = (
     e,
@@ -89,18 +114,16 @@ const BookDetails = () => {
       givenPoints: valueRate * 2,
     };
 
-    console.log(newRate);
-
     fetch(`http://localhost:5000/rest/ratings/add`, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: { "Content-Type": "application/json",
+        "Authorization": sessionStorage.getItem("Bearer "),},
       body: JSON.stringify(newRate),
     })
       .then((data) => {
-        console.log(data);
         setHandleToggleRating(false);
         //Reload page, to get actual average rating
-        history.go();
+        // history.go();
         //    fetchRatings();
       })
       .catch((error) => {
@@ -109,35 +132,6 @@ const BookDetails = () => {
         );
       });
   };
-
-  const handleSubmitFormComment = (e, body, currentUser, mediumToComment) => {
-    e.preventDefault();
-
-      let newComment = {
-          textOfComment: body,
-          numberOfPosts: 0,
-          userMappingId: currentUser,
-          mediumMappingId: mediumToComment,
-      };
-
-    fetch(`http://localhost:5000/rest/comments/add`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(newComment),
-    })
-      .then((data) => {
-        console.log(data);
-          setHandleToggleComment(false);
-        //Reload page, to get actual average rating
-        history.go();
-      })
-      .catch((error) => {
-        setHandleError(
-          "Das Formular konnte nicht abgeschickt werden (" + handleError + ")"
-        );
-      });
-  };
-
 
   return (
     <React.Fragment>
@@ -166,6 +160,7 @@ const BookDetails = () => {
                     {medium.genres.map((genre) => {
                       return (
                         <Chip
+                          key={`genre${genre.id}`}
                           color="secondary"
                           variant="outlined"
                           size="small"
@@ -181,7 +176,7 @@ const BookDetails = () => {
                   <span>
                     {medium.languages.map((language) => {
                       return (
-                        <Chip color="primary" size="small" label={language} />
+                        <Chip kex={`language${language.id}`} color="primary" size="small" label={language} />
                       );
                     })}
                   </span>
@@ -275,13 +270,20 @@ const BookDetails = () => {
             )}
 
             <div className="body">
-              <TabBar ratingCount={ratingCount} mediumId={id} commentCount={commentCount}></TabBar>
+              <TabBar
+                ratingCount={ratingCount}
+                medium={medium}
+                mediumId={id}
+                commentCount={commentCount}
+              ></TabBar>
             </div>
 
             <div className="detailGroup">
-            <span className="heading">Verwandte Sammlungen</span>
+              <span className="heading">Verwandte Sammlungen</span>
               <SmallCollectionList mediumId={id} />
-              {helper.isLoggedIn() && <AddMediumToCollectionForm mediumId={id}/>}   
+              {helper.isLoggedIn() && (
+                <AddMediumToCollectionForm mediumId={id} />
+              )}
             </div>
           </div>
         </div>

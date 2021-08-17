@@ -88,6 +88,7 @@ const AddBookForm = () => {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        Authorization: sessionStorage.getItem("Bearer "),
       },
       body: JSON.stringify(book),
     })
@@ -102,6 +103,9 @@ const AddBookForm = () => {
         formData.append("image", mediumPoster);
         fetch(`http://localhost:5000/rest/books/images/${data.id}`, {
           method: "POST",
+          headers: {
+            Authorization: sessionStorage.getItem("Bearer "),
+          },
           body: formData,
         })
           .then((response) => {
@@ -111,7 +115,7 @@ const AddBookForm = () => {
             history.push(`/detail/book/${data.id}`);
           })
           .catch((error) => {
-            console.log(error);
+            console.error(error);
           });
       })
       .catch((error) => {
@@ -129,13 +133,12 @@ const AddBookForm = () => {
       onSubmit={(e) => handleSubmitForm(e)}
     >
       <span className="label">Poster</span>
-      <ImagePreview currentImage={currentImage}/>
+      <ImagePreview currentImage={currentImage} />
       <input
         type="file"
         onChange={(e) => {
           handleSelectImage(e);
           setMediumPoster(e.target.files[0]);
-          console.log(e.target.files[0]);
         }}
       />
 
@@ -155,7 +158,7 @@ const AddBookForm = () => {
         title="Kurzbeschreibung"
         value={description}
         setter={setDescription}
-        additionalOptions={{ multiline: "multiline", rows: "10" }}
+        additionalOptions={{ multiline: true, rows: "10" }}
       />
 
       <DefaultTextField title="ISBN" value={isbn} setter={setISBN} />

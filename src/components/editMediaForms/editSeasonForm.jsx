@@ -8,33 +8,30 @@ const EditSeasonForm = () => {
   const [seasonTitle, setSeasonTitle] = useState("");
   const [seasonNumber, setSeasonNumber] = useState(0);
   const [seriesId, setSeriesId] = useState();
-  const {id} = useParams();
+  const { id } = useParams();
   const history = useHistory();
 
   const fetchSeasonData = () => {
     fetch(`http://localhost:5000/rest/seasons/${id}`)
-    .then(res => {
-      if(!res.ok) {
-        throw Error ('Unable to fetch season');
-      }
-      return res.json();
-    })
-    .then((data) => {
-      console.log(data);
-      setSeasonTitle(data.seasonTitle);
-      setSeasonNumber(data.seasonNumber);
-      setSeriesId(data.mediumId);
-    })
-    .catch(error => {
-      console.error(error);
-    })
-  }
-
+      .then((res) => {
+        if (!res.ok) {
+          throw Error("Unable to fetch season");
+        }
+        return res.json();
+      })
+      .then((data) => {
+        setSeasonTitle(data.seasonTitle);
+        setSeasonNumber(data.seasonNumber);
+        setSeriesId(data.mediumId);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
 
   const handleAddSeason = (e) => {
     e.preventDefault();
 
-    
     const season = {
       id: id,
       seasonNumber: seasonNumber,
@@ -42,12 +39,11 @@ const EditSeasonForm = () => {
       seriesMappingId: seriesId,
     };
 
-    console.log(season);
-
-    fetch('http://localhost:5000/rest/seasons', {
+    fetch("http://localhost:5000/rest/seasons", {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
+        Authorization: sessionStorage.getItem("Bearer "),
       },
       body: JSON.stringify(season),
     })
@@ -58,7 +54,7 @@ const EditSeasonForm = () => {
       })
       .then(() => {
         history.push(`/detail/series/${seriesId}`);
-      }) 
+      })
       .catch((error) => {
         console.error(error);
       });
@@ -68,7 +64,6 @@ const EditSeasonForm = () => {
     fetchSeasonData();
   }, []);
 
- 
   return (
     <form action="" className="addMediaForm" onSubmit={handleAddSeason}>
       <h2>Neue Staffel hinzufügen</h2>

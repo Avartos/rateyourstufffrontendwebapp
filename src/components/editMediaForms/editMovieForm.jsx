@@ -25,7 +25,7 @@ const EditMovieForm = () => {
   const [network, setNetwork] = useState(null);
   const [languageList, setLanguageList] = useState([]);
   const [currentImage, setCurrentImage] = useState("");
-  const [picturePath, setPicturePath] = useState('');
+  const [picturePath, setPicturePath] = useState("");
 
   const handleGenreSelect = (e) => {
     if (e.target.value.length <= 5) {
@@ -48,8 +48,7 @@ const EditMovieForm = () => {
         setDescription(data.shortDescription);
         setDuration(data.length);
         setAgeRestriction(data.ageRestriction);
-        if(data.networkNetworkTitle)
-          setNetwork(data.networkNetworkTitle);
+        if (data.networkNetworkTitle) setNetwork(data.networkNetworkTitle);
         setLanguages(data.languages);
         setGenres(data.genres);
         setPicturePath(data.picturePath);
@@ -111,14 +110,15 @@ const EditMovieForm = () => {
       networkTitle: network,
     };
 
-    if(picturePath) {
-      movie.picturePath = picturePath
+    if (picturePath) {
+      movie.picturePath = picturePath;
     }
 
     fetch("http://localhost:5000/rest/movies", {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
+        Authorization: sessionStorage.getItem("Bearer "),
       },
       body: JSON.stringify(movie),
     })
@@ -129,12 +129,14 @@ const EditMovieForm = () => {
         return res.json();
       })
       .then((data) => {
-        console.log(data);
         if (mediumPoster) {
           const formData = new FormData();
           formData.append("image", mediumPoster);
           fetch(`http://localhost:5000/rest/movies/images/${data.id}`, {
             method: "POST",
+            headers: {
+              Authorization: sessionStorage.getItem("Bearer "),
+            },
             body: formData,
           })
             .then((response) => {
@@ -163,7 +165,6 @@ const EditMovieForm = () => {
         onChange={(e) => {
           handleSelectImage(e);
           setMediumPoster(e.target.files[0]);
-          console.log(e.target.files[0]);
         }}
       />
 

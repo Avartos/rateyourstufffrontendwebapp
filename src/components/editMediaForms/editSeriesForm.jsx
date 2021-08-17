@@ -51,7 +51,6 @@ const EditSeriesForm = () => {
         setCurrentImage(`http://localhost:5000/${data.picturePath}`);
         setAverageLength(data.averageLength);
         setIsCompleted(data.isCompleted);
-        console.log(data);
       })
       .catch((error) => {
         history.push("/not_found");
@@ -122,6 +121,7 @@ const EditSeriesForm = () => {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
+        Authorization: sessionStorage.getItem("Bearer "),
       },
       body: JSON.stringify(series),
     })
@@ -137,6 +137,9 @@ const EditSeriesForm = () => {
           formData.append("image", mediumPoster);
           fetch(`http://localhost:5000/rest/series/images/${data.id}`, {
             method: "POST",
+            headers: {
+              Authorization: sessionStorage.getItem("Bearer "),
+            },
             body: formData,
           })
             .then((response) => {
@@ -165,7 +168,6 @@ const EditSeriesForm = () => {
         onChange={(e) => {
           handleSelectImage(e);
           setMediumPoster(e.target.files[0]);
-          console.log(e.target.files[0]);
         }}
       />
 

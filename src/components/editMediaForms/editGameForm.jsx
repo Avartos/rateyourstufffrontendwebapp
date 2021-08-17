@@ -65,7 +65,6 @@ const EditGameForm = () => {
         setPublisher(data.gamePublisherGamePublisherTitle);
         setPlatforms(data.platforms);
         setCurrentImage(`http://localhost:5000/${data.picturePath}`);
-        console.log(data);
       })
       .catch((error) => {
         history.push("/not_found");
@@ -149,6 +148,7 @@ const EditGameForm = () => {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
+        Authorization: sessionStorage.getItem("Bearer "),
       },
       body: JSON.stringify(game),
     })
@@ -164,6 +164,9 @@ const EditGameForm = () => {
           formData.append("image", mediumPoster);
           fetch(`http://localhost:5000/rest/games/images/${data.id}`, {
             method: "POST",
+            headers: {
+              Authorization: sessionStorage.getItem("Bearer "),
+            },
             body: formData,
           })
             .then((response) => {
@@ -192,7 +195,6 @@ const EditGameForm = () => {
         onChange={(e) => {
           handleSelectImage(e);
           setMediumPoster(e.target.files[0]);
-          console.log(e.target.files[0]);
         }}
       />
 
