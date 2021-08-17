@@ -7,19 +7,19 @@ import { Button } from "@material-ui/core";
 import { useHistory } from "react-router-dom";
 import AddCollectionForm from "./addCollectionForm";
 
-const CollectionList = () => {
+const CollectionList = ({ handleAddMessage }) => {
   const [collections, setCollections] = useState([]);
   const [currentPage, setCurrentPage] = useState(0);
   const COLLECTIONS_PER_PAGE = 15;
   const [isCollectionFormVisible, setIsCollectionFormVisible] = useState(false);
 
-  const fetchCollections = ({ handleAddMessage }) => {
+  const fetchCollections = () => {
     fetch(
       `http://localhost:5000/rest/collections/user/${helper.getUserId()}?size=${COLLECTIONS_PER_PAGE}&page=${currentPage}`
     )
       .then((res) => {
         if (!res.ok) {
-          throw Error('Fehler beim Abrufen der Sammlungen');
+          throw Error("Fehler beim Abrufen der Sammlungen");
         }
         return res.json();
       })
