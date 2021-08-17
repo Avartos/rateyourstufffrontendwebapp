@@ -27,7 +27,7 @@ const SignUp = () => {
    * Function is comparing a given email address from form with all stored email-addresses in database and
    * @return true if email address isn´t currently taken, Status 418 if the email is currently stored in database.
    */
-  async function emailValidator() {
+  async function checkIsValidEmail() {
     console.log(email);
     return fetch(`http://localhost:5000/login/check/`, {
       method: "POST",
@@ -42,7 +42,7 @@ const SignUp = () => {
         return true;
       })
       .catch((error) => {
-        setValidEmailStatus(false).then();
+        setValidEmailStatus(false);
         return true;
       });
   }
@@ -51,7 +51,7 @@ const SignUp = () => {
    * Function is comparing a given user name address from form with all stored user name in database and
    * @return true if user name isn´t currently taken, Status 418 if the user name is currently stored in database.
    */
-  const userNameValidator = async () => {
+  const checkIsValidUserName = async () => {
     console.log(userName);
     return fetch(`http://localhost:5000/user/check/is=${userName}`, {
       method: "GET",
@@ -95,8 +95,8 @@ const SignUp = () => {
     const role = { roleName };
     const login = { email, passwordHash, isEnabled };
     const user = { firstName, gender, lastName, userName, login, role };
-    const isValidEmail = await emailValidator();
-    const isValidUserName = await userNameValidator();
+    const isValidEmail = await checkIsValidEmail();
+    const isValidUserName = await checkIsValidUserName();
     console.log(isValidEmail);
     console.log(isValidUserName);
     if (
