@@ -28,19 +28,22 @@ const SignUp = () => {
    * @return true if email address isn´t currently taken, Status 418 if the email is currently stored in database.
    */
   async function emailValidator() {
-    fetch(`http://localhost:5000/login/check/`, {
+    console.log(email);
+    return fetch(`http://localhost:5000/login/check/`, {
       method: "POST",
       body: email,
     })
       .then((response) => {
+        console.log('EMail ' + response.status);
         if (!response.ok) {
           throw Error("Email bereits vergeben!");
         }
-        setValidEmailStatus(true);
+        setValidEmailStatus(true)
+        return true;
       })
       .catch((error) => {
-        setValidUserStatus(false);
-        setErrorMessage(error.message);
+        setValidEmailStatus(false).then();
+        return true;
       });
   }
 
@@ -48,19 +51,22 @@ const SignUp = () => {
    * Function is comparing a given user name address from form with all stored user name in database and
    * @return true if user name isn´t currently taken, Status 418 if the user name is currently stored in database.
    */
-  async function userNameValidator() {
-    fetch(`http://localhost:5000/user/check/is=${userName}`, {
+  const userNameValidator = async () => {
+    console.log(userName);
+    return fetch(`http://localhost:5000/user/check/is=${userName}`, {
       method: "GET",
     })
       .then((response) => {
         if (!response.ok) {
           throw Error("Username bereits vergeben!");
         }
-        setValidUserStatus(true);
+        setValidUserStatus(true)
+        return true;
       })
       .catch((error) => {
-        setValidUserStatus(false);
+        setValidUserStatus(false)
         setErrorMessage(error.message);
+        return false;
       });
   }
 
@@ -83,53 +89,41 @@ const SignUp = () => {
    * Method generates the JSON-String after submit and sends fetches via POST-Request to the Rest-API
    * @param e is standard event param
    */
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const isEnabled = false;
     const role = { roleName };
     const login = { email, passwordHash, isEnabled };
     const user = { firstName, gender, lastName, userName, login, role };
-    emailValidator().then(() => {
-      userNameValidator().then(() => {
-        console.log(
-          "validUserStatus" +
-            validUserStatus +
-            " / " +
-            "validEmailStatus" +
-            validEmailStatus
-        );
-
-        console.log(userName);
-        console.log(email);
-
-        if (
-          validUserStatus === true &&
-          validEmailStatus === true &&
-          isValidPassword()
-        ) {
-          fetch("http://localhost:5000/user/add", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(user),
+    const isValidEmail = await emailValidator();
+    const isValidUserName = await userNameValidator();
+    console.log(isValidEmail);
+    console.log(isValidUserName);
+    if (
+        isValidEmail === true &&
+        isValidUserName === true &&
+        isValidPassword()
+      ) {
+          console.log("Halleo");
+        fetch("http://localhost:5000/user/add", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(user),
+        })
+          .then((response) => {
+            if (!response.ok) {
+              throw Error("Registrierung fehlgeschlagen!");
+            }
+            _router.push("/login");
           })
-            .then((response) => {
-              if (!response.ok) {
-                throw Error("Registrierung fehlgeschlagen!");
-              }
-              _router.push("/login");
-            })
-            .catch((error) => {
-              setErrorMessage(error);
-            });
-        } else {
-          setErrorMessage("Error adding user");
-        }
-      });
-    });
-    /**
-     * Check if UserName and EmailStatus are valid values
-     */
+          .catch((error) => {
+            setErrorMessage(error.message);
+          });
+      } else {
+        setErrorMessage("Error adding user");
+      }
   };
+
   return (
     <div className="signUpDisplay">
       <div className="welcomeBox">
