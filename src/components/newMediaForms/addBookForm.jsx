@@ -8,7 +8,7 @@ import DefaultAutoComplete from "../formComponents/defaultAutoComplete";
 import { Button } from "@material-ui/core";
 import ImagePreview from "../formComponents/imagePreview";
 
-const AddBookForm = () => {
+const AddBookForm = ({handleAddMessage}) => {
   const [mediumName, setMediumName] = useState("");
   const [releaseDate, setReleaseDate] = useState("");
   const [description, setDescription] = useState("");
@@ -112,13 +112,16 @@ const AddBookForm = () => {
             if (!response.ok) {
               throw Error("An error occured while uploading the image");
             }
+            handleAddMessage('success', 'Buch angelegt', 'Das neue Buch wurde erfolgreich angelegt.');
             history.push(`/detail/book/${data.id}`);
           })
           .catch((error) => {
+            handleAddMessage('error', 'Fehler', error.message);
             console.error(error);
           });
       })
       .catch((error) => {
+        handleAddMessage('error', 'Fehler', error.message);
         console.error(error);
       });
   };
@@ -201,7 +204,7 @@ const AddBookForm = () => {
         setter={setPublisher}
         targetValue={publisher}
       />
-      <Button variant="contained" color="primary" type="submit">
+      <Button variant="contained" color="primary" type="submit" >
         Buch hinzufügen
       </Button>
     </form>

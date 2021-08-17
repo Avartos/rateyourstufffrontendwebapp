@@ -7,7 +7,7 @@ import AgeSelect from "../formComponents/ageSelect";
 import { Button } from "@material-ui/core";
 import ImagePreview from "../formComponents/imagePreview";
 
-const AddGameForm = () => {
+const AddGameForm = ({handleAddMessage}) => {
   const [mediumName, setMediumName] = useState("");
   const [releaseDate, setReleaseDate] = useState("");
   const [description, setDescription] = useState("");
@@ -133,6 +133,7 @@ const AddGameForm = () => {
           body: formData,
         })
           .then((response) => {
+            handleAddMessage('success', 'Buch angelegt', 'Das neue Spiel wurde erfolgreich angelegt.');
             history.push(`/detail/game/${data.id}`);
           })
           .catch((error) => {
