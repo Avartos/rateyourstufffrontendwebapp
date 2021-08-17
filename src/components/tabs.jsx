@@ -91,7 +91,7 @@ export default function SimpleTabs({ seriesId }) {
         seasons.map((season) => {
           return (
             <TabPanel value={value} index={seasons.indexOf(season)}>
-              <Accordion seasonId={season.id}></Accordion>
+              <div className="accordionWrap"><Accordion seasonId={season.id}></Accordion></div>
             </TabPanel>
           );
         })}

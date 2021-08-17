@@ -1,4 +1,4 @@
-import {useHistory} from "react-router-dom";
+import {useHistory} from "react-router";
 
 /**
  * Component deletes users sessionStorage and provides that the user will be logged out

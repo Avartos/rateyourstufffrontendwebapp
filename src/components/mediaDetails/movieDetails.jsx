@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import useFetch from "../../hooks/useFetch";
-import { useParams } from "react-router-dom";
+import { useParams } from "react-router";
 import ReadOnlyRating from "../rating/readOnlyRating";
 import TabBar from "./tabBar";
 import Chip from "@material-ui/core/Chip";

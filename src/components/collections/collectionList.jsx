@@ -4,7 +4,7 @@ import { useEffect } from "react";
 import Collection from "./collection";
 import React from "react";
 import { Button } from "@material-ui/core";
-import { useHistory } from "react-router";
+import { useHistory } from "react-router-dom";
 import AddCollectionForm from "./addCollectionForm";
 
 const CollectionList = () => {

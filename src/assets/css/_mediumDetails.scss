@@ -108,4 +108,27 @@
     width: 55em;
     height: 5em;
   }
+  
+  
+  .MuiTypography-root.MuiTypography-body1 {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+  }
+
+  .editButton {
+    display: flex;
+    text-align: end;
+  }
+  .editButton:hover {
+    background-color: #464646;
+  }
+
+  .accordionWrap{
+    justify-content: center;
+    width: 100%;
+  }
+
+  
 }

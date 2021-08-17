@@ -93,9 +93,13 @@ export default function CustomizedAccordions({ seasonId }) {
               >
                 <Typography>
                   {episode.episodeNumber}. {episode.mediumName}
+                  <Button className="editButton"
+                      onClick={() => {history.push(`/edit/episode/${episode.id}`);}}>
+                      Bearbeiten
+                  </Button>
                 </Typography>
               </AccordionSummary>
-              <AccordionDetails>
+              <AccordionDetails onClick={() => {history.push(`/detail/episode/${episode.id}`);}}>
                 <Typography>
                   <div className="episodeDetailDisplay">
                     <div className="episodeDetailDisplayLeft">
@@ -107,13 +111,6 @@ export default function CustomizedAccordions({ seasonId }) {
                     </div>
 
                     <div className="episodeDetailDisplayMiddle">
-                      <Button
-                        onClick={() => {
-                          history.push(`/edit/episode/${episode.id}`);
-                        }}
-                      >
-                        Bearbeiten
-                      </Button>
                       <div className="episodeDetailGroup">
                         <div className="episodeDetailField">
                           <span className="smallHeading"></span>

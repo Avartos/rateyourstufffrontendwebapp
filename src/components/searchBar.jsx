@@ -1,18 +1,16 @@
-import React, {useState} from 'react';
-
-const SearchBar = () => {
-  const[keyword, setKeyword] = useState('');
-
-  const BarStyling = {width:"20rem",background:"#F2F1F9", border:"none", padding:"0.5rem"};
-  return (
-    <input className="searchBar"
-     style={BarStyling}
-     key="random1"
-     value={keyword}
-     placeholder={"search media"}
-     onChange={(e) => setKeyword(e.target.value)}
-    />
-  );
-}
+const SearchBar = () => (
+  <form action="/searchResults/" method="get" className="searchBar">
+    <label htmlFor="header-search">
+            <span className="visually-hidden">Search media</span>
+        </label>
+        <input
+            type="text"
+            id="header-search"
+            placeholder="search media"
+            name="s" 
+        />
+        <div > <button className="submitButton" type="submit">Search</button></div>
+  </form>
+)
 
 export default SearchBar

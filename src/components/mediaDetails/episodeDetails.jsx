@@ -1,39 +1,30 @@
-import React, {useEffect, useState} from "react";
+import React, { useState, useEffect } from "react";
 import useFetch from "../../hooks/useFetch";
 import { useParams } from "react-router";
 import ReadOnlyRating from "../rating/readOnlyRating";
 import TabBar from "./tabBar";
 import Chip from "@material-ui/core/Chip";
-import Tabs from "../../components/tabs";
 import NewRatingForm from "../rating/newRatingForm";
 import NewCommentForm from "../comments/newCommentForm";
-import { useHistory } from "react-router";
+import {useHistory} from "react-router";
+import ShowRating from "../rating/showRating";
 import { Button } from "@material-ui/core";
-import AddSeasonForm from "../newMediaForms/addSeasonForm";
 import SmallCollectionList from "./smallCollectionList";
 import AddMediumToCollectionForm from "../collections/addMediumToCollectionForm";
 import helper from "../../core/helper";
 
-const BoolOutput = (isTrue) => {
-  if (isTrue === true) {
-    return "ja";
-  }
-  return "Nein";
-};
 
-const SeriesDetails = () => {
+const EpisodeDetails = () => {
   const { id } = useParams();
   const {
     data: medium,
     isPending,
     error,
-  } = useFetch(`http://localhost:5000/rest/series/${id}`);
-
+  } = useFetch(`http://localhost:5000/rest/episodes/${id}`);
   const history = useHistory();
   const [handleError, setHandleError] = useState(null);
   const [handleToggleRating, setHandleToggleRating] = useState(false);
   const [handleToggleComment, setHandleToggleComment] = useState(false);
-  const [isSeasonFormVisible, setIsSeasonFormVisible] = useState(false);
   const [ratingCount, setRatingCount] = useState(0);
   const [commentCount, setCommentCount] = useState(0);
 
@@ -43,8 +34,8 @@ const SeriesDetails = () => {
               if (!res.ok){
                 throw Error("unable to fetch ratingcounts");
               }
-              return res.json()
-            }
+        return res.json()
+        }
         )
         .then (data => {
           setRatingCount(data);
@@ -90,17 +81,20 @@ const SeriesDetails = () => {
       givenPoints: valueRate * 2,
     };
 
+    console.log(newRate);
 
     fetch(`http://localhost:5000/rest/ratings/add`, {
       method: "POST",
-      headers: { "Content-Type": "application/json",
-          "Authorization": sessionStorage.getItem("Bearer "),},
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify(newRate),
     })
       .then((data) => {
+        console.log(data);
+        // close the Form for NewRate
         setHandleToggleRating(false);
         //Reload page, to get actual average rating
         history.go();
+        //    fetchRatings();
       })
       .catch((error) => {
         setHandleError(
@@ -112,21 +106,21 @@ const SeriesDetails = () => {
   const handleSubmitFormComment = (e, body, currentUser, mediumToComment) => {
     e.preventDefault();
 
-      let newComment = {
-          textOfComment: body,
-          numberOfPosts: 0,
-          userMappingId: currentUser,
-          mediumMappingId: mediumToComment,
-      };
+    let newComment = {
+      textOfComment: body,
+      numberOfPosts: 0,
+      userMappingId: currentUser,
+      mediumMappingId: mediumToComment,
+    };
 
     fetch(`http://localhost:5000/rest/comments/add`, {
       method: "POST",
-      headers: { "Content-Type": "application/json",
-          "Authorization": sessionStorage.getItem("Bearer "),},
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify(newComment),
     })
       .then((data) => {
-          setHandleToggleComment(false);
+        console.log(data);
+        setHandleToggleComment(false);
         history.go();
       })
       .catch((error) => {
@@ -148,14 +142,9 @@ const SeriesDetails = () => {
                   alt="poster"
                 ></img>
               </div>
+
               <div className="details">
-              <Button 
-                  onClick={() => {
-                    history.push(`/edit/series/${id}`);
-                  }}
-                >
-                  Bearbeiten
-                </Button>
+                <Button onClick={()=>{history.push(`/edit/movie/${id}`)}}>Bearbeiten</Button>
                 <h2 className="title">{medium.mediumName}</h2>
                 <div className="detailField">
                   <span className="smallHeading">Genres</span>
@@ -197,7 +186,6 @@ const SeriesDetails = () => {
                     maxValue={medium.max_RATING_POINTS}
                     showValue={true}
                   />
-
                   <div className="showButton">
                     <button
                       className="primaryButton"
@@ -226,24 +214,10 @@ const SeriesDetails = () => {
               </div>
             </div>
 
-            <div className="seasonsDisplay">
-              <Tabs seriesId={medium.id}></Tabs>
-              <p>Ist die gewünschte Staffel noch nicht dabei?</p>
-              <Button variant="contained" color="primary" onClick={() => {setIsSeasonFormVisible(!isSeasonFormVisible)}}>
-                {!isSeasonFormVisible ? <span>Neue Staffel hinzufügen</span> : <span>Formular verstecken</span>}
-              </Button>
-            </div>
-
-            {isSeasonFormVisible && (
-              <div className="detailGroup">
-                <AddSeasonForm seriesId={id} handleHideSeasonForm={setIsSeasonFormVisible}></AddSeasonForm>
-              </div>
-            )}
-
             <div className="detailGroup">
               <div className="detailField">
-                <span className="smallHeading">Episodenlänge</span>
-                <span>{medium.averageLength} Minuten</span>
+                <span className="smallHeading">Länge</span>
+                <span>{medium.length} Minuten</span>
               </div>
 
               <div className="detailField">
@@ -252,16 +226,10 @@ const SeriesDetails = () => {
               </div>
 
               <div className="detailField">
-                <span className="smallHeading">Abgeschlossen</span>
-                <span>{BoolOutput(medium.isCompleted)}</span>
-              </div>
-
-              <div className="detailField">
                 <span className="smallHeading">Erschienen</span>
                 <span>{medium.releaseDate}</span>
               </div>
             </div>
-
             {handleToggleRating && (
               <div className="detailGroup">
                 <NewRatingForm
@@ -287,7 +255,8 @@ const SeriesDetails = () => {
             <div className="detailGroup">
             <span className="heading">Verwandte Sammlungen</span>
               <SmallCollectionList mediumId={id} />
-              {helper.isLoggedIn() && <AddMediumToCollectionForm mediumId={id}/>}   
+              
+              {helper.isLoggedIn() && <AddMediumToCollectionForm mediumId={id}/>}      
             </div>
           </div>
         </div>
@@ -296,4 +265,4 @@ const SeriesDetails = () => {
   );
 };
 
-export default SeriesDetails;
+export default EpisodeDetails;

@@ -15,6 +15,7 @@ import MovieDetails from './components/mediaDetails/movieDetails';
 import BookDetails from './components/mediaDetails/bookDetails';
 import SeriesDetails from './components/mediaDetails/seriesDetails';
 import GameDetails from './components/mediaDetails/gameDetails';
+import EpisodeDetails from './components/mediaDetails/episodeDetails';
 import Login from "./components/userManagement/login";
 import AddMovieForm from './components/newMediaForms/addMovieForm';
 import AddMediaForm from './components/newMediaForms/addMediaForm';
@@ -22,6 +23,7 @@ import AddBookForm from "./components/newMediaForms/addBookForm";
 import AddGameForm from "./components/newMediaForms/addGameForm";
 
 import MediaList from "./components/mediaLists/mediaList";
+import SearchResultList from "./components/mediaLists/searchResultList";
 
 import Logout from "./components/userManagement/logout";
 import AddSeriesForm from "./components/newMediaForms/addSeriesForm";
@@ -54,10 +56,12 @@ function App() {
           <Route exact path="/detail/book/:id"><BookDetails/></Route>
           <Route exact path="/detail/series/:id"><SeriesDetails/></Route>
           <Route exact path="/detail/game/:id"><GameDetails/></Route>
+          <Route exact path="/detail/episode/:id"><EpisodeDetails/></Route>
           <Route exact path="/media/movies"><MediaList title="Filme" urlPath="movies/all" mediaType={'movie'}/></Route>
           <Route exact path="/media/series"><MediaList title="Serien" urlPath="series/all" mediaType={'series'}/></Route>
           <Route exact path="/media/books"><MediaList title="Bücher" urlPath="books/all" mediaType={'book'}/></Route>
           <Route exact path="/media/games"><MediaList title="Spiele" urlPath="games/all" mediaType={'game'}/></Route>
+          <Route exact path="/searchResults"><SearchResultList /></Route>
           {!authorization.isLoggedIn() && <Route path="/signup"><SignUp/></Route>}
           {authorization.isAdmin() && <Route path="/adminpanel"><AdminPanel/></Route>}
           {authorization.isUser() && <Route path="/userPanel"><UserPanel/></Route>}
