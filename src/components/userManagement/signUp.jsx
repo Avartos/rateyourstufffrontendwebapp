@@ -19,8 +19,8 @@ const SignUp = () => {
     const [passwordHashReference, setPasswordHashReference] = useState('')
     const [email, setEmail] = useState('example@rays.com');
     const [errorMessage, setErrorMessage] = useState('');
-    const [validUserStatus, setValidUserStatus] = useState('')
-    const [validEmailStatus, setValidEmailStatus] = useState('')
+    const [validUserStatus, setValidUserStatus] = useState(false)
+    const [validEmailStatus, setValidEmailStatus] = useState(false)
     const [roleName, setRole] = useState("User")
     const _router = useHistory();
 
@@ -33,9 +33,10 @@ const SignUp = () => {
             method: 'POST',
             body: email
         }).then((response) => {
-            setValidEmailStatus(response.status === 418)
+            if(!response.ok) {throw Error("Email bereits vergeben!")}
+            setValidEmailStatus(response.status !== 418)
         }).catch(error => {
-            setErrorMessage("Email bereits vergeben!")
+            setErrorMessage(error)
         })
     }
 
@@ -47,10 +48,10 @@ const SignUp = () => {
         fetch(`http://localhost:5000/user/check/is=${userName}`, {
             method: 'GET'
         }).then((response) => {
-            setValidUserStatus(response.status === 418)
-
+            if(!response.ok) {throw Error("Username bereits vergeben!")}
+            setValidUserStatus(response.status !== 418)
         }).catch(error => {
-            setErrorMessage("Username bereits vergeben!")
+            setErrorMessage(error)
         })
     }
 
@@ -94,9 +95,11 @@ const SignUp = () => {
                 method: 'POST',
                 headers: {"Content-Type": "application/json"},
                 body: JSON.stringify(user)
-            }).then(() => {
-                console.log('User successfully added');
+            }).then((response) => {
+                if(!response.ok) {throw Error("Registrierung fehlgeschlagen!")}
                 setTimeout(() => _router.push('/login'), 1500);
+            }).catch(error => {
+                setErrorMessage(error);
             })
             console.log(user);
         } else {
