@@ -12,6 +12,7 @@ import { Button } from "@material-ui/core";
 import SmallCollectionList from "./smallCollectionList";
 import AddMediumToCollectionForm from "../collections/addMediumToCollectionForm";
 import helper from "../../core/helper";
+import { ReactComponent as PencilIcon } from "../../icons/pencil.svg";
 
 
 const EpisodeDetails = () => {
@@ -144,8 +145,13 @@ const EpisodeDetails = () => {
               </div>
 
               <div className="details">
-                <Button onClick={()=>{history.push(`/edit/movie/${id}`)}}>Bearbeiten</Button>
-                <h2 className="title">{medium.mediumName}</h2>
+              <div className="titleWithEdit">
+                  <h2 className="title">{medium.mediumName}</h2>
+                    <span className="mediumEditButton"
+                      onClick={() => {history.push(`/edit/movie/${id}`);}}>
+                      <PencilIcon />
+                    </span>
+                </div>
                 <div className="detailField">
                   <span className="smallHeading">Genres</span>
                   <span>
@@ -218,11 +224,6 @@ const EpisodeDetails = () => {
               <div className="detailField">
                 <span className="smallHeading">Länge</span>
                 <span>{medium.length} Minuten</span>
-              </div>
-
-              <div className="detailField">
-                <span className="smallHeading">Freigegeben ab</span>
-                <span>{medium.ageRestriction} Jahren</span>
               </div>
 
               <div className="detailField">

@@ -8,6 +8,7 @@ import useFetch from "../hooks/useFetch";
 import ReadOnlyRating from "./rating/readOnlyRating";
 import { Button } from "@material-ui/core";
 import { useHistory } from "react-router";
+import { ReactComponent as PencilIcon } from "../icons/pencil.svg";
 
 const Accordion = withStyles({
   root: {
@@ -68,14 +69,11 @@ export default function CustomizedAccordions({ seasonId }) {
 
   return (
     <div>
-      <Button
-        onClick={() => {
-          history.push(`/edit/season/${seasonId}`);
-        }}
-      >
-        Bearbeiten
-      </Button>
-
+      <div className="EditSeasonIcon">
+        <span 
+          onClick={() => {history.push(`/edit/season/${seasonId}`);}}><PencilIcon />
+        </span>
+      </div>
       {!isPending &&
         episodes.map((episode) => {
           return (
@@ -120,10 +118,7 @@ export default function CustomizedAccordions({ seasonId }) {
                           <span className="smallHeading"></span>
                           <span>{episode.length} Minuten</span>
                         </div>
-                        <div className="episodeDetailField">
-                          <span className="smallHeading"></span>
-                          <span>ab {episode.ageRestriction} Jahren</span>
-                        </div>
+                    
                       </div>
 
                       <div className="episodeDetailField">

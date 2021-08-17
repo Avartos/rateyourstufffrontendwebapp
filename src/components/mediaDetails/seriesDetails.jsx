@@ -13,6 +13,7 @@ import AddSeasonForm from "../newMediaForms/addSeasonForm";
 import SmallCollectionList from "./smallCollectionList";
 import AddMediumToCollectionForm from "../collections/addMediumToCollectionForm";
 import helper from "../../core/helper";
+import { ReactComponent as PencilIcon } from "../../icons/pencil.svg";
 
 const BoolOutput = (isTrue) => {
   if (isTrue === true) {
@@ -149,14 +150,13 @@ const SeriesDetails = () => {
                 ></img>
               </div>
               <div className="details">
-              <Button 
-                  onClick={() => {
-                    history.push(`/edit/series/${id}`);
-                  }}
-                >
-                  Bearbeiten
-                </Button>
-                <h2 className="title">{medium.mediumName}</h2>
+              <div className="titleWithEdit">
+                  <h2 className="title">{medium.mediumName}</h2>
+                    <span className="mediumEditButton"
+                      onClick={() => {history.push(`/edit/series/${id}`);}}>
+                      <PencilIcon />
+                    </span>
+                </div>
                 <div className="detailField">
                   <span className="smallHeading">Genres</span>
                   <span>
