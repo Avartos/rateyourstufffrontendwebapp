@@ -72,7 +72,10 @@ const ChangeUserData = ({user}) => {
 
         fetch('http://localhost:5000/user', {
             method: 'PUT',
-            headers: {"Content-Type": "application/json"},
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": sessionStorage.getItem("Bearer "),
+            },
             body: JSON.stringify(updatedUser)
         }).then(() => {
             console.log('User successfully updated');
@@ -90,7 +93,10 @@ const ChangeUserData = ({user}) => {
         if (validPassword(passwordHash, passwordHashReference)){
             fetch('http://localhost:5000/login', {
                 method: 'PUT',
-                headers: {"Content-Type": "application/json"},
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": sessionStorage.getItem("Bearer "),
+                },
                 body: JSON.stringify(login)
             }).then(() => {
                 console.log('Account successfully updated');
@@ -139,12 +145,12 @@ const ChangeUserData = ({user}) => {
                 </div>
                 <div className="userInformationBox">
                     <h2>Security Data:</h2>
-                    <form onSubmit={(e) => handleAccountUpdate(e)}>
+                    <form onSubmit={handleAccountUpdate}>
                         <label>Email</label>
                         <input className="dataChangeInput"
                             type="email"
                             value={email}
-                            onChange={(e) => setEmail(this.target.value)}
+                            onChange={(e) => setEmail(e.target.value)}
                         />
                         <label>Password</label>
                         <input className="dataChangeInput"
