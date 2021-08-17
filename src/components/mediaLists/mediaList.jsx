@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import MediaEntry from "../welcomePage/mediaEntry";
 
-const MediaList = ({ urlPath, title, mediaType }) => {
+const MediaList = ({ urlPath, title, mediaType, handleAddMessage }) => {
   const [media, setMedia] = useState([]);
   const [isPending, setIsPending] = useState(true);
   const [error, setError] = useState(null);
@@ -32,6 +32,7 @@ const MediaList = ({ urlPath, title, mediaType }) => {
       })
       .catch((error) => {
         console.error(error);
+        handleAddMessage('error', 'Fehler', error.message);
       });
   };
 

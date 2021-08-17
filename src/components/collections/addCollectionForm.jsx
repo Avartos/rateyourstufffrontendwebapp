@@ -23,7 +23,7 @@ const AddCollectionForm = ({ handleCloseForm, handleAddMessage }) => {
     })
       .then((res) => {
         if (!res.ok) {
-          throw Error("Unable to add new collection");
+          throw Error('Fehler beim Hinzufügen der neuen Sammlung');
         }
       })
       .then(() => {
@@ -31,6 +31,7 @@ const AddCollectionForm = ({ handleCloseForm, handleAddMessage }) => {
       })
       .catch((err) => {
         console.error(err);
+        handleAddMessage('error', 'Fehler', err.message);
       });
   };
 
