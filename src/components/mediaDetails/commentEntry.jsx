@@ -5,6 +5,7 @@ import ReplyIcon from '@material-ui/icons/Reply';
 import EditCommentForm from "../comments/editCommentForm";
 import { useHistory } from "react-router-dom";
 import NewSubCommentForm from "../comments/newSubCommentForm";
+import useFetch from "../../hooks/useFetch";
 
 const CommentEntry = ({comment, medium}) => {
     const [handleToggleEdit, setHandleToggleEdit] = useState(false);
@@ -29,7 +30,8 @@ const CommentEntry = ({comment, medium}) => {
 
         fetch(`http://localhost:5000/rest/comments`, {
             method: "PUT",
-            headers: { "Content-Type": "application/json" },
+            headers: { "Content-Type": "application/json",
+                "Authorization": sessionStorage.getItem("Bearer ")},
             body: JSON.stringify(updatedComment),
         })
             .then((data) => {
@@ -58,7 +60,8 @@ const CommentEntry = ({comment, medium}) => {
 
         fetch(`http://localhost:5000/rest/comments/add`, {
             method: "POST",
-            headers: { "Content-Type": "application/json" },
+            headers: { "Content-Type": "application/json",
+                "Authorization": sessionStorage.getItem("Bearer ")},
             body: JSON.stringify(newSubComment),
         })
             .then((data) => {
@@ -74,11 +77,12 @@ const CommentEntry = ({comment, medium}) => {
             });
     };
 
-
     return (
         <React.Fragment>
             <h3>{comment.userUserName}</h3>
             <label>{comment.textOfComment}</label>
+
+            {comment.userId == sessionStorage.getItem("id") &&
             <CreateIcon className="editAndReplyButton" onClick={() => {
                 setHandleToggleEdit(!handleToggleEdit);
                 if (handleToggleEdit === true) {
@@ -86,6 +90,7 @@ const CommentEntry = ({comment, medium}) => {
                 }
             }}>
             </CreateIcon>
+            }
 
             <ReplyIcon className="editAndReplyButton" onClick={() => {
                 setHandleToggleSubComment(!handleToggleSubComment);
@@ -94,6 +99,7 @@ const CommentEntry = ({comment, medium}) => {
                 }
             }}>
             </ReplyIcon>
+
 
             {handleToggleEdit &&(
             <EditCommentForm handleEditComment={handleEditComment} comment={comment} medium={medium}/>

@@ -11,9 +11,12 @@ const RatingList = ({ratings, handleFetchRatings}) => {
                 return  <RatingsEntry key={rating.id} rating={rating}></RatingsEntry>
             })
         }
-        <button className="primaryButton" onClick={handleFetchRatings}>
-            Zeige Mehr
-        </button>
+            {ratings.length>1 &&
+            <button className="primaryButton" onClick={handleFetchRatings}>
+                Zeige Mehr
+            </button>
+            }
+
         </React.Fragment>
     );
 }
