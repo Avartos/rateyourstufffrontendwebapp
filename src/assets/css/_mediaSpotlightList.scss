@@ -5,19 +5,19 @@
     flex-wrap: wrap;
     flex-grow: 1;
     justify-content: space-evenly;
-    margin-top: 5px;
+    margin-top: 0px;
 }
 
 .spotlightList {
     flex-basis: 350px;
-    margin: 5px;
+    margin: 0 5px 5px 5px;
     border: 1px solid black;
     padding: 5px;
     border-radius: 5px;
     background-color: $backgroundColor;
     width: 300px !important;
     display: block;
-    height: 800px;
+    height: 820px;
     box-shadow: 5px 5px #07070798;
     position: relative;
     z-index: 0;
@@ -26,7 +26,7 @@
     &:after {
         margin: 0 auto; /* this centers the line to the full width specified */
         position: absolute; /* positioning must be absolute here, and relative positioning must be applied to the parent */
-        height: 20px;
+        height: 6px;
         left: 0; right: 0; bottom: 0;
         width: 100%;
         z-index: -1;
@@ -47,8 +47,8 @@
     .listTitle {
         text-align:center;
         color: white;
-        margin-top: 25px;
-        margin-bottom: 15px;
+        margin-top: 5px;
+        margin-bottom: 0px;
         position: relative;
         z-index: 1;
         
@@ -74,7 +74,7 @@
 }
 
 .mediaEntry {
-    margin: 15px 10px 15px 10px;
+    margin: 0px 10px 0px 10px;
     height: 130px;
     background-color: #545454;
     color: white;

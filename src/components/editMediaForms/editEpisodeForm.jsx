@@ -1,10 +1,10 @@
 import { useState, useEffect } from "react";
-import { useHistory } from "react-router-dom";
+import { useHistory } from "react-router";
 import DefaultTextField from "../formComponents/defaultTextField";
 import DefaultSelect from "../formComponents/defaultSelect";
 import { Button } from "@material-ui/core";
 import ImagePreview from "../formComponents/imagePreview";
-import { useParams } from "react-router-dom";
+import { useParams } from "react-router";
 
 const EditEpisodeForm = () => {
   const [mediumName, setMediumName] = useState("");
