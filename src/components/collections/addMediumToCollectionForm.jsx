@@ -19,7 +19,7 @@ const AddMediumToCollectionForm = ({ mediumId, handleUpdateCollectionData, handl
     )
       .then((res) => {
         if (!res.ok) {
-          throw Error("Unable to fetch Collections");
+          throw Error('Fehler beim Abrufen der Medien');
         }
         return res.json();
       })
@@ -28,6 +28,7 @@ const AddMediumToCollectionForm = ({ mediumId, handleUpdateCollectionData, handl
       })
       .catch((err) => {
         console.error(err);
+        handleAddMessage('error', 'Fehler', err.message);
       });
   };
 
@@ -44,7 +45,7 @@ const AddMediumToCollectionForm = ({ mediumId, handleUpdateCollectionData, handl
     )
       .then((res) => {
         if (!res.ok) {
-          throw Error("Unable to update collection");
+          throw Error('Fehler beim hinzufügen des Mediums');
         }
         return res.json();
       })
@@ -55,6 +56,7 @@ const AddMediumToCollectionForm = ({ mediumId, handleUpdateCollectionData, handl
 
       })
       .catch((err) => {
+        handleAddMessage('error', 'Fehler', err.message);
         console.error(err);
       });
   };

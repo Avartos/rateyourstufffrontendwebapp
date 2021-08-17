@@ -57,6 +57,7 @@ body {
   color: white;
   transition: ease-in-out 0.2s;
   padding: 5px;
+  cursor: pointer;
 
   &:hover {
     color: $headerBottomColor !important;
