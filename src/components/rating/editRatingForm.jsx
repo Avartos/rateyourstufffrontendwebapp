@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {Rating} from "@material-ui/lab";
 
-function EditRatingForm({rating, medium}) {
+function EditRatingForm({rating, medium, handleEditRating}) {
     const [body, setBody] = useState(rating.description);
     const [currentUser, setCurrentUser] = useState(sessionStorage.getItem("id"));
     const [valueRate, setValueRate] = useState(rating.givenPoints);
@@ -10,7 +10,7 @@ function EditRatingForm({rating, medium}) {
         <div>
             <form className="detailField"
                   onSubmit={(e) => {
-                      handleSubmitFormRating(e, body, valueRate, currentUser, medium.id);
+                      handleEditRating(e, body,currentUser, valueRate, medium.id, rating.id);
                       setBody("");
                   }}
             >

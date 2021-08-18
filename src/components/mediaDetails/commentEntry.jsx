@@ -54,7 +54,7 @@ const CommentEntry = ({comment, medium}) => {
             numberOfPosts: 0,
             userMappingId: currentUser,
             mediumMappingId: mediumToComment,
-            comment_parent:parentComment,
+            parentMappingId:parentComment,
         };
         console.log(newSubComment);
 
