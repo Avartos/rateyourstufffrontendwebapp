@@ -14,7 +14,7 @@ const Collection = ({ collection, mediumId = null }) => {
 
     if (tempMedia.length >= 4 && mediumId) {
       const currentMediaIndex = tempMedia
-        .findIndex(medium => medium.id == mediumId);
+        .findIndex(medium => parseInt(medium.id) === parseInt(mediumId));
       const tempMedium = tempMedia[currentMediaIndex];
       tempMedia[currentMediaIndex] = tempMedia[2];
       tempMedia[2] = tempMedium;
