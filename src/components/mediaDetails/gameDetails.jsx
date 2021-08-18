@@ -18,13 +18,8 @@ const HyphenNecessity = (moreThanOnePlayer) => {
   return;
 };
 
-const GameDetails = () => {
+const GameDetails = ({handleAddMessage}) => {
   const { id } = useParams();
-  const {
-    data: medium,
-    isPending,
-    error,
-  } = useFetch(`http://localhost:5000/rest/games/${id}`);
 
   const history = useHistory();
   const [handleError, setHandleError] = useState(null);
@@ -32,6 +27,30 @@ const GameDetails = () => {
   const [handleToggleComment, setHandleToggleComment] = useState(false);
   const [ratingCount, setRatingCount] = useState(0);
   const [commentCount, setCommentCount] = useState(0);
+
+  const [medium, setMedium] = useState();
+  const [isPending, setIsPending] = useState(true);
+
+  const fetchMedium = () => {
+    setIsPending(true);
+    fetch(`http://localhost:5000/rest/games/${id}`)
+    .then(res => {
+      if(!res.ok) {
+        throw Error ('Fehler beim Abrufen des Mediums');
+      }
+      return res.json();
+    })
+    .then(data => {
+      setMedium(data);
+      setIsPending(false);
+    })
+    .catch(error => {
+      handleAddMessage('error', 'Fehler', error.message);
+      history.push('/404');
+    })
+  }
+
+  useEffect(fetchMedium,[]);
 
   const fetchRatingCount = () => {
     fetch(`http://localhost:5000/rest/ratings/count/${id}`)
@@ -95,8 +114,7 @@ const GameDetails = () => {
       .then((data) => {
         setHandleToggleRating(false);
         //Reload page, to get actual average rating
-        history.go();
-        //    fetchRatings();
+        fetchMedium();
       })
       .catch((error) => {
         setHandleError(
@@ -126,7 +144,7 @@ const GameDetails = () => {
       .then((data) => {
         setHandleToggleComment(false);
         //Reload page, to get actual average rating
-        history.go();
+        fetchMedium();
       })
       .catch((error) => {
         setHandleError(

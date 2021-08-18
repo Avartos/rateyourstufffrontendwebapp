@@ -18,13 +18,9 @@ const BoolOutput = (isTrue) => {
   return "Nein";
 };
 
-const BookDetails = () => {
+const BookDetails = ({handleAddMessage}) => {
   const { id } = useParams();
-  const {
-    data: medium,
-    isPending,
-    error,
-  } = useFetch(`http://localhost:5000/rest/books/${id}`);
+
 
   const history = useHistory();
   const [handleError, setHandleError] = useState(null);
@@ -32,6 +28,29 @@ const BookDetails = () => {
   const [handleToggleComment, setHandleToggleComment] = useState(false);
   const [ratingCount, setRatingCount] = useState(0);
   const [commentCount, setCommentCount] = useState(0);
+  const [medium, setMedium] = useState();
+  const [isPending, setIsPending] = useState(true);
+
+  const fetchMedium = () => {
+    setIsPending(true);
+    fetch(`http://localhost:5000/rest/books/${id}`)
+    .then(res => {
+      if(!res.ok) {
+        throw Error ('Fehler beim Abrufen des Mediums');
+      }
+      return res.json();
+    })
+    .then(data => {
+      setMedium(data);
+      setIsPending(false);
+    })
+    .catch(error => {
+      handleAddMessage('error', 'Fehler', error.message);
+      history.push('/404');
+    })
+  }
+
+  useEffect(fetchMedium, []);
 
   const fetchRatingCount = () => {
     fetch(`http://localhost:5000/rest/ratings/count/${id}`)
@@ -88,8 +107,7 @@ const BookDetails = () => {
       .then((data) => {
         console.log(data);
         setHandleToggleComment(false);
-        //Reload page, to get actual average rating
-        // history.go();
+        fetchMedium();
       })
       .catch((error) => {
         setHandleError(
@@ -125,9 +143,7 @@ const BookDetails = () => {
     })
       .then((data) => {
         setHandleToggleRating(false);
-        //Reload page, to get actual average rating
-        // history.go();
-        //    fetchRatings();
+        fetchMedium();
       })
       .catch((error) => {
         setHandleError(
