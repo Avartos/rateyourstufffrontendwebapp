@@ -9,6 +9,11 @@ import ImagePreview from "../formComponents/imagePreview";
 import { useParams } from "react-router";
 import isbnCheck from "../../core/isbnCheck";
 
+/**
+ * This component can be used to edit an existing form from the database
+ * @param {*} param0 
+ * @returns 
+ */
 const EditBookForm = ({ handleAddMessage }) => {
   const [mediumName, setMediumName] = useState("");
   const [releaseDate, setReleaseDate] = useState("");
@@ -193,7 +198,6 @@ const EditBookForm = ({ handleAddMessage }) => {
   };
 
   const handleCheckIfISBNIsValid = (isbn) => {
-    console.log("test");
     if (isbnCheck.isValidISBN10(isbn) || isbnCheck.isValidISBN13(isbn)) {
       setIsValidIsbn(true);
     } else {

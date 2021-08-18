@@ -7,6 +7,11 @@ import AgeSelect from "../formComponents/ageSelect";
 import { Button } from "@material-ui/core";
 import ImagePreview from "../formComponents/imagePreview";
 
+/**
+ * This component is used to add a new game to the database
+ * @param {*} param0 
+ * @returns 
+ */
 const AddGameForm = ({handleAddMessage}) => {
   const [mediumName, setMediumName] = useState("");
   const [releaseDate, setReleaseDate] = useState("");
@@ -26,7 +31,6 @@ const AddGameForm = ({handleAddMessage}) => {
   const [platformList, setPlatformList] = useState([]);
   const [platforms, setPlatforms] = useState([]);
 
-  const [averagePlaytime, setAveragePlaytime] = useState(0);
   const [minNumberOfPlayers, setMinNumberOfPlayers] = useState(1);
   const [maxNumberOfPlayers, setMaxNumberOfPlayers] = useState(1);
 

@@ -3,6 +3,11 @@ import DefaultTextField from "../formComponents/defaultTextField";
 import { useState } from "react";
 import { Button } from "@material-ui/core";
 
+/**
+ * This component can be used to add a new collection to the database
+ * @param {*} param0 
+ * @returns 
+ */
 const AddCollectionForm = ({ handleCloseForm, handleAddMessage }) => {
   const [title, setTitle] = useState("");
 

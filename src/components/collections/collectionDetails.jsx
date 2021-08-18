@@ -6,7 +6,13 @@ import { Button } from "@material-ui/core";
 import DefaultTextField from "../formComponents/defaultTextField";
 import React from "react";
 import helper from "../../core/helper";
+import { useHistory } from "react-router";
 
+/**
+ * This component can be used to view and edit the details of an existing collection
+ * @param {*} param0 
+ * @returns 
+ */
 const CollectionDetails = ({ handleAddMessage }) => {
   const { id } = useParams();
 
@@ -16,6 +22,7 @@ const CollectionDetails = ({ handleAddMessage }) => {
   const [media, setMedia] = useState([]);
   const [isEditModeActive, setIsEditModeActive] = useState(false);
   const [collectionTitle, setCollectionTitle] = useState("");
+  const history = useHistory();
 
   const fetchCollection = () => {
     fetch(`http://localhost:5000/rest/collections/${id}`)
@@ -87,7 +94,6 @@ const CollectionDetails = ({ handleAddMessage }) => {
   };
 
   const handleDeleteMedium = (mediumId) => {
-    const medium = { id: mediumId };
     fetch(
       `http://localhost:5000/rest/collections/${collection.id}/medium/${mediumId}`,
       {
@@ -110,6 +116,31 @@ const CollectionDetails = ({ handleAddMessage }) => {
       .catch((error) => {
         handleAddMessage("error", "Fehler", error.message);
         console.error(error);
+      });
+  };
+
+  const handleDeleteCollection = () => {
+    fetch(`http://localhost:5000/rest/collections/${collection.id}`, {
+      method: "DELETE",
+      headers: {
+        Authorization: sessionStorage.getItem("Bearer "),
+      },
+    })
+      .then((res) => {
+        if (res.status === 403) {
+          throw Error("Keine Berechtigung zum Löschen vorhanden");
+        } else if (!res.ok) {
+          throw Error("Fehler beim Löschen der Sammlung");
+        }
+        handleAddMessage(
+          "success",
+          "Gelöscht",
+          "Die Sammlung wurde erfolgreich gelöscht"
+        );
+        history.push("/collections");
+      })
+      .catch((error) => {
+        handleAddMessage("error", "Fehler", error.message);
       });
   };
 
@@ -153,6 +184,17 @@ const CollectionDetails = ({ handleAddMessage }) => {
           }}
         >
           Abbrechen
+        </Button>
+      )}
+
+      {isEditModeActive && (
+        <Button
+          onClick={() => {
+            setIsEditModeActive(false);
+            handleDeleteCollection();
+          }}
+        >
+          Sammlung löschen
         </Button>
       )}
 

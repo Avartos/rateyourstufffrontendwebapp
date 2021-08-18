@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import { useHistory } from "react-router";
-import TextField from "@material-ui/core/TextField";
 import DefaultTextField from "../formComponents/defaultTextField";
 import DefaultCheckBox from "../formComponents/defaultCheckBox";
 import DefaultSelect from "../formComponents/defaultSelect";
@@ -9,6 +8,11 @@ import { Button } from "@material-ui/core";
 import ImagePreview from "../formComponents/imagePreview";
 import isbnCheck from "../../core/isbnCheck";
 
+/**
+ * This Component is used to add a new book to the database
+ * @param {*} param0 
+ * @returns 
+ */
 const AddBookForm = ({ handleAddMessage }) => {
   const [mediumName, setMediumName] = useState("");
   const [releaseDate, setReleaseDate] = useState("");
@@ -166,7 +170,6 @@ const AddBookForm = ({ handleAddMessage }) => {
   const [isValidIsbn, setIsValidIsbn] = useState(false);
 
   const handleCheckIfISBNIsValid = (isbn) => {
-    console.log("test");
     if (isbnCheck.isValidISBN10(isbn) || isbnCheck.isValidISBN13(isbn)) {
       setIsValidIsbn(true);
     } else {

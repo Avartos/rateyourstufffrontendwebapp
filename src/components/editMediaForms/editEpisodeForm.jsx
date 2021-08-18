@@ -6,7 +6,12 @@ import { Button } from "@material-ui/core";
 import ImagePreview from "../formComponents/imagePreview";
 import { useParams } from "react-router";
 
-const EditEpisodeForm = ({handleAddMessage}) => {
+/**
+ * This component can be used to edit an existing episode from the database
+ * @param {*} param0 
+ * @returns 
+ */
+const EditEpisodeForm = ({ handleAddMessage }) => {
   const [mediumName, setMediumName] = useState("");
   const [releaseDate, setReleaseDate] = useState("");
   const [description, setDescription] = useState("");
@@ -31,7 +36,7 @@ const EditEpisodeForm = ({handleAddMessage}) => {
     fetch(`http://localhost:5000/rest/episodes/${id}`)
       .then((res) => {
         if (!res.ok) {
-          throw Error('Die Episode kann nicht abgerufen werden.');
+          throw Error("Die Episode kann nicht abgerufen werden.");
         }
         return res.json();
       })
@@ -166,12 +171,23 @@ const EditEpisodeForm = ({handleAddMessage}) => {
 
   const handleSelectImage = (event) => {
     const file = event.target.files[0];
-    if(file.size/1024 >= 3000) {
-      handleAddMessage('error', 'Fehler', 'Bilder dürfen eine Dateigröße von 3MB nicht überschreiten!');
-    } else if(file.type !== 'image/png' && file.type !== 'image/jpeg' && file.type !== 'image/jpg') {
-      handleAddMessage('error', 'Fehler', 'Bitte laden Sie nur .jpg oder .png Dateien hoch!');
-    }
-    else {
+    if (file.size / 1024 >= 3000) {
+      handleAddMessage(
+        "error",
+        "Fehler",
+        "Bilder dürfen eine Dateigröße von 3MB nicht überschreiten!"
+      );
+    } else if (
+      file.type !== "image/png" &&
+      file.type !== "image/jpeg" &&
+      file.type !== "image/jpg"
+    ) {
+      handleAddMessage(
+        "error",
+        "Fehler",
+        "Bitte laden Sie nur .jpg oder .png Dateien hoch!"
+      );
+    } else {
       setCurrentImage(URL.createObjectURL(event.target.files[0]));
     }
   };

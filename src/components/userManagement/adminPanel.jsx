@@ -20,12 +20,14 @@ const AdminPanel = () => {
                         <th>UserName</th>
                         <th>Email</th>
                         <th>Enabled</th>
+                        <th>Role</th>
                         <th>Options</th>
                     </tr>
                 </table>
                 <div className="userDisplay">
                     {!isPending && users != null
                     && users.map((user) => {
+                        console.log(user);
                         return <UserPreview user={user} key={user.id}/>
                     })
                     }
