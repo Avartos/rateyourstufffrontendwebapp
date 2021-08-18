@@ -19,18 +19,17 @@ const UserPreview = ({user}) => {
      * @param id
      */
     const roles = ["User", "Admin", "Moderator", "Business"];
-    const { value, setValue } = useState('');
+    const {value, setValue} = useState('');
     const {role, setRole} = useState('Admin');
     const {errorMessage, setErrorMessage} = useState('');
-    const roleId = user.roleId-1;
+    const roleId = user.roleId - 1;
     console.log("User: " + user.userName + " Role: " + roles[roleId]);
     console.log("User: " + user.userName + " isEnabled: " + user.loginIsEnabled)
 
-
-/*    const handleSwitchEvent = (e) => {
-        setValue(e.target.value);
-    }
-    console.log("Value: " + value);*/
+    /*    const handleSwitchEvent = (e) => {
+            setValue(e.target.value);
+        }
+        console.log("Value: " + value);*/
 
     const handleDelete = (id) => {
         fetch(`http://localhost:5000/user/${user.id}`, {
@@ -69,35 +68,62 @@ const UserPreview = ({user}) => {
 
     }
 
-    //TODO loginRoles (dropdown w. checkboxes...)n
-    return (
-        <div className="user-preview">
+    const handleEnabledSwitch = (isEnabled) => {
+        const login = {isEnabled: isEnabled}
+        const updatedUser = {id: user.id, login};
+        console.log(updatedUser);
+        fetch('http://localhost:5000/user/isEnabledUpdate', {
+            method: 'PUT',
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": sessionStorage.getItem("Bearer "),
+            },
+            body: JSON.stringify(updatedUser)
+        }).then((response) => {
+            if (!response.ok) {
+                throw Error("Update des Profiles fehlgeschlagen!");
+            }
+        }).catch((error) => {
+            //setErrorMessage(error.message);
+        });
+        console.log(user);
+
+    };
+
+
+//TODO loginRoles (dropdown w. checkboxes...)n
+return (
+    <div className="user-preview">
         <table>
             <tr>
-                    <th>{user.id}</th>
-                    <th>{user.firstName + ' ' + user.lastName}</th>
-                    <th>{user.userName}</th>
-                    <th>{user.loginEmail}</th>
-                    <th>
-                        <Switch />
-                    </th>
-                    <th>
-                        <select
-                            defaultValue={roles[user.roleId]}
-                            //onChange={(e) => handleUserUpdate(e, user.id, e.target.value)}
-                        >
-                            <option value={1}>User</option>
-                            <option value={2}>Admin</option>
-                            <option value={3}>Moderator</option>
-                            <option value={4}>Business</option>
-                        </select>
-                    </th>
-                    <th><div className="deleteButton"><button onClick={() => handleDelete(user.id)}>Delete</button></div></th>
-                    
-                
+                <th>{user.id}</th>
+                <th>{user.firstName + ' ' + user.lastName}</th>
+                <th>{user.userName}</th>
+                <th>{user.loginEmail}</th>
+                <th>
+                    <Switch defaultValue={user.loginIsEnabled} handleEnabledSwitch={handleEnabledSwitch}/>
+                </th>
+                <th>
+                    <select
+                        defaultValue={roles[user.roleId]}
+                        //onChange={(e) => handleUserUpdate(e, user.id, e.target.value)}
+                    >
+                        <option value={1}>User</option>
+                        <option value={2}>Admin</option>
+                        <option value={3}>Moderator</option>
+                        <option value={4}>Business</option>
+                    </select>
+                </th>
+                <th>
+                    <div className="deleteButton">
+                        <button onClick={() => handleDelete(user.id)}>Delete</button>
+                    </div>
+                </th>
+
+
             </tr>
         </table>
-        </div>
-    )
+    </div>
+)
 }
 export default UserPreview
