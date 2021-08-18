@@ -71,9 +71,9 @@ export default function CustomizedAccordions({ seasonId }) {
   return (
     <div>
       <div className="EditSeasonIcon">
-        <span 
+        {authorization.isLoggedIn() && <span 
           onClick={() => {history.push(`/edit/season/${seasonId}`);}}><PencilIcon />
-        </span>
+        </span>}
       </div>
       {!isPending &&
         episodes.map((episode) => {
