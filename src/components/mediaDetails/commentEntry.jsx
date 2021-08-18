@@ -11,6 +11,9 @@ const CommentEntry = ({comment, medium}) => {
     const [handleToggleEdit, setHandleToggleEdit] = useState(false);
     const [handleToggleSubComment, setHandleToggleSubComment] = useState(false);
     const [handleError, setHandleError] = useState(null);
+    const numberOfSubCommentsPerPage = 2;
+    const [subComments, setSubComments] = useState([]);
+    const [currentSubCommentPage, setCurrentSubCommentPage] = useState(0);
     const history = useHistory();
 
     
@@ -46,6 +49,7 @@ const CommentEntry = ({comment, medium}) => {
             });
     };
 
+
     const handleSubComment = (e,body, currentUser,mediumToComment, parentComment) => {
         e.preventDefault();
 
@@ -75,6 +79,24 @@ const CommentEntry = ({comment, medium}) => {
                     "Das Formular konnte nicht abgeschickt werden (" + handleError + ")"
                 );
             });
+    };
+
+    const handleFetchSubCommentsfromComment =() => {
+        fetch(`http://localhost:5000/rest/comments/all/medium/?page=${currentSubCommentPage}&size=${numberOfSubCommentsPerPage}`)
+            .then ( res => {
+                    if (!res.ok){
+                        throw Error("unable to fetch ratings");
+                    }
+                    return res.json()
+                }
+            )
+            .then (data => {
+                setSubComments([...subComments,...data]);
+                setCurrentSubCommentPage(currentSubCommentPage+1)
+            })
+            .catch (error => {
+                console.error(error);
+            })
     };
 
     return (
