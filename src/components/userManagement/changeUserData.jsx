@@ -16,14 +16,14 @@ const ChangeUserData = ({user}) => {
     const [gender, setGender] = useState(user.gender);
     const [passwordHash, setPassword] = useState('DUMMY');
     const [passwordHashReference, setPasswordReference] = useState('DUMMY');
-    const [email, setEmail] = useState(user.login.email);
+    const [email, setEmail] = useState(user.loginEmail);
     const [validUserStatus, setValidUserStatus] = useState(false)
     const [validEmailStatus, setValidEmailStatus] = useState(false)
     const [errorMessage, setErrorMessage] = useState('');
 
     const [error, setError] = useState('');
 
-    const loginId = user.login.id;
+    const loginId = user.loginId;
 
     /**
      * Function is comparing a given email address from form with all stored email-addresses in database and
@@ -122,7 +122,7 @@ const ChangeUserData = ({user}) => {
      */
     const handleAccountUpdate = async (e) => {
         e.preventDefault();
-        const login = {id: user.login.id, isEnabled: user.login.isEnabled, email, passwordHash};
+        const login = {id: user.loginId, isEnabled: user.loginIsEnabled, email, passwordHash};
         //const isValidEmail = await checkIsValidEmail();
         if (validPassword(passwordHash, passwordHashReference)) {
             fetch('http://localhost:5000/login', {

@@ -18,7 +18,7 @@ const MediaList = ({ urlPath, title, mediaType, handleAddMessage }) => {
 
   const fetchMedia = (cleanFetch = false, page = offset) => {
     fetch(
-      `http://localhost:5000/rest/${urlPath}?page=${page}&size=${entriesPerPage}`
+      `http://localhost:5000/rest/${urlPath}?page=${page}&size=${entriesPerPage}&orderBy=releaseDate&order="asc`
     )
       .then((res) => {
         if (!res.ok) {
