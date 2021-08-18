@@ -38,8 +38,8 @@ const CommentEntry = ({comment, medium}) => {
         })
             .then((data) => {
                 setHandleToggleEdit(false);
-                //Reload page, to get actual average rating
-                // history.go();
+                //Reload page, to get updated comment
+                history.go();
             })
             .catch((error) => {
                 setHandleError(
