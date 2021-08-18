@@ -24,12 +24,6 @@ const UserPreview = ({user}) => {
     const {errorMessage, setErrorMessage} = useState('');
     const roleId = user.roleId - 1;
     console.log("User: " + user.userName + " Role: " + roles[roleId]);
-    console.log("User: " + user.userName + " isEnabled: " + user.loginIsEnabled)
-
-    /*    const handleSwitchEvent = (e) => {
-            setValue(e.target.value);
-        }
-        console.log("Value: " + value);*/
 
     const handleDelete = (id) => {
         fetch(`http://localhost:5000/user/${user.id}`, {
@@ -106,7 +100,7 @@ return (
                 <th>
                     <select
                         defaultValue={roles[user.roleId]}
-                        //onChange={(e) => handleUserUpdate(e, user.id, e.target.value)}
+                        onChange={(e) => handleUserUpdate(e, user.id, e.target.value)}
                     >
                         <option value={1}>User</option>
                         <option value={2}>Admin</option>
