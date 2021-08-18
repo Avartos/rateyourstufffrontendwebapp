@@ -32,7 +32,6 @@ const HeaderBar = () => {
             {!authorization.isLoggedIn() && <Link className="link right" to="/signup">SignUp</Link>}
             {authorization.isLoggedIn() && <span className="link right" onClick={handleLogout}>Logout</span>}
             {!authorization.isLoggedIn() && <Link className="link right" to="/login">Login</Link>}
-            {console.log("IsAdmin: " + authorization.isAdmin())}
             <div className="gradient"></div>
         </nav>
      );

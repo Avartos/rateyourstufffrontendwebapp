@@ -2,8 +2,10 @@ import React, {useState} from "react";
 import ReadOnlyRating from "../rating/readOnlyRating";
 import {Divider} from "@material-ui/core";
 import CreateIcon from "@material-ui/icons/Create";
+import EditCommentForm from "../comments/editCommentForm";
+import EditRatingForm from "../rating/editRatingForm";
 
-const RatingsEntry = ({rating}) => {
+const RatingsEntry = ({rating, medium}) => {
     const [toggleEdit, setToggleEdit] = useState(false);
     const [handleError, setHandleError] = useState(null);
 
@@ -15,7 +17,7 @@ const RatingsEntry = ({rating}) => {
             description: body,
             numberOfPosts: 0,
             userMappingId: currentUser,
-            mediumMappingId: mediumToRate,
+            mediumMappingId: medium.mediumMappingId,
             givenPoints: valueRate * 2,
         };
 
@@ -57,6 +59,9 @@ const RatingsEntry = ({rating}) => {
             }}>
             </CreateIcon>
             }
+            {toggleEdit &&(
+                <EditRatingForm handleEditRating={handleEditRating} rating={rating} medium={medium}/>
+            )}
 
             <Divider />
         </React.Fragment>

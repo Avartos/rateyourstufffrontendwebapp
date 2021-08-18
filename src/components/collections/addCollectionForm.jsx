@@ -3,7 +3,12 @@ import DefaultTextField from "../formComponents/defaultTextField";
 import { useState } from "react";
 import { Button } from "@material-ui/core";
 
-const AddCollectionForm = ({ handleCloseForm }) => {
+/**
+ * This component can be used to add a new collection to the database
+ * @param {*} param0 
+ * @returns 
+ */
+const AddCollectionForm = ({ handleCloseForm, handleAddMessage }) => {
   const [title, setTitle] = useState("");
 
   const handleSubmitForm = (e) => {
@@ -23,7 +28,7 @@ const AddCollectionForm = ({ handleCloseForm }) => {
     })
       .then((res) => {
         if (!res.ok) {
-          throw Error("Unable to add new collection");
+          throw Error('Fehler beim Hinzufügen der neuen Sammlung');
         }
       })
       .then(() => {
@@ -31,6 +36,7 @@ const AddCollectionForm = ({ handleCloseForm }) => {
       })
       .catch((err) => {
         console.error(err);
+        handleAddMessage('error', 'Fehler', err.message);
       });
   };
 

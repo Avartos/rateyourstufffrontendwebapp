@@ -6,10 +6,13 @@ import { Autocomplete } from "@material-ui/lab";
 import { TextField } from "@material-ui/core";
 import React from "react";
 
-const AddMediumToCollectionForm = ({ mediumId }) => {
+/**
+ * This component can be used to add a new medium to an existing collection
+ * @param {*} param0 
+ * @returns 
+ */
+const AddMediumToCollectionForm = ({ mediumId, handleUpdateCollectionData, handleAddMessage }) => {
   const [collections, setCollections] = useState([]);
-  const [isAddToCollectionVisible, setIsAddToCollectionVisible] =
-    useState(false);
 
   const [currentCollection, setCurrentCollection] = useState(null);
 
@@ -19,7 +22,7 @@ const AddMediumToCollectionForm = ({ mediumId }) => {
     )
       .then((res) => {
         if (!res.ok) {
-          throw Error("Unable to fetch Collections");
+          throw Error('Fehler beim Abrufen der Medien');
         }
         return res.json();
       })
@@ -28,12 +31,13 @@ const AddMediumToCollectionForm = ({ mediumId }) => {
       })
       .catch((err) => {
         console.error(err);
+        handleAddMessage('error', 'Fehler', err.message);
       });
   };
 
   const handleAddToCollection = () => {
     fetch(
-      `http://localhost:5000/rest/collections/${currentCollection}/medium/${mediumId}`,
+      `http://localhost:5000/rest/collections/${currentCollection.id}/medium/${mediumId}`,
       {
         method: "PUT",
         headers: {
@@ -44,12 +48,18 @@ const AddMediumToCollectionForm = ({ mediumId }) => {
     )
       .then((res) => {
         if (!res.ok) {
-          throw Error("Unable to update collection");
+          throw Error('Fehler beim hinzufügen des Mediums');
         }
         return res.json();
       })
-      .then((data) => {})
+      .then((data) => {
+        handleUpdateCollectionData();
+        setCurrentCollection(null);
+        fetchCollections();
+
+      })
       .catch((err) => {
+        handleAddMessage('error', 'Fehler', err.message);
         console.error(err);
       });
   };
@@ -60,24 +70,23 @@ const AddMediumToCollectionForm = ({ mediumId }) => {
     <React.Fragment>
       {collections.length > 0 && (
         <div className="addMediumToCollectionForm">
-          <Button onClick={() => setIsAddToCollectionVisible(true)}>
-            Medium zu einer Sammlung hinzufügen
-          </Button>
+          <span>Dieses Medium zu einer Sammlung hinzufügen?</span>
           <div className="collectionSelection">
             <Autocomplete
               id="combo-box-demo"
               options={collections}
-              getOptionLabel={(option) => option.title}
+              getOptionLabel={(option) => option ? option.title : ''}
               style={{ width: 300 }}
+              value={currentCollection}
               onChange={(e, value) => {
-                setCurrentCollection(value ? value.id : null);
+                setCurrentCollection(value);
               }}
               renderInput={(params) => (
-                <TextField {...params} label="Combo box" variant="outlined" />
+                <TextField {...params} label="Combo box" variant="outlined"/>
               )}
             />
             {currentCollection && (
-              <Button onClick={handleAddToCollection}>Hinzufügen</Button>
+              <Button onClick={handleAddToCollection} variant="contained" color="primary">Hinzufügen</Button>
             )}
           </div>
         </div>

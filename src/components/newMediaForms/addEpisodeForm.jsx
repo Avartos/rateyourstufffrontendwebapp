@@ -6,7 +6,12 @@ import { Button } from "@material-ui/core";
 import ImagePreview from "../formComponents/imagePreview";
 import { useParams } from "react-router";
 
-const AddEpisodeForm = () => {
+/**
+ * This component is used to add a new component to the database
+ * @param {*} param0 
+ * @returns 
+ */
+const AddEpisodeForm = ({handleAddMessage}) => {
   const [mediumName, setMediumName] = useState("");
   const [releaseDate, setReleaseDate] = useState("");
   const [description, setDescription] = useState("");
@@ -41,6 +46,7 @@ const AddEpisodeForm = () => {
         setter(data);
       })
       .catch((err) => {
+        handleAddMessage('error', 'Fehler', err.message);
         console.error(err);
       });
   };
@@ -82,8 +88,11 @@ const AddEpisodeForm = () => {
       body: JSON.stringify(episode),
     })
       .then((res) => {
-        if (!res.ok) {
-          throw Error;
+        if(res.status === 418) {
+          throw Error ('Das Medium existiert bereits');
+        }
+        else if (!res.ok) {
+          throw Error ('Unbekannter Fehler beim Anlegen des Mediums');
         }
         return res.json();
       })
@@ -98,6 +107,7 @@ const AddEpisodeForm = () => {
           body: formData,
         })
           .then((response) => {
+            handleAddMessage('success', 'Buch angelegt', 'Das neue Buch wurde erfolgreich angelegt.');
             history.push(`/detail/episode/${data.id}`);
           })
           .catch((error) => {
@@ -110,7 +120,15 @@ const AddEpisodeForm = () => {
   };
 
   const handleSelectImage = (event) => {
-    setCurrentImage(URL.createObjectURL(event.target.files[0]));
+    const file = event.target.files[0];
+    if(file.size/1024 >= 3000) {
+      handleAddMessage('error', 'Fehler', 'Bilder dürfen eine Dateigröße von 3MB nicht überschreiten!');
+    } else if(file.type !== 'image/png' && file.type !== 'image/jpeg' && file.type !== 'image/jpg') {
+      handleAddMessage('error', 'Fehler', 'Bitte laden Sie nur .jpg oder .png Dateien hoch!');
+    }
+    else {
+      setCurrentImage(URL.createObjectURL(event.target.files[0]));
+    }
   };
 
   return (

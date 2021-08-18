@@ -73,7 +73,7 @@ const TabBar = ({ratingCount,commentCount, medium, mediumId}) => {
         <Tab label={`Kommentare (${commentCount})`}/>
       </Tabs>
         <TabPanel value={value} index={0}>
-            {showValue === 0 && <RatingList ratings={ratings} handleFetchRatings={fetchRatingsFromMedium}>Bewertungen</RatingList>}
+            {showValue === 0 && <RatingList ratings={ratings} medium={medium} handleFetchRatings={fetchRatingsFromMedium}>Bewertungen</RatingList>}
         </TabPanel>
 
         <TabPanel value={value} index={1}>

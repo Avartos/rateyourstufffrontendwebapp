@@ -1,7 +1,12 @@
 import { FormControlLabel, FormControl } from "@material-ui/core";
 import { Checkbox } from "@material-ui/core";
 
-const DefaultCheckBox = ({title, value, setter}) => {
+/**
+ * This Component can be used to offer a basic toggle in checkbox form
+ * @param {*} param0 
+ * @returns 
+ */
+const DefaultCheckBox = ({ title, value, setter }) => {
   return (
     <FormControl className="checkBox" component="fieldset">
       <FormControlLabel

@@ -4,7 +4,12 @@ import { Button } from "@material-ui/core";
 import { useParams } from "react-router";
 import { useHistory } from "react-router";
 
-const EditSeasonForm = () => {
+/**
+ * This component can be used to edit a season from the database
+ * @param {*} param0 
+ * @returns 
+ */
+const EditSeasonForm = ({handleAddMessage}) => {
   const [seasonTitle, setSeasonTitle] = useState("");
   const [seasonNumber, setSeasonNumber] = useState(0);
   const [seriesId, setSeriesId] = useState();
@@ -15,7 +20,7 @@ const EditSeasonForm = () => {
     fetch(`http://localhost:5000/rest/seasons/${id}`)
       .then((res) => {
         if (!res.ok) {
-          throw Error("Unable to fetch season");
+          throw Error('Fehler beim Abrufen der Staffel');
         }
         return res.json();
       })
@@ -48,14 +53,22 @@ const EditSeasonForm = () => {
       body: JSON.stringify(season),
     })
       .then((res) => {
-        if (!res.ok) {
-          throw Error("Unable to add new Season");
+        if (res.status === 418) {
+          throw Error("Das Medium existiert bereits");
+        } else if (!res.ok) {
+          throw Error("Unbekannter Fehler beim Anlegen des Mediums");
         }
       })
       .then(() => {
+        handleAddMessage(
+          "success",
+          "Aktualisiert",
+          "Die Staffel wurde aktualisiert"
+        );
         history.push(`/detail/series/${seriesId}`);
       })
       .catch((error) => {
+        handleAddMessage("error", "Fehler", error.message);
         console.error(error);
       });
   };

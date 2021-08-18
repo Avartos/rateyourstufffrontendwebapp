@@ -8,8 +8,6 @@ import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
 import Accordion from "../components/accordion";
 import useFetch from "../hooks/useFetch";
-import { Button } from "@material-ui/core";
-import { useHistory } from "react-router";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;

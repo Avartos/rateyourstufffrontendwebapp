@@ -11,6 +11,9 @@ const CommentEntry = ({comment, medium}) => {
     const [handleToggleEdit, setHandleToggleEdit] = useState(false);
     const [handleToggleSubComment, setHandleToggleSubComment] = useState(false);
     const [handleError, setHandleError] = useState(null);
+    const numberOfSubCommentsPerPage = 2;
+    const [subComments, setSubComments] = useState([]);
+    const [currentSubCommentPage, setCurrentSubCommentPage] = useState(0);
     const history = useHistory();
 
     
@@ -26,7 +29,6 @@ const CommentEntry = ({comment, medium}) => {
             mediumMappingId: mediumToComment,
         };
 
-        console.log(updatedComment);
 
         fetch(`http://localhost:5000/rest/comments`, {
             method: "PUT",
@@ -46,6 +48,7 @@ const CommentEntry = ({comment, medium}) => {
             });
     };
 
+
     const handleSubComment = (e,body, currentUser,mediumToComment, parentComment) => {
         e.preventDefault();
 
@@ -54,9 +57,8 @@ const CommentEntry = ({comment, medium}) => {
             numberOfPosts: 0,
             userMappingId: currentUser,
             mediumMappingId: mediumToComment,
-            comment_parent:parentComment,
+            parentMappingId:parentComment,
         };
-        console.log(newSubComment);
 
         fetch(`http://localhost:5000/rest/comments/add`, {
             method: "POST",
@@ -65,7 +67,6 @@ const CommentEntry = ({comment, medium}) => {
             body: JSON.stringify(newSubComment),
         })
             .then((data) => {
-                console.log(data);
                 setHandleToggleSubComment(false);
                 //Reload page, to get actual average rating
                 // history.go();
@@ -75,6 +76,24 @@ const CommentEntry = ({comment, medium}) => {
                     "Das Formular konnte nicht abgeschickt werden (" + handleError + ")"
                 );
             });
+    };
+
+    const handleFetchSubCommentsfromComment =() => {
+        fetch(`http://localhost:5000/rest/comments/all/medium/?page=${currentSubCommentPage}&size=${numberOfSubCommentsPerPage}`)
+            .then ( res => {
+                    if (!res.ok){
+                        throw Error("unable to fetch ratings");
+                    }
+                    return res.json()
+                }
+            )
+            .then (data => {
+                setSubComments([...subComments,...data]);
+                setCurrentSubCommentPage(currentSubCommentPage+1)
+            })
+            .catch (error => {
+                console.error(error);
+            })
     };
 
     return (

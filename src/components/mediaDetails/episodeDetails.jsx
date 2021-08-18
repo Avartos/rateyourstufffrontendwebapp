@@ -7,26 +7,43 @@ import Chip from "@material-ui/core/Chip";
 import NewRatingForm from "../rating/newRatingForm";
 import NewCommentForm from "../comments/newCommentForm";
 import {useHistory} from "react-router";
-import ShowRating from "../rating/showRating";
 import { Button } from "@material-ui/core";
 import SmallCollectionList from "./smallCollectionList";
-import AddMediumToCollectionForm from "../collections/addMediumToCollectionForm";
-import helper from "../../core/helper";
+import authorization from "../../core/authorization";
 
 
-const EpisodeDetails = () => {
+const EpisodeDetails = ({handleAddMessage}) => {
   const { id } = useParams();
-  const {
-    data: medium,
-    isPending,
-    error,
-  } = useFetch(`http://localhost:5000/rest/episodes/${id}`);
+
   const history = useHistory();
   const [handleError, setHandleError] = useState(null);
   const [handleToggleRating, setHandleToggleRating] = useState(false);
   const [handleToggleComment, setHandleToggleComment] = useState(false);
   const [ratingCount, setRatingCount] = useState(0);
   const [commentCount, setCommentCount] = useState(0);
+  const [medium, setMedium] = useState();
+  const [isPending, setIsPending] = useState(true);
+
+  const fetchMedium = () => {
+    setIsPending(true);
+    fetch(`http://localhost:5000/rest/episodes/${id}`)
+    .then(res => {
+      if(!res.ok) {
+        throw Error ('Fehler beim Abrufen des Mediums');
+      }
+      return res.json();
+    })
+    .then(data => {
+      setMedium(data);
+      setIsPending(false);
+    })
+    .catch(error => {
+      handleAddMessage('error', 'Fehler', error.message);
+      history.push('/404');
+    })
+  }
+
+  useEffect(fetchMedium,[]);
 
   const fetchRatingCount=() =>{
     fetch(`http://localhost:5000/rest/ratings/count/${id}`)
@@ -81,7 +98,6 @@ const EpisodeDetails = () => {
       givenPoints: valueRate * 2,
     };
 
-    console.log(newRate);
 
     fetch(`http://localhost:5000/rest/ratings/add`, {
       method: "POST",
@@ -89,12 +105,9 @@ const EpisodeDetails = () => {
       body: JSON.stringify(newRate),
     })
       .then((data) => {
-        console.log(data);
         // close the Form for NewRate
         setHandleToggleRating(false);
-        //Reload page, to get actual average rating
-        history.go();
-        //    fetchRatings();
+        fetchMedium();
       })
       .catch((error) => {
         setHandleError(
@@ -119,9 +132,8 @@ const EpisodeDetails = () => {
       body: JSON.stringify(newComment),
     })
       .then((data) => {
-        console.log(data);
         setHandleToggleComment(false);
-        history.go();
+        fetchMedium();
       })
       .catch((error) => {
         setHandleError(
@@ -144,7 +156,7 @@ const EpisodeDetails = () => {
               </div>
 
               <div className="details">
-                <Button onClick={()=>{history.push(`/edit/movie/${id}`)}}>Bearbeiten</Button>
+                {authorization.isLoggedIn() && <Button onClick={()=>{history.push(`/edit/movie/${id}`)}}>Bearbeiten</Button>}
                 <h2 className="title">{medium.mediumName}</h2>
                 <div className="detailField">
                   <span className="smallHeading">Genres</span>
@@ -255,8 +267,6 @@ const EpisodeDetails = () => {
             <div className="detailGroup">
             <span className="heading">Verwandte Sammlungen</span>
               <SmallCollectionList mediumId={id} />
-              
-              {helper.isLoggedIn() && <AddMediumToCollectionForm mediumId={id}/>}      
             </div>
           </div>
         </div>

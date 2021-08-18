@@ -8,7 +8,12 @@ import { Button } from "@material-ui/core";
 import ImagePreview from "../formComponents/imagePreview";
 import { useParams } from "react-router";
 
-const EditMovieForm = () => {
+/**
+ * This component can be used to edit a movie from the database
+ * @param {*} param0 
+ * @returns 
+ */
+const EditMovieForm = ({handleAddMessage}) => {
   const [mediumName, setMediumName] = useState("");
   const [releaseDate, setReleaseDate] = useState("");
   const [description, setDescription] = useState("");
@@ -54,6 +59,7 @@ const EditMovieForm = () => {
         setPicturePath(data.picturePath);
       })
       .catch((error) => {
+        handleAddMessage("error", "Fehler", error.message);
         history.push("/not_found");
         console.error(error);
       });
@@ -70,8 +76,9 @@ const EditMovieForm = () => {
       .then((data) => {
         setter(data);
       })
-      .catch((err) => {
-        console.error(err);
+      .catch((error) => {
+        handleAddMessage("error", "Fehler", error.message);
+        console.error(error);
       });
   };
 
@@ -123,8 +130,10 @@ const EditMovieForm = () => {
       body: JSON.stringify(movie),
     })
       .then((res) => {
-        if (!res.ok) {
-          throw Error;
+        if (res.status === 418) {
+          throw Error("Das Medium existiert bereits");
+        } else if (!res.ok) {
+          throw Error("Unbekannter Fehler beim Anlegen des Mediums");
         }
         return res.json();
       })
@@ -140,20 +149,42 @@ const EditMovieForm = () => {
             body: formData,
           })
             .then((response) => {
+              handleAddMessage(
+                "success",
+                "Aktualisiert",
+                "Der Film wurde aktualisiert"
+              );
               history.push(`/detail/movie/${data.id}`);
             })
             .catch((error) => {
+              handleAddMessage("error", "Fehler", error.message);
               console.error(error);
             });
+        } else {
+          handleAddMessage(
+            "success",
+            "Aktualisiert",
+            "Der Film wurde aktualisiert"
+          );
+          history.push(`/detail/movie/${data.id}`);
         }
       })
       .catch((error) => {
+        handleAddMessage("error", "Fehler", error.message);
         console.error(error);
       });
   };
 
   const handleSelectImage = (event) => {
-    setCurrentImage(URL.createObjectURL(event.target.files[0]));
+    const file = event.target.files[0];
+    if(file.size/1024 >= 3000) {
+      handleAddMessage('error', 'Fehler', 'Bilder dürfen eine Dateigröße von 3MB nicht überschreiten!');
+    } else if(file.type !== 'image/png' && file.type !== 'image/jpeg' && file.type !== 'image/jpg') {
+      handleAddMessage('error', 'Fehler', 'Bitte laden Sie nur .jpg oder .png Dateien hoch!');
+    }
+    else {
+      setCurrentImage(URL.createObjectURL(event.target.files[0]));
+    }
   };
 
   return (

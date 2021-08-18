@@ -3,10 +3,17 @@ import MediaEntry from './mediaEntry';
 import { CircularProgress } from "@material-ui/core";
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { useEffect } from 'react';
 
-const MediaSpotlightList = ({fetchURL, title, mediaType, linkTarget}) => {
+const MediaSpotlightList = ({fetchURL, title, mediaType, linkTarget, handleAddMessage}) => {
     
     const {data: media, isPending, error} = useFetch(fetchURL);
+
+    useEffect(() => {
+        if(error != null) {
+            handleAddMessage('error', 'Fehler', `Fehler beim Laden von ${mediaType}`);
+        }
+    }, [error])
 
     return ( 
         <div className="spotlightList">

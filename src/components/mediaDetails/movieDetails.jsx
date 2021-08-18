@@ -6,63 +6,78 @@ import TabBar from "./tabBar";
 import Chip from "@material-ui/core/Chip";
 import NewRatingForm from "../rating/newRatingForm";
 import NewCommentForm from "../comments/newCommentForm";
-import {useHistory} from "react-router-dom";
-import ShowRating from "../rating/showRating";
+import { useHistory } from "react-router-dom";
 import { Button } from "@material-ui/core";
 import SmallCollectionList from "./smallCollectionList";
-import AddMediumToCollectionForm from "../collections/addMediumToCollectionForm";
-import helper from "../../core/helper";
+import authorization from "../../core/authorization";
 
-
-const MovieDetails = () => {
+const MovieDetails = ({handleAddMessage}) => {
   const { id } = useParams();
-  const {
-    data: medium,
-    isPending,
-    error,
-  } = useFetch(`http://localhost:5000/rest/movies/${id}`);
+
   const history = useHistory();
   const [handleError, setHandleError] = useState(null);
   const [handleToggleRating, setHandleToggleRating] = useState(false);
   const [handleToggleComment, setHandleToggleComment] = useState(false);
   const [ratingCount, setRatingCount] = useState(0);
   const [commentCount, setCommentCount] = useState(0);
+  const [medium, setMedium] = useState();
+  const [isPending, setIsPending] = useState(true);
 
-  const fetchRatingCount=() =>{
+  const fetchMedium = () => {
+    setIsPending(true);
+    fetch(`http://localhost:5000/rest/movies/${id}`)
+    .then(res => {
+      if(!res.ok) {
+        throw Error ('Fehler beim Abrufen des Mediums');
+      }
+      return res.json();
+    })
+    .then(data => {
+      setMedium(data);
+      setIsPending(false);
+    })
+    .catch(error => {
+      handleAddMessage('error', 'Fehler', error.message);
+      history.push('/404');
+    })
+  }
+
+  useEffect(fetchMedium,[]);
+
+
+  const fetchRatingCount = () => {
     fetch(`http://localhost:5000/rest/ratings/count/${id}`)
-        .then ( res => {
-              if (!res.ok){
-                throw Error("unable to fetch ratingcounts");
-              }
-        return res.json()
+      .then((res) => {
+        if (!res.ok) {
+          throw Error("unable to fetch ratingcounts");
         }
-        )
-        .then (data => {
-          setRatingCount(data);
-        })
-        .catch (error => {
-          console.error(error);
-        })
-  }
-  useEffect(fetchRatingCount,[]);
+        return res.json();
+      })
+      .then((data) => {
+        setRatingCount(data);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
+  useEffect(fetchRatingCount, []);
 
-  const fetchCommentCount=() =>{
+  const fetchCommentCount = () => {
     fetch(`http://localhost:5000/rest/comments/count/${id}`)
-        .then ( res => {
-              if (!res.ok){
-                throw Error("unable to fetch commentcounts");
-              }
-              return res.json()
-            }
-        )
-        .then (data => {
-          setCommentCount(data);
-        })
-        .catch (error => {
-          console.error(error);
-        })
-  }
-  useEffect(fetchCommentCount,[]);
+      .then((res) => {
+        if (!res.ok) {
+          throw Error("unable to fetch commentcounts");
+        }
+        return res.json();
+      })
+      .then((data) => {
+        setCommentCount(data);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
+  useEffect(fetchCommentCount, []);
 
   const handleSubmitFormRating = (
     e,
@@ -85,8 +100,9 @@ const MovieDetails = () => {
 
     fetch(`http://localhost:5000/rest/ratings/add`, {
       method: "POST",
-      headers: { "Content-Type": "application/json",
-          "Authorization": sessionStorage.getItem("Bearer "),
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: sessionStorage.getItem("Bearer "),
       },
       body: JSON.stringify(newRate),
     })
@@ -95,8 +111,7 @@ const MovieDetails = () => {
         // close the Form for NewRate
         setHandleToggleRating(false);
         //Reload page, to get actual average rating
-        history.go();
-        //    fetchRatings();
+        fetchMedium();
       })
       .catch((error) => {
         setHandleError(
@@ -117,15 +132,16 @@ const MovieDetails = () => {
 
     fetch(`http://localhost:5000/rest/comments/add`, {
       method: "POST",
-        headers: { "Content-Type": "application/json",
-            "Authorization": sessionStorage.getItem("Bearer ")
-        },
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: sessionStorage.getItem("Bearer "),
+      },
       body: JSON.stringify(newComment),
     })
       .then((data) => {
         console.log(data);
         setHandleToggleComment(false);
-        history.go();
+        fetchMedium();
       })
       .catch((error) => {
         setHandleError(
@@ -148,7 +164,15 @@ const MovieDetails = () => {
               </div>
 
               <div className="details">
-                <Button onClick={()=>{history.push(`/edit/movie/${id}`)}}>Bearbeiten</Button>
+                {authorization.isLoggedIn() && (
+                  <Button
+                    onClick={() => {
+                      history.push(`/edit/movie/${id}`);
+                    }}
+                  >
+                    Bearbeiten
+                  </Button>
+                )}
                 <h2 className="title">{medium.mediumName}</h2>
                 <div className="detailField">
                   <span className="smallHeading">Genres</span>
@@ -253,14 +277,16 @@ const MovieDetails = () => {
             )}
 
             <div className="body">
-              <TabBar ratingCount={ratingCount} mediumId={id} commentCount={commentCount}></TabBar>
+              <TabBar
+                ratingCount={ratingCount}
+                mediumId={id}
+                commentCount={commentCount}
+              ></TabBar>
             </div>
 
             <div className="detailGroup">
-            <span className="heading">Verwandte Sammlungen</span>
+              <span className="heading">Verwandte Sammlungen</span>
               <SmallCollectionList mediumId={id} />
-              
-              {helper.isLoggedIn() && <AddMediumToCollectionForm mediumId={id}/>}      
             </div>
           </div>
         </div>
