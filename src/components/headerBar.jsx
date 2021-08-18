@@ -29,10 +29,12 @@ const HeaderBar = () => {
             <Link className="link" to="/"><h2>rateYourStuff</h2></Link>
           </div>
           <SearchBar/>
+          <div>
             {!authorization.isLoggedIn() && <Link className="link right" to="/signup">SignUp</Link>}
             {authorization.isLoggedIn() && <span className="link right" onClick={handleLogout}>Logout</span>}
             {!authorization.isLoggedIn() && <Link className="link right" to="/login">Login</Link>}
             <div className="gradient"></div>
+          </div>
         </nav>
      );
 }

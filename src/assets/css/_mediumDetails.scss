@@ -130,5 +130,28 @@
     width: 100%;
   }
 
+  .MuiButtonBase-root.MuiButton-root.MuiButton-text {
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-start;
+  }
+
+  .titleWithEdit {
+    display: flex;
+    width:100%;
+    justify-content: space-between;
+  }
+
+  #Layer_1 {
+    fill: white;
+    width: 25px;
+    height: 25px;
+    cursor: pointer;
+  }
+
+  .EditSeasonIcon {
+    display: flex;
+    justify-content: flex-end;
+  }
   
 }

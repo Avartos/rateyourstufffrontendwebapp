@@ -9,6 +9,9 @@ import NewCommentForm from "../comments/newCommentForm";
 import { useHistory } from "react-router";
 import { Button } from "@material-ui/core";
 import SmallCollectionList from "./smallCollectionList";
+import AddMediumToCollectionForm from "../collections/addMediumToCollectionForm";
+import helper from "../../core/helper";
+import { ReactComponent as PencilIcon } from "../../icons/pencil.svg";
 import authorization from "../../core/authorization";
 
 const HyphenNecessity = (moreThanOnePlayer) => {
@@ -166,16 +169,13 @@ const GameDetails = ({handleAddMessage}) => {
                 ></img>
               </div>
               <div className="details">
-                {authorization.isLoggedIn() && (
-                  <Button
-                    onClick={() => {
-                      history.push(`/edit/game/${id}`);
-                    }}
-                  >
-                    Bearbeiten
-                  </Button>
-                )}
-                <h2 className="title">{medium.mediumName}</h2>
+                <div className="titleWithEdit">
+                  <h2 className="title">{medium.mediumName}</h2>
+                    {authorization.isLoggedIn() && <span className="mediumEditButton"
+                      onClick={() => {history.push(`/edit/game/${id}`);}}>
+                      <PencilIcon />
+                    </span>}
+                </div>
                 <div className="detailField">
                   <span className="smallHeading">Genres</span>
                   <span>
