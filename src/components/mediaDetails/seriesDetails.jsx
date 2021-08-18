@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import useFetch from "../../hooks/useFetch";
 import { useParams } from "react-router";
 import ReadOnlyRating from "../rating/readOnlyRating";
@@ -11,8 +11,7 @@ import { useHistory } from "react-router";
 import { Button } from "@material-ui/core";
 import AddSeasonForm from "../newMediaForms/addSeasonForm";
 import SmallCollectionList from "./smallCollectionList";
-import AddMediumToCollectionForm from "../collections/addMediumToCollectionForm";
-import helper from "../../core/helper";
+import authorization from "../../core/authorization";
 
 const BoolOutput = (isTrue) => {
   if (isTrue === true) {
@@ -37,41 +36,39 @@ const SeriesDetails = () => {
   const [ratingCount, setRatingCount] = useState(0);
   const [commentCount, setCommentCount] = useState(0);
 
-  const fetchRatingCount=() =>{
+  const fetchRatingCount = () => {
     fetch(`http://localhost:5000/rest/ratings/count/${id}`)
-        .then ( res => {
-              if (!res.ok){
-                throw Error("unable to fetch ratingcounts");
-              }
-              return res.json()
-            }
-        )
-        .then (data => {
-          setRatingCount(data);
-        })
-        .catch (error => {
-          console.error(error);
-        })
-  }
-  useEffect(fetchRatingCount,[]);
+      .then((res) => {
+        if (!res.ok) {
+          throw Error("unable to fetch ratingcounts");
+        }
+        return res.json();
+      })
+      .then((data) => {
+        setRatingCount(data);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
+  useEffect(fetchRatingCount, []);
 
-  const fetchCommentCount=() =>{
+  const fetchCommentCount = () => {
     fetch(`http://localhost:5000/rest/comments/count/${id}`)
-        .then ( res => {
-              if (!res.ok){
-                throw Error("unable to fetch commentcounts");
-              }
-              return res.json()
-            }
-        )
-        .then (data => {
-          setCommentCount(data);
-        })
-        .catch (error => {
-          console.error(error);
-        })
-  }
-  useEffect(fetchCommentCount,[]);
+      .then((res) => {
+        if (!res.ok) {
+          throw Error("unable to fetch commentcounts");
+        }
+        return res.json();
+      })
+      .then((data) => {
+        setCommentCount(data);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
+  useEffect(fetchCommentCount, []);
 
   const handleSubmitFormRating = (
     e,
@@ -90,11 +87,12 @@ const SeriesDetails = () => {
       givenPoints: valueRate * 2,
     };
 
-
     fetch(`http://localhost:5000/rest/ratings/add`, {
       method: "POST",
-      headers: { "Content-Type": "application/json",
-          "Authorization": sessionStorage.getItem("Bearer "),},
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: sessionStorage.getItem("Bearer "),
+      },
       body: JSON.stringify(newRate),
     })
       .then((data) => {
@@ -112,21 +110,23 @@ const SeriesDetails = () => {
   const handleSubmitFormComment = (e, body, currentUser, mediumToComment) => {
     e.preventDefault();
 
-      let newComment = {
-          textOfComment: body,
-          numberOfPosts: 0,
-          userMappingId: currentUser,
-          mediumMappingId: mediumToComment,
-      };
+    let newComment = {
+      textOfComment: body,
+      numberOfPosts: 0,
+      userMappingId: currentUser,
+      mediumMappingId: mediumToComment,
+    };
 
     fetch(`http://localhost:5000/rest/comments/add`, {
       method: "POST",
-      headers: { "Content-Type": "application/json",
-          "Authorization": sessionStorage.getItem("Bearer "),},
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: sessionStorage.getItem("Bearer "),
+      },
       body: JSON.stringify(newComment),
     })
       .then((data) => {
-          setHandleToggleComment(false);
+        setHandleToggleComment(false);
         history.go();
       })
       .catch((error) => {
@@ -149,13 +149,15 @@ const SeriesDetails = () => {
                 ></img>
               </div>
               <div className="details">
-              <Button 
-                  onClick={() => {
-                    history.push(`/edit/series/${id}`);
-                  }}
-                >
-                  Bearbeiten
-                </Button>
+                {authorization.isLoggedIn() && (
+                  <Button
+                    onClick={() => {
+                      history.push(`/edit/series/${id}`);
+                    }}
+                  >
+                    Bearbeiten
+                  </Button>
+                )}
                 <h2 className="title">{medium.mediumName}</h2>
                 <div className="detailField">
                   <span className="smallHeading">Genres</span>
@@ -228,15 +230,32 @@ const SeriesDetails = () => {
 
             <div className="seasonsDisplay">
               <Tabs seriesId={medium.id}></Tabs>
-              <p>Ist die gewünschte Staffel noch nicht dabei?</p>
-              <Button variant="contained" color="primary" onClick={() => {setIsSeasonFormVisible(!isSeasonFormVisible)}}>
-                {!isSeasonFormVisible ? <span>Neue Staffel hinzufügen</span> : <span>Formular verstecken</span>}
-              </Button>
+              {authorization.isLoggedIn() && (
+                <React.Fragment>
+                  <p>Ist die gewünschte Staffel noch nicht dabei?</p>
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    onClick={() => {
+                      setIsSeasonFormVisible(!isSeasonFormVisible);
+                    }}
+                  >
+                    {!isSeasonFormVisible ? (
+                      <span>Neue Staffel hinzufügen</span>
+                    ) : (
+                      <span>Formular verstecken</span>
+                    )}
+                  </Button>
+                </React.Fragment>
+              )}
             </div>
 
-            {isSeasonFormVisible && (
+            {isSeasonFormVisible && authorization.isLoggedIn() && (
               <div className="detailGroup">
-                <AddSeasonForm seriesId={id} handleHideSeasonForm={setIsSeasonFormVisible}></AddSeasonForm>
+                <AddSeasonForm
+                  seriesId={id}
+                  handleHideSeasonForm={setIsSeasonFormVisible}
+                ></AddSeasonForm>
               </div>
             )}
 
@@ -281,11 +300,15 @@ const SeriesDetails = () => {
             )}
 
             <div className="body">
-              <TabBar ratingCount={ratingCount} mediumId={id} commentCount={commentCount}></TabBar>
+              <TabBar
+                ratingCount={ratingCount}
+                mediumId={id}
+                commentCount={commentCount}
+              ></TabBar>
             </div>
 
             <div className="detailGroup">
-            <span className="heading">Verwandte Sammlungen</span>
+              <span className="heading">Verwandte Sammlungen</span>
               <SmallCollectionList mediumId={id} />
             </div>
           </div>

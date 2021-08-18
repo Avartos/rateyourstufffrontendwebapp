@@ -9,8 +9,7 @@ import NewCommentForm from "../comments/newCommentForm";
 import { useHistory } from "react-router";
 import { Button } from "@material-ui/core";
 import SmallCollectionList from "./smallCollectionList";
-import AddMediumToCollectionForm from "../collections/addMediumToCollectionForm";
-import helper from "../../core/helper";
+import authorization from "../../core/authorization";
 
 const HyphenNecessity = (moreThanOnePlayer) => {
   if (moreThanOnePlayer !== null) {
@@ -87,8 +86,10 @@ const GameDetails = () => {
 
     fetch(`http://localhost:5000/rest/ratings/add`, {
       method: "POST",
-      headers: { "Content-Type": "application/json",
-        "Authorization": sessionStorage.getItem("Bearer "),},
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: sessionStorage.getItem("Bearer "),
+      },
       body: JSON.stringify(newRate),
     })
       .then((data) => {
@@ -116,8 +117,10 @@ const GameDetails = () => {
 
     fetch(`http://localhost:5000/rest/comments/add`, {
       method: "POST",
-      headers: { "Content-Type": "application/json",
-        "Authorization": sessionStorage.getItem("Bearer "),},
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: sessionStorage.getItem("Bearer "),
+      },
       body: JSON.stringify(newComment),
     })
       .then((data) => {
@@ -145,13 +148,15 @@ const GameDetails = () => {
                 ></img>
               </div>
               <div className="details">
-                <Button
-                  onClick={() => {
-                    history.push(`/edit/game/${id}`);
-                  }}
-                >
-                  Bearbeiten
-                </Button>
+                {authorization.isLoggedIn() && (
+                  <Button
+                    onClick={() => {
+                      history.push(`/edit/game/${id}`);
+                    }}
+                  >
+                    Bearbeiten
+                  </Button>
+                )}
                 <h2 className="title">{medium.mediumName}</h2>
                 <div className="detailField">
                   <span className="smallHeading">Genres</span>
@@ -286,7 +291,7 @@ const GameDetails = () => {
             </div>
 
             <div className="detailGroup">
-            <span className="heading">Verwandte Sammlungen</span>
+              <span className="heading">Verwandte Sammlungen</span>
               <SmallCollectionList mediumId={id} />
             </div>
           </div>

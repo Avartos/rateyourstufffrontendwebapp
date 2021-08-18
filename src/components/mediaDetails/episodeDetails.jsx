@@ -7,11 +7,9 @@ import Chip from "@material-ui/core/Chip";
 import NewRatingForm from "../rating/newRatingForm";
 import NewCommentForm from "../comments/newCommentForm";
 import {useHistory} from "react-router";
-import ShowRating from "../rating/showRating";
 import { Button } from "@material-ui/core";
 import SmallCollectionList from "./smallCollectionList";
-import AddMediumToCollectionForm from "../collections/addMediumToCollectionForm";
-import helper from "../../core/helper";
+import authorization from "../../core/authorization";
 
 
 const EpisodeDetails = () => {
@@ -144,7 +142,7 @@ const EpisodeDetails = () => {
               </div>
 
               <div className="details">
-                <Button onClick={()=>{history.push(`/edit/movie/${id}`)}}>Bearbeiten</Button>
+                {authorization.isLoggedIn() && <Button onClick={()=>{history.push(`/edit/movie/${id}`)}}>Bearbeiten</Button>}
                 <h2 className="title">{medium.mediumName}</h2>
                 <div className="detailField">
                   <span className="smallHeading">Genres</span>
