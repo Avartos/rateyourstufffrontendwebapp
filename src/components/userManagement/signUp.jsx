@@ -1,5 +1,4 @@
 import { useState } from "react";
-import RedirectingComponent from "./redirectingComponent";
 import { useHistory } from "react-router-dom";
 import useFetch from "../../hooks/useFetch";
 import { red } from "@material-ui/core/colors";
@@ -9,7 +8,7 @@ import { red } from "@material-ui/core/colors";
  * @return {JSX.Element} signUp component
  * @constructor
  */
-const SignUp = () => {
+const SignUp = ({handleAddMessage}) => {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [gender, setGender] = useState("male");
@@ -43,6 +42,7 @@ const SignUp = () => {
       })
       .catch((error) => {
         setValidEmailStatus(false);
+        handleAddMessage('error', 'Fehler', error.message);
         return true;
       });
   }
@@ -65,7 +65,7 @@ const SignUp = () => {
       })
       .catch((error) => {
         setValidUserStatus(false)
-        setErrorMessage(error.message);
+        handleAddMessage('error', 'Fehler', error.message);
         return false;
       });
   }
@@ -80,7 +80,8 @@ const SignUp = () => {
     if (passwordHash === passwordHashReference) {
       return true;
     } else {
-      setErrorMessage("non identical passwords");
+
+      handleAddMessage('error', 'Fehler', 'Die Passwörter stimmen nicht überein');
       return false;
     }
   }
@@ -114,13 +115,14 @@ const SignUp = () => {
             if (!response.ok) {
               throw Error("Registrierung fehlgeschlagen!");
             }
+            handleAddMessage('success', 'Registriert', 'Sie wurden erfolgreich Registriert');
             _router.push("/login");
           })
           .catch((error) => {
-            setErrorMessage(error.message);
+            handleAddMessage('error', 'Fehler', error.message);
           });
       } else {
-        setErrorMessage("Error adding user");
+        handleAddMessage('error', 'Fehler', 'Fehler beim Registrieren');
       }
   };
 
@@ -145,7 +147,7 @@ const SignUp = () => {
         <h2>Account erstellen</h2>
         <div className="signUp">
           <form onSubmit={handleSubmit}>
-            <label>Gender</label>
+            <label>Geschlecht</label>
             <select
               className="genderChoiceField"
               value={gender}
@@ -155,7 +157,7 @@ const SignUp = () => {
               <option value="female">female</option>
               <option value="diverse">diverse</option>
             </select>
-            <label>First Name</label>
+            <label>Vorname</label>
             <input
               className="signUpInput"
               type="text"
@@ -163,7 +165,7 @@ const SignUp = () => {
               value={firstName}
               onChange={(e) => setFirstName(e.target.value)}
             />
-            <label>Last Name</label>
+            <label>Nachname</label>
             <input
               className="signUpInput"
               type="text"
@@ -171,7 +173,7 @@ const SignUp = () => {
               value={lastName}
               onChange={(e) => setLastName(e.target.value)}
             />
-            <label>User Name</label>
+            <label>Nutzername</label>
             <input
               className="signUpInput"
               type="text"
@@ -187,7 +189,7 @@ const SignUp = () => {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
             />
-            <label>Password</label>
+            <label>Passwort</label>
             <input
               className="signUpInput"
               id="password"
@@ -196,7 +198,7 @@ const SignUp = () => {
               value={passwordHash}
               onChange={(e) => setPassword(e.target.value)}
             />
-            <label>Repeat Password</label>
+            <label>Passwort Wiederholung</label>
             <input
               className="signUpInput"
               type="password"

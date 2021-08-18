@@ -5,11 +5,12 @@ import {useHistory} from "react-router";
  * @returns {JSX.Element} Logout component
  * @constructor
  */
-const Logout = () => {
+const Logout = ({handleAddMessage}) => {
     const _router = useHistory();
     return (
         <div className="loggedOut">
             {sessionStorage.clear()}
+            {handleAddMessage('info', 'Abgemeldet')}
             {setTimeout(() => _router.go(), 1000)}
         </div>
     )

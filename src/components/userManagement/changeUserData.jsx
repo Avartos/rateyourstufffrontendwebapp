@@ -6,7 +6,7 @@ import {useState} from "react";
  * @returns {JSX.Element} changeUserData
  * @constructor
  */
-const ChangeUserData = ({user}) => {
+const ChangeUserData = ({user, handleAddMessage}) => {
 
     (console.log("ChangeUserDataOutput " + user));
     const [firstName, setFirstName] = useState(user.firstName);
@@ -45,6 +45,7 @@ const ChangeUserData = ({user}) => {
             })
             .catch((error) => {
                 setValidEmailStatus(false);
+                handleAddMessage('error', 'Fehler', error.message);
                 return true;
             });
     }
@@ -67,7 +68,7 @@ const ChangeUserData = ({user}) => {
             })
             .catch((error) => {
                 setValidUserStatus(false)
-                setErrorMessage(error.message);
+                handleAddMessage('error', 'Fehler', error.message);
                 return false;
             });
     }
@@ -107,13 +108,10 @@ const ChangeUserData = ({user}) => {
                 if (!response.ok) {
                     throw Error("Update des Profiles fehlgeschlagen!");
                 }
+                handleAddMessage('success', 'Aktualisiert', 'Ihre Nutzerdaten wurden aktualisiert');
             }).catch((error) => {
-                setErrorMessage(error.message);
+                handleAddMessage('error', 'Fehler', error.message);
             });
-            console.log(user);
-        //} else {
-        //    setErrorMessage("Username bereits vergeben!")
-   //     }
    }
 
     /**
@@ -136,16 +134,18 @@ const ChangeUserData = ({user}) => {
                 if(!response.ok){
                     throw Error("Updaten der Account - Daten fehlgeschlagen!");
                 }
-                console.log('Account successfully updated');
+                setHasAccountBeenChanged(false);
+                handleAddMessage('success', 'Aktualisiert', 'Ihr Account wurde aktualisiert');
             }).catch(error => {
-                setErrorMessage(error.message);
+                handleAddMessage('error', 'Fehler', error.message);
             });
             //console.log(user);
         } else {
-            console.log('Password Check failed');
-            setError('Passwörter müssen identisch sein!');
+            handleAddMessage('error', 'Fehler', 'Die Passwörter stimmen nicht überein');
         }
     }
+
+    const [hasAccountBeenChanged, setHasAccountBeenChanged] = useState(false);
 
 
     return (
@@ -155,26 +155,22 @@ const ChangeUserData = ({user}) => {
                 <div className="userInformationBox">
                     <h2>Personal Data:</h2>
                     <form onSubmit={handleUserUpdate}>
-                        <label>User Name</label>
+                        <label>Nutzername</label>
                         <input className="dataChangeInput"
                                type="test"
                                value={userName}
                                readOnly
+                               disabled
                                onChange={(e) => setUserName(e.target.value)}
                         />
-                        <label>First Name</label>
+                        <label>Vorname</label>
                         <input className="dataChangeInput"
                                type="text"
                                value={firstName}
                                onChange={(e) => setFirstName(e.target.value)}
                         />
-                        {/* <label>Second Name</label>
-                        <input className="dataChangeInput"
-                            type="text"
-                            value={secondName}
-                            onChange={(e) => setSecondName(e.target.value)}
-                        /> */}
-                        <label>Last Name</label>
+
+                        <label>Nachname</label>
                         <input className="dataChangeInput"
                                type="text"
                                value={lastName}
@@ -190,21 +186,21 @@ const ChangeUserData = ({user}) => {
                         <input className="dataChangeInput"
                                type="email"
                                value={email}
-                               onChange={(e) => setEmail(e.target.value)}
+                               onChange={(e) => {setEmail(e.target.value); setHasAccountBeenChanged(true)}}
                         />
-                        <label>Password</label>
+                        <label>Passwort</label>
                         <input className="dataChangeInput"
                                type="password"
                                value={passwordHash}
-                               onChange={(e) => setPassword(e.target.value)}
+                               onChange={(e) => {setPassword(e.target.value); setHasAccountBeenChanged(true)}}
                         />
-                        <label>Repeat Password</label>
+                        <label>Passwort-Wiederholung</label>
                         <input className="dataChangeInput"
                                type="password"
                                value={passwordHashReference}
-                               onChange={(e) => setPasswordReference(e.target.value)}
+                               onChange={(e) => {setPasswordReference(e.target.value); setHasAccountBeenChanged(true)}}
                         />
-                        <button className="changeButton">Save Password</button>
+                        <button className={'changeButton ' + (!hasAccountBeenChanged ? 'disabled' : '')} disabled={!hasAccountBeenChanged}>Save Password</button>
                         {error}
                     </form>
                 </div>

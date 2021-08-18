@@ -1,8 +1,9 @@
 import Switch from '../../components/switch';
 import {useState} from "react";
 import React from "react";
+import { ErrorSharp } from '@material-ui/icons';
 
-const UserPreview = ({user}) => {
+const UserPreview = ({user, handleAddMessage}) => {
 
 
 
@@ -20,7 +21,7 @@ const UserPreview = ({user}) => {
      * Function consumes the id of chosen user and is sending a delete request to backend
      * @param id, which refers to the id of the user to delete em
      */
-    const {errorMessage, setErrorMessage} = useState('');
+    const [errorMessage, setErrorMessage] = useState('');
 
     const handleDelete = (id) => {
         fetch(`http://localhost:5000/user/${user.id}`, {
@@ -33,12 +34,13 @@ const UserPreview = ({user}) => {
             if(!response.ok){
                 throw Error("Löschen des Users fehlgeschlagen!")
             }
+            handleAddMessage('success', 'Gelöscht!', 'Der Nutzer wurde erfolgreich gelöscht.');
 
         }).catch(error => {
             setErrorMessage(error.message);
+            handleAddMessage('error', 'Fehler', error.message);
         })
     }
-
 
     /**
      * Component handles the role update and is sending a put request to the backend api
@@ -60,8 +62,10 @@ const UserPreview = ({user}) => {
             if (!response.ok) {
                 throw Error("Update des Profiles fehlgeschlagen!");
             }
+            handleAddMessage('success', 'Aktualisiert!', 'Der Nutzer wurde aktualisiert!');
         }).catch((error) => {
             setErrorMessage(error.message);
+            handleAddMessage('error', 'Fehler', error.message);
         });
 
     }
@@ -84,8 +88,10 @@ const UserPreview = ({user}) => {
             if (!response.ok) {
                 throw Error("Update des von isEnabled fehlgeschlagen!");
             }
+            handleAddMessage('success', 'Erfolg!', 'Der Nutzer wurde aktualisiert!');
         }).catch((error) => {
             setErrorMessage(error.message);
+            handleAddMessage('error', 'Fehler', error.message);
         });
 
     };
