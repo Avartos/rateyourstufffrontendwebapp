@@ -9,6 +9,7 @@ import ReadOnlyRating from "./rating/readOnlyRating";
 import { Button } from "@material-ui/core";
 import { useHistory } from "react-router";
 import { ReactComponent as PencilIcon } from "../icons/pencil.svg";
+import authorization from "../core/authorization";
 
 const Accordion = withStyles({
   root: {
@@ -91,13 +92,23 @@ export default function CustomizedAccordions({ seasonId }) {
               >
                 <Typography>
                   {episode.episodeNumber}. {episode.mediumName}
-                  <Button className="editButton"
-                      onClick={() => {history.push(`/edit/episode/${episode.id}`);}}>
+                  {authorization.isLoggedIn() && (
+                    <Button
+                      className="editButton"
+                      onClick={() => {
+                        history.push(`/edit/episode/${episode.id}`);
+                      }}
+                    >
                       Bearbeiten
-                  </Button>
+                    </Button>
+                  )}
                 </Typography>
               </AccordionSummary>
-              <AccordionDetails onClick={() => {history.push(`/detail/episode/${episode.id}`);}}>
+              <AccordionDetails
+                onClick={() => {
+                  history.push(`/detail/episode/${episode.id}`);
+                }}
+              >
                 <Typography>
                   <div className="episodeDetailDisplay">
                     <div className="episodeDetailDisplayLeft">
@@ -147,14 +158,18 @@ export default function CustomizedAccordions({ seasonId }) {
             </Accordion>
           );
         })}
-      <p>Ist die gesuchte Episode noch nicht vorhanden?</p>
-      <Button
-        variant="contained"
-        color="primary"
-        onClick={() => history.push(`/add/episode/${seasonId}`)}
-      >
-        Neue Episode hinzufügen
-      </Button>
+      {authorization.isLoggedIn() && (
+        <React.Fragment>
+          <p>Ist die gesuchte Episode noch nicht vorhanden?</p>
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={() => history.push(`/add/episode/${seasonId}`)}
+          >
+            Neue Episode hinzufügen
+          </Button>
+        </React.Fragment>
+      )}
     </div>
   );
 }

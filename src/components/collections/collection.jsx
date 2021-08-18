@@ -2,6 +2,11 @@ import { useState } from "react";
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
 
+/**
+ * This component represents a single media collection
+ * @param {*} param0 
+ * @returns 
+ */
 const Collection = ({ collection, mediumId = null }) => {
   const [mediaImages, setMediaImages] = useState([]);
   const prepareMediaImages = () => {
@@ -9,7 +14,7 @@ const Collection = ({ collection, mediumId = null }) => {
 
     if (tempMedia.length >= 4 && mediumId) {
       const currentMediaIndex = tempMedia
-        .findIndex(medium => medium.id == mediumId);
+        .findIndex(medium => parseInt(medium.id) === parseInt(mediumId));
       const tempMedium = tempMedia[currentMediaIndex];
       tempMedia[currentMediaIndex] = tempMedia[2];
       tempMedia[2] = tempMedium;
@@ -34,7 +39,7 @@ const Collection = ({ collection, mediumId = null }) => {
         <div className="collectionWrapper">
           {mediaImages.map((image) => {
             return (
-              <div className="collectionImageWrapper">
+              <div className="collectionImageWrapper" key={Math.random()}>
                 <img src={`http://localhost:5000/${image}`} alt="" />
               </div>
             );

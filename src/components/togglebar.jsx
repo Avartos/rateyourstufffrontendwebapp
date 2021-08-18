@@ -18,10 +18,8 @@ import ToggleLink from "./toggleLink";
 import helper from "../core/helper";
 
 function Togglebar(props) {
-  const [isVisible, setIsVisible] = useState();
-
   return (
-    <CSSTransition in={isVisible} classNames="leftNavs" timeout={200}>
+    <CSSTransition in={true} classNames="leftNavs" timeout={200}>
       <div className="leftNavigation">
         <ToggleLink
           title="Home"
@@ -63,14 +61,6 @@ function Togglebar(props) {
               handleSetVisible={props.handleSetVisible}
             >
               <MyFriendsIcon />
-            </ToggleLink>
-
-            <ToggleLink
-              title="Bewertungen"
-              target="/myRatings"
-              handleSetVisible={props.handleSetVisible}
-            >
-              <MyRatingsIcon />
             </ToggleLink>
 
             <ToggleLink

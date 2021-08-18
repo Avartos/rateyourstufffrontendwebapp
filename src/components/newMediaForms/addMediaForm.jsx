@@ -1,6 +1,10 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
+/**
+ * This component is used to show a list of all mediatypes that can be added
+ * @returns
+ */
 const AddMediaForm = () => {
   return (
     <div className="addMediaForm">

@@ -4,9 +4,21 @@ import { Chip } from "@material-ui/core";
 import { Input } from "@material-ui/core";
 import { MenuItem } from "@material-ui/core";
 import { Checkbox } from "@material-ui/core";
-import { makeStyles, useTheme } from "@material-ui/core/styles";
+import { makeStyles } from "@material-ui/core/styles";
 
-const DefaultSelect = ({ title, inputList, targetValue, setter, chipColor="primary", chipOutline="default" }) => {
+/**
+ * This Component offers a custom select
+ * @param {*} param0
+ * @returns
+ */
+const DefaultSelect = ({
+  title,
+  inputList,
+  targetValue,
+  setter,
+  chipColor = "primary",
+  chipOutline = "default",
+}) => {
   const ITEM_HEIGHT = 48;
   const ITEM_PADDING_TOP = 8;
   const MenuProps = {
@@ -64,8 +76,14 @@ const DefaultSelect = ({ title, inputList, targetValue, setter, chipColor="prima
       >
         {inputList.map((option) => {
           return (
-            <MenuItem key={'item' + option.id + option.title} value={option.title}>
-              <Checkbox key={'check' + option.id + option.title} checked={targetValue.indexOf(option.title) > -1} />
+            <MenuItem
+              key={"item" + option.id + option.title}
+              value={option.title}
+            >
+              <Checkbox
+                key={"check" + option.id + option.title}
+                checked={targetValue.indexOf(option.title) > -1}
+              />
               {option.title}
             </MenuItem>
           );

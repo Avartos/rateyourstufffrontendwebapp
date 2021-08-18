@@ -8,7 +8,12 @@ import { Button } from "@material-ui/core";
 import DefaultCheckBox from "../formComponents/defaultCheckBox";
 import ImagePreview from "../formComponents/imagePreview";
 
-const AddSeriesForm = () => {
+/**
+ * This component can be used to add a new series to the database
+ * @param {*} param0 
+ * @returns 
+ */
+const AddSeriesForm = ({ handleAddMessage }) => {
   const [mediumName, setMediumName] = useState("");
   const [releaseDate, setReleaseDate] = useState("");
   const [description, setDescription] = useState("");
@@ -44,6 +49,7 @@ const AddSeriesForm = () => {
         setter(data);
       })
       .catch((err) => {
+        handleAddMessage("error", "Fehler", err.message);
         console.error(err);
       });
   };
@@ -91,8 +97,10 @@ const AddSeriesForm = () => {
       body: JSON.stringify(series),
     })
       .then((res) => {
-        if (!res.ok) {
-          throw Error;
+        if (res.status === 418) {
+          throw Error("Das Medium existiert bereits");
+        } else if (!res.ok) {
+          throw Error("Unbekannter Fehler beim Anlegen des Mediums");
         }
         return res.json();
       })
@@ -107,19 +115,34 @@ const AddSeriesForm = () => {
           body: formData,
         })
           .then((response) => {
+            handleAddMessage(
+              "success",
+              "Serie angelegt",
+              "Die neue Serie wurde erfolgreich angelegt."
+            );
             history.push(`/detail/series/${data.id}`);
           })
           .catch((error) => {
+            handleAddMessage("error", "Fehler", error.message);
             console.error(error);
           });
       })
       .catch((error) => {
+        handleAddMessage("error", "Fehler", error.message);
         console.error(error);
       });
   };
 
   const handleSelectImage = (event) => {
-    setCurrentImage(URL.createObjectURL(event.target.files[0]));
+    const file = event.target.files[0];
+    if(file.size/1024 >= 3000) {
+      handleAddMessage('error', 'Fehler', 'Bilder dürfen eine Dateigröße von 3MB nicht überschreiten!');
+    } else if(file.type !== 'image/png' && file.type !== 'image/jpeg' && file.type !== 'image/jpg') {
+      handleAddMessage('error', 'Fehler', 'Bitte laden Sie nur .jpg oder .png Dateien hoch!');
+    }
+    else {
+      setCurrentImage(URL.createObjectURL(event.target.files[0]));
+    }
   };
 
   return (

@@ -1,5 +1,10 @@
 import classNames from "classnames";
 
+/**
+ * This component is used to preview an image.
+ * @param {*} param0
+ * @returns
+ */
 const ImagePreview = ({ currentImage }) => {
   const imageClassNames = classNames({
     imageWrapper: true,

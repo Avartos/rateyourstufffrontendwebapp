@@ -1,9 +1,15 @@
+import React from "react";
 import { useState } from "react";
 import { useEffect } from "react";
 import Collection from "../collections/collection";
+import authorization from "../../core/authorization";
+import AddMediumToCollectionForm from "../collections/addMediumToCollectionForm";
+import { useHistory } from "react-router";
+import { Button } from "@material-ui/core";
 
 const SmallCollectionList = ({ mediumId }) => {
   const [collections, setCollections] = useState([]);
+  const history = useHistory();
 
   const MAX_NUMBER_OF_COLLECTIONS = 5;
 
@@ -13,7 +19,7 @@ const SmallCollectionList = ({ mediumId }) => {
     )
       .then((res) => {
         if (!res.ok) {
-          throw Error("Unable to fetch Colelctions");
+          throw Error("Unable to fetch Collections");
         }
         return res.json();
       })
@@ -28,11 +34,27 @@ const SmallCollectionList = ({ mediumId }) => {
   useEffect(fetchCollections, []);
 
   return (
-    <div className="smallCollectionList">
-      {collections.length >= 0 && collections.map((collection) => {
-        return <Collection key={collection.id} collection={collection} mediumId={mediumId}></Collection>;
-      })}
-    </div>
+    <React.Fragment>
+      <div className="smallCollectionList">
+        {collections.length >= 0 &&
+          collections.map((collection) => {
+            return (
+              <Collection
+                key={collection.id}
+                collection={collection}
+                mediumId={mediumId}
+              ></Collection>
+            );
+          })}
+      </div>
+      {authorization.isLoggedIn() && (
+        <AddMediumToCollectionForm mediumId={mediumId} handleUpdateCollectionData={fetchCollections} />
+      )}
+
+      {collections.length >= 0 && 
+        <Button onClick={() => {history.push(`/collections/medium/${mediumId}`)}}>Alle Sammlungen anzeigen</Button>
+      }
+    </React.Fragment>
   );
 };
 

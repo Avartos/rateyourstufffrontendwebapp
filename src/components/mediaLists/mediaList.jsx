@@ -1,7 +1,13 @@
 import React, { useState, useEffect } from "react";
 import MediaEntry from "../welcomePage/mediaEntry";
 
-const MediaList = ({ urlPath, title, mediaType }) => {
+/**
+ * This component is used to list media.
+ * It offers a button to load more media, if there is more than the specified amount of media per page
+ * @param {*} param0
+ * @returns
+ */
+const MediaList = ({ urlPath, title, mediaType, handleAddMessage }) => {
   const [media, setMedia] = useState([]);
   const [isPending, setIsPending] = useState(true);
   const [error, setError] = useState(null);
@@ -12,7 +18,7 @@ const MediaList = ({ urlPath, title, mediaType }) => {
 
   const fetchMedia = (cleanFetch = false, page = offset) => {
     fetch(
-      `http://localhost:5000/rest/${urlPath}?page=${page}&size=${entriesPerPage}`
+      `http://localhost:5000/rest/${urlPath}?page=${page}&size=${entriesPerPage}&orderBy=releaseDate&order="asc`
     )
       .then((res) => {
         if (!res.ok) {
@@ -32,6 +38,7 @@ const MediaList = ({ urlPath, title, mediaType }) => {
       })
       .catch((error) => {
         console.error(error);
+        handleAddMessage("error", "Fehler", error.message);
       });
   };
 
@@ -61,7 +68,9 @@ const MediaList = ({ urlPath, title, mediaType }) => {
       </div>
 
       {!isPending && buttonIsVisible && (
-        <button className="primaryButton" onClick={handleLoadMore}>Mehr Laden...</button>
+        <button className="primaryButton" onClick={handleLoadMore}>
+          Mehr Laden...
+        </button>
       )}
     </div>
   );
