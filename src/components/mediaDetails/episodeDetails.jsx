@@ -98,7 +98,6 @@ const EpisodeDetails = ({handleAddMessage}) => {
       givenPoints: valueRate * 2,
     };
 
-    console.log(newRate);
 
     fetch(`http://localhost:5000/rest/ratings/add`, {
       method: "POST",
@@ -106,7 +105,6 @@ const EpisodeDetails = ({handleAddMessage}) => {
       body: JSON.stringify(newRate),
     })
       .then((data) => {
-        console.log(data);
         // close the Form for NewRate
         setHandleToggleRating(false);
         fetchMedium();
@@ -134,7 +132,6 @@ const EpisodeDetails = ({handleAddMessage}) => {
       body: JSON.stringify(newComment),
     })
       .then((data) => {
-        console.log(data);
         setHandleToggleComment(false);
         fetchMedium();
       })

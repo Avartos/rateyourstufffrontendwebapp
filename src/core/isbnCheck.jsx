@@ -71,13 +71,11 @@ const hasValidISBN13Format = (isbn13) => {
 const hasValidISBN13CheckSum = (isbn13) => {
     const lastChar = isbn13.slice(-1);
     const isbnWithoutChecksum = isbn13.substring(0, isbn13.length-1).replaceAll('-', '');
-    console.log(isbnWithoutChecksum.length);
     
     let checkSumChar;
     let isbnSum = 0;
     for(let i = 0; i < isbnWithoutChecksum.length; i++) {
         let currentValue = isbnWithoutChecksum.charAt(i);
-        console.log(i + ' ' + currentValue);
         isbnSum += ((i+1) % 2 === 0) ? 3 * parseInt(currentValue) : parseInt(currentValue);
     }
 

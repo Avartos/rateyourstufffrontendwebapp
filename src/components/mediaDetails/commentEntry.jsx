@@ -29,7 +29,6 @@ const CommentEntry = ({comment, medium}) => {
             mediumMappingId: mediumToComment,
         };
 
-        console.log(updatedComment);
 
         fetch(`http://localhost:5000/rest/comments`, {
             method: "PUT",
@@ -60,7 +59,6 @@ const CommentEntry = ({comment, medium}) => {
             mediumMappingId: mediumToComment,
             parentMappingId:parentComment,
         };
-        console.log(newSubComment);
 
         fetch(`http://localhost:5000/rest/comments/add`, {
             method: "POST",
@@ -69,7 +67,6 @@ const CommentEntry = ({comment, medium}) => {
             body: JSON.stringify(newSubComment),
         })
             .then((data) => {
-                console.log(data);
                 setHandleToggleSubComment(false);
                 //Reload page, to get actual average rating
                 // history.go();

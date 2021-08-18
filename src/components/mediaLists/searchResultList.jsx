@@ -18,7 +18,6 @@ const SearchList = () => {
     const entriesPerPage = 10;
   
     const fetchMedia = (cleanFetch = false, page = offset) => {
-        console.log(searchParam);
         const encodedParams = encodeURI(searchParam);
       fetch(
         `http://localhost:5000/rest/searchResults?s=${encodedParams}`
@@ -30,7 +29,6 @@ const SearchList = () => {
           return res.json();
         })
         .then((data) => {
-            console.log (data);
           setOffset(page + 1);
           setIsPending(false);
           if (cleanFetch) {

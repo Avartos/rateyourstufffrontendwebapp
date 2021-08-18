@@ -105,7 +105,6 @@ const BookDetails = ({handleAddMessage}) => {
       body: JSON.stringify(newComment),
     })
       .then((data) => {
-        console.log(data);
         setHandleToggleComment(false);
         fetchMedium();
       })
