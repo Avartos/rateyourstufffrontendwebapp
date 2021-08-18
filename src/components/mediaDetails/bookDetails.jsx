@@ -169,10 +169,10 @@ const BookDetails = ({handleAddMessage}) => {
               <div className="details">
               <div className="titleWithEdit">
                   <h2 className="title">{medium.mediumName}</h2>
-                    <span className="mediumEditButton"
+                    {authorization.isLoggedIn() && <span className="mediumEditButton"
                       onClick={() => {history.push(`/edit/book/${id}`);}}>
                       <PencilIcon />
-                    </span>
+                    </span>}
                 </div>
                 <div className="detailField">
                   <span className="smallHeading">Genres</span>
