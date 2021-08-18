@@ -2,12 +2,13 @@ import React, {useState} from "react";
 import ReadOnlyRating from "../rating/readOnlyRating";
 import {Divider} from "@material-ui/core";
 import CreateIcon from "@material-ui/icons/Create";
-import EditCommentForm from "../comments/editCommentForm";
 import EditRatingForm from "../rating/editRatingForm";
+import { useHistory } from "react-router";
 
 const RatingsEntry = ({rating, medium}) => {
     const [toggleEdit, setToggleEdit] = useState(false);
     const [handleError, setHandleError] = useState(null);
+    const history = useHistory();
 
     const handleEditRating = (e, body, currentUser, valueRate, mediumToRate, ratingId) => {
         e.preventDefault();
@@ -29,8 +30,8 @@ const RatingsEntry = ({rating, medium}) => {
         })
             .then((data) => {
                 setToggleEdit(false);
-                //Reload page, to get actual average rating
-                // history.go();
+                //Reload page, to get updated rating
+                history.go();
             })
             .catch((error) => {
                 setHandleError(
