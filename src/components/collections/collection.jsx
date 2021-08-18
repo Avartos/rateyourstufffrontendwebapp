@@ -39,7 +39,7 @@ const Collection = ({ collection, mediumId = null }) => {
         <div className="collectionWrapper">
           {mediaImages.map((image) => {
             return (
-              <div className="collectionImageWrapper">
+              <div className="collectionImageWrapper" key={Math.random()}>
                 <img src={`http://localhost:5000/${image}`} alt="" />
               </div>
             );

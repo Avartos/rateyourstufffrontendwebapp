@@ -202,7 +202,7 @@ const CollectionDetails = ({ handleAddMessage }) => {
         !error &&
         media.map((medium) => {
           return (
-            <React.Fragment>
+            <React.Fragment key={Math.random()}>
               <MediaEntry
                 medium={medium}
                 key={medium.id}
