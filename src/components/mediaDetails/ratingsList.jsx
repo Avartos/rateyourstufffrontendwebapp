@@ -3,12 +3,12 @@ import RatingsEntry from "./ratingsEntry";
 
 
 
-const RatingList = ({menium, ratings, handleFetchRatings}) => {
+const RatingList = ({medium, ratings, handleFetchRatings}) => {
     return (
         <React.Fragment>
         {
             ratings.map(rating => {
-                return  <RatingsEntry key={rating.id} medium={menium} rating={rating}></RatingsEntry>
+                return  <RatingsEntry key={rating.id} medium={medium} rating={rating}></RatingsEntry>
             })
         }
             {ratings.length>1 &&
