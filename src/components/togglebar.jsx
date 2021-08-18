@@ -74,14 +74,6 @@ function Togglebar(props) {
             </ToggleLink>
 
             <ToggleLink
-              title="Bewertungen"
-              target="/myRatings"
-              handleSetVisible={props.handleSetVisible}
-            >
-              <MyRatingsIcon />
-            </ToggleLink>
-
-            <ToggleLink
               title="Meine Sammlungen"
               target="/collections"
               handleSetVisible={props.handleSetVisible}
