@@ -27,7 +27,7 @@ const AdminPanel = () => {
                 <div className="userDisplay">
                     {!isPending && users != null
                     && users.map((user) => {
-                        console.log(user);
+                        //console.log(user);
                         return <UserPreview user={user} key={user.id}/>
                     })
                     }

@@ -3,8 +3,8 @@ import Switch from '@material-ui/core/Switch';
 
 export default function Switches() {
   const [state, setState] = React.useState({
-    checkedA: true,
-    checkedB: true,
+    checkedA: false,
+    checkedB: false,
   });
   //TODO: En-/Disabling User with Fetch
   const handleChange = (event) => {
