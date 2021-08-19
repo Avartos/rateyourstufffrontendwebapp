@@ -5,7 +5,12 @@ import CreateIcon from "@material-ui/icons/Create";
 import EditRatingForm from "../rating/editRatingForm";
 import { useHistory } from "react-router";
 
-const RatingsEntry = ({ rating, medium, handleUpdateMedium }) => {
+const RatingsEntry = ({
+  rating,
+  medium,
+  handleUpdateMedium,
+  handleReloadData,
+}) => {
   const [toggleEdit, setToggleEdit] = useState(false);
   const [handleError, setHandleError] = useState(null);
   const history = useHistory();
@@ -39,9 +44,7 @@ const RatingsEntry = ({ rating, medium, handleUpdateMedium }) => {
     })
       .then((data) => {
         setToggleEdit(false);
-        //Reload page, to get updated rating
-        handleUpdateMedium();
-        // history.go();
+        handleReloadData();
       })
       .catch((error) => {
         setHandleError(
@@ -51,22 +54,22 @@ const RatingsEntry = ({ rating, medium, handleUpdateMedium }) => {
   };
 
   const handleDeleteRating = () => {
-      fetch(`http://localhost:5000/rest/ratings/${rating.id}`, {
-          method: 'DELETE',
-          headers: {
-            Authorization: sessionStorage.getItem("Bearer "),
-          },
+    fetch(`http://localhost:5000/rest/ratings/${rating.id}`, {
+      method: "DELETE",
+      headers: {
+        Authorization: sessionStorage.getItem("Bearer "),
+      },
+    })
+      .then((res) => {
+        if (!res.ok) {
+          throw Error("Fehler beim Löschen der Bewertung");
+        }
+        handleReloadData();
       })
-      .then(res => {
-          if(!res.ok) {
-              throw Error('Fehler beim Löschen der Bewertung');
-          }
-          handleUpdateMedium();
-      })
-      .catch(error => {
-          console.error(error.message);
-      })
-  }
+      .catch((error) => {
+        console.error(error.message);
+      });
+  };
 
   return (
     <React.Fragment>
@@ -96,6 +99,7 @@ const RatingsEntry = ({ rating, medium, handleUpdateMedium }) => {
           rating={rating}
           medium={medium}
           handleDeleteRating={handleDeleteRating}
+          handleReloadData={handleReloadData}
         />
       )}
 

@@ -16,9 +16,11 @@ const TabBar = ({ ratingCount, commentCount, medium, mediumId }) => {
 
   const [value, setValue] = useState(0);
 
-  const fetchRatingsFromMedium = () => {
+  const fetchRatingsFromMedium = (isInitialFetch = false) => {
+    const currentPage = isInitialFetch ? 0 : currentCommentPage;
+
     fetch(
-      `http://localhost:5000/rest/ratings/all/medium/${mediumId}?page=${currentRatingPage}&size=${numberOfRatingsPerPage}`
+      `http://localhost:5000/rest/ratings/all/medium/${mediumId}?page=${currentPage}&size=${numberOfRatingsPerPage}`
     )
       .then((res) => {
         if (!res.ok) {
@@ -27,8 +29,12 @@ const TabBar = ({ ratingCount, commentCount, medium, mediumId }) => {
         return res.json();
       })
       .then((data) => {
-        setRatings([...ratings, ...data]);
-        setCurrentRatingPage(currentRatingPage + 1);
+        if (isInitialFetch) {
+          setRatings(data);
+        } else {
+          setRatings([...ratings, ...data]);
+        }
+        setCurrentRatingPage(currentPage + 1);
       })
       .catch((error) => {
         console.error(error);
@@ -38,9 +44,10 @@ const TabBar = ({ ratingCount, commentCount, medium, mediumId }) => {
     fetchRatingsFromMedium();
   }, []);
 
-  const fetchCommentsFromMedium = () => {
+  const fetchCommentsFromMedium = (isInitialFetch = false) => {
+    const currentPage = isInitialFetch ? 0 : currentCommentPage;
     fetch(
-      `http://localhost:5000/rest/comments/all/medium/${mediumId}?page=${currentCommentPage}&size=${numberOfCommentsPerPage}`
+      `http://localhost:5000/rest/comments/all/medium/${mediumId}?page=${currentPage}&size=${numberOfCommentsPerPage}`
     )
       .then((res) => {
         if (!res.ok) {
@@ -49,8 +56,12 @@ const TabBar = ({ ratingCount, commentCount, medium, mediumId }) => {
         return res.json();
       })
       .then((data) => {
-        setComments([...comments, ...data]);
-        setCurrentCommentPage(currentCommentPage + 1);
+        if (isInitialFetch) {
+          setComments(data);
+        } else {
+          setComments([...comments, ...data]);
+        }
+        setCurrentCommentPage(currentPage + 1);
       })
       .catch((error) => {
         console.error(error);
@@ -62,6 +73,13 @@ const TabBar = ({ ratingCount, commentCount, medium, mediumId }) => {
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
+  };
+
+  const handleReloadData = () => {
+    setCurrentRatingPage(0);
+    setCurrentCommentPage(0);
+    fetchCommentsFromMedium(true);
+    fetchRatingsFromMedium(true);
   };
 
   return (
@@ -80,6 +98,7 @@ const TabBar = ({ ratingCount, commentCount, medium, mediumId }) => {
             ratings={ratings}
             medium={medium}
             handleFetchRatings={fetchRatingsFromMedium}
+            handleReloadData={handleReloadData}
           >
             Bewertungen
           </RatingList>
@@ -92,6 +111,7 @@ const TabBar = ({ ratingCount, commentCount, medium, mediumId }) => {
             comments={comments}
             handleFetchComments={fetchCommentsFromMedium}
             medium={medium}
+            handleReloadData={handleReloadData}
           >
             Kommentare
           </CommentList>
