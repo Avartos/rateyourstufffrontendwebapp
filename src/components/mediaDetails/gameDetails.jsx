@@ -116,13 +116,12 @@ const GameDetails = ({handleAddMessage}) => {
     })
       .then((data) => {
         setHandleToggleRating(false);
-        //Reload page, to get actual average rating
+        handleAddMessage('success', 'Erfolg', 'Die Bewertung wurde angelegt');
         fetchMedium();
       })
       .catch((error) => {
-        setHandleError(
-          "Das Formular konnte nicht abgeschickt werden (" + handleError + ")"
-        );
+        handleAddMessage('error', 'Fehler', 'Der Kommentar konnte nicht angelegt werden');
+
       });
   };
 
@@ -146,13 +145,11 @@ const GameDetails = ({handleAddMessage}) => {
     })
       .then((data) => {
         setHandleToggleComment(false);
-        //Reload page, to get actual average rating
+        handleAddMessage('success', 'Erfolg', 'Der Kommentar wurde hizugefügt');
         fetchMedium();
       })
       .catch((error) => {
-        setHandleError(
-          "Das Formular konnte nicht abgeschickt werden (" + handleError + ")"
-        );
+        handleAddMessage('error', 'Fehler', 'Der Kommentar konnte nicht angelegt werden');
       });
   };
 
@@ -287,6 +284,7 @@ const GameDetails = ({handleAddMessage}) => {
                 <NewRatingForm
                   handleSubmitFormRating={handleSubmitFormRating}
                   medium={medium}
+                  handleAddMessage={handleAddMessage}
                 ></NewRatingForm>
               </div>
             )}
@@ -296,6 +294,7 @@ const GameDetails = ({handleAddMessage}) => {
                 <NewCommentForm
                   handleSubmitFormComment={handleSubmitFormComment}
                   medium={medium}
+                  handleAddMessage={handleAddMessage}
                 ></NewCommentForm>
               </div>
             )}
@@ -306,6 +305,7 @@ const GameDetails = ({handleAddMessage}) => {
                 mediumId={id}
                 medium={medium}
                 commentCount={commentCount}
+                handleAddMessage={handleAddMessage}
               ></TabBar>
             </div>
 

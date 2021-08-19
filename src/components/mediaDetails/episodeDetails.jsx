@@ -6,7 +6,7 @@ import TabBar from "./tabBar";
 import Chip from "@material-ui/core/Chip";
 import NewRatingForm from "../rating/newRatingForm";
 import NewCommentForm from "../comments/newCommentForm";
-import {useHistory} from "react-router";
+import { useHistory } from "react-router";
 import { Button } from "@material-ui/core";
 import SmallCollectionList from "./smallCollectionList";
 import AddMediumToCollectionForm from "../collections/addMediumToCollectionForm";
@@ -14,8 +14,7 @@ import helper from "../../core/helper";
 import { ReactComponent as PencilIcon } from "../../icons/pencil.svg";
 import authorization from "../../core/authorization";
 
-
-const EpisodeDetails = ({handleAddMessage}) => {
+const EpisodeDetails = ({ handleAddMessage }) => {
   const { id } = useParams();
 
   const history = useHistory();
@@ -30,59 +29,57 @@ const EpisodeDetails = ({handleAddMessage}) => {
   const fetchMedium = () => {
     setIsPending(true);
     fetch(`http://localhost:5000/rest/episodes/${id}`)
-    .then(res => {
-      if(!res.ok) {
-        throw Error ('Fehler beim Abrufen des Mediums');
-      }
-      return res.json();
-    })
-    .then(data => {
-      setMedium(data);
-      setIsPending(false);
-    })
-    .catch(error => {
-      handleAddMessage('error', 'Fehler', error.message);
-      history.push('/404');
-    })
-  }
-
-  useEffect(fetchMedium,[]);
-
-  const fetchRatingCount=() =>{
-    fetch(`http://localhost:5000/rest/ratings/count/${id}`)
-        .then ( res => {
-              if (!res.ok){
-                throw Error("unable to fetch ratingcounts");
-              }
-        return res.json()
+      .then((res) => {
+        if (!res.ok) {
+          throw Error("Fehler beim Abrufen des Mediums");
         }
-        )
-        .then (data => {
-          setRatingCount(data);
-        })
-        .catch (error => {
-          console.error(error);
-        })
-  }
-  useEffect(fetchRatingCount,[]);
+        return res.json();
+      })
+      .then((data) => {
+        setMedium(data);
+        setIsPending(false);
+      })
+      .catch((error) => {
+        handleAddMessage("error", "Fehler", error.message);
+        history.push("/404");
+      });
+  };
 
-  const fetchCommentCount=() =>{
+  useEffect(fetchMedium, []);
+
+  const fetchRatingCount = () => {
+    fetch(`http://localhost:5000/rest/ratings/count/${id}`)
+      .then((res) => {
+        if (!res.ok) {
+          throw Error("unable to fetch ratingcounts");
+        }
+        return res.json();
+      })
+      .then((data) => {
+        setRatingCount(data);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
+  useEffect(fetchRatingCount, []);
+
+  const fetchCommentCount = () => {
     fetch(`http://localhost:5000/rest/comments/count/${id}`)
-        .then ( res => {
-              if (!res.ok){
-                throw Error("unable to fetch commentcounts");
-              }
-              return res.json()
-            }
-        )
-        .then (data => {
-          setCommentCount(data);
-        })
-        .catch (error => {
-          console.error(error);
-        })
-  }
-  useEffect(fetchCommentCount,[]);
+      .then((res) => {
+        if (!res.ok) {
+          throw Error("unable to fetch commentcounts");
+        }
+        return res.json();
+      })
+      .then((data) => {
+        setCommentCount(data);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
+  useEffect(fetchCommentCount, []);
 
   const handleSubmitFormRating = (
     e,
@@ -101,21 +98,22 @@ const EpisodeDetails = ({handleAddMessage}) => {
       givenPoints: valueRate * 2,
     };
 
-
     fetch(`http://localhost:5000/rest/ratings/add`, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: sessionStorage.getItem("Bearer "),
+      },
       body: JSON.stringify(newRate),
     })
       .then((data) => {
-        // close the Form for NewRate
         setHandleToggleRating(false);
+        handleAddMessage('success', 'Erfolg', 'Die Bewertung wurde angelegt');
         fetchMedium();
       })
       .catch((error) => {
-        setHandleError(
-          "Das Formular konnte nicht abgeschickt werden (" + handleError + ")"
-        );
+        handleAddMessage('error', 'Fehler', 'Der Kommentar konnte nicht angelegt werden');
+
       });
   };
 
@@ -131,17 +129,19 @@ const EpisodeDetails = ({handleAddMessage}) => {
 
     fetch(`http://localhost:5000/rest/comments/add`, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: sessionStorage.getItem("Bearer "),
+      },
       body: JSON.stringify(newComment),
     })
       .then((data) => {
         setHandleToggleComment(false);
+        handleAddMessage('success', 'Erfolg', 'Der Kommentar wurde hizugefügt');
         fetchMedium();
       })
       .catch((error) => {
-        setHandleError(
-          "Das Formular konnte nicht abgeschickt werden (" + handleError + ")"
-        );
+        handleAddMessage('error', 'Fehler', 'Der Kommentar konnte nicht angelegt werden');
       });
   };
 
@@ -159,12 +159,18 @@ const EpisodeDetails = ({handleAddMessage}) => {
               </div>
 
               <div className="details">
-              <div className="titleWithEdit">
+                <div className="titleWithEdit">
                   <h2 className="title">{medium.mediumName}</h2>
-                    {authorization.isLoggedIn && <span className="mediumEditButton"
-                      onClick={() => {history.push(`/edit/movie/${id}`);}}>
+                  {authorization.isLoggedIn && (
+                    <span
+                      className="mediumEditButton"
+                      onClick={() => {
+                        history.push(`/edit/movie/${id}`);
+                      }}
+                    >
                       <PencilIcon />
-                    </span>}
+                    </span>
+                  )}
                 </div>
                 <div className="detailField">
                   <span className="smallHeading">Genres</span>
@@ -206,30 +212,32 @@ const EpisodeDetails = ({handleAddMessage}) => {
                     maxValue={medium.max_RATING_POINTS}
                     showValue={true}
                   />
-                  {authorization.isLoggedIn() && <div className="showButton">
-                    <button
-                      className="primaryButton"
-                      onClick={() => {
-                        setHandleToggleRating(!handleToggleRating);
-                        if (handleToggleComment === true) {
-                          setHandleToggleComment(!handleToggleComment);
-                        }
-                      }}
-                    >
-                      Neue Bewertung
-                    </button>
-                    <button
-                      className="primaryButton"
-                      onClick={() => {
-                        setHandleToggleComment(!handleToggleComment);
-                        if (handleToggleRating === true) {
+                  {authorization.isLoggedIn() && (
+                    <div className="showButton">
+                      <button
+                        className="primaryButton"
+                        onClick={() => {
                           setHandleToggleRating(!handleToggleRating);
-                        }
-                      }}
-                    >
-                      Neuer Kommentar
-                    </button>
-                  </div>}
+                          if (handleToggleComment === true) {
+                            setHandleToggleComment(!handleToggleComment);
+                          }
+                        }}
+                      >
+                        Neue Bewertung
+                      </button>
+                      <button
+                        className="primaryButton"
+                        onClick={() => {
+                          setHandleToggleComment(!handleToggleComment);
+                          if (handleToggleRating === true) {
+                            setHandleToggleRating(!handleToggleRating);
+                          }
+                        }}
+                      >
+                        Neuer Kommentar
+                      </button>
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
@@ -250,6 +258,7 @@ const EpisodeDetails = ({handleAddMessage}) => {
                 <NewRatingForm
                   handleSubmitFormRating={handleSubmitFormRating}
                   medium={medium}
+                  handleAddMessage={handleAddMessage}
                 ></NewRatingForm>
               </div>
             )}
@@ -259,16 +268,23 @@ const EpisodeDetails = ({handleAddMessage}) => {
                 <NewCommentForm
                   handleSubmitFormComment={handleSubmitFormComment}
                   medium={medium}
+                  handleAddMessage={handleAddMessage}
                 ></NewCommentForm>
               </div>
             )}
 
             <div className="body">
-              <TabBar ratingCount={ratingCount} mediumId={id} medium={medium} commentCount={commentCount}></TabBar>
+              <TabBar
+                ratingCount={ratingCount}
+                mediumId={id}
+                medium={medium}
+                commentCount={commentCount}
+                handleAddMessage={handleAddMessage}
+              ></TabBar>
             </div>
 
             <div className="detailGroup">
-            <span className="heading">Verwandte Sammlungen</span>
+              <span className="heading">Verwandte Sammlungen</span>
               <SmallCollectionList mediumId={id} />
             </div>
           </div>

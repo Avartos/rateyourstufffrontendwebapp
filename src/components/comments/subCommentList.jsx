@@ -3,7 +3,7 @@ import SubCommentEntry from "./subCommentEntry";
 import { useState } from "react";
 import { useEffect } from "react";
 
-function SubCommentList({ comment, medium }) {
+function SubCommentList({ comment, medium, handleAddMessage }) {
   const [subComments, setSubComments] = useState([]);
   const numberOfSubCommentsPerPage = 2;
   const [currentSubCommentPage, setCurrentSubCommentPage] = useState(0);
@@ -15,25 +15,27 @@ function SubCommentList({ comment, medium }) {
     )
       .then((res) => {
         if (!res.ok) {
-          throw Error("unable to fetch subcomments");
+          throw Error('Fehler beim Abrufen der Kommentare');
         }
         return res.json();
       })
       .then((data) => {
-        console.log(data);
         if (isInitialReload) {
           setSubComments(data);
         } else {
           setSubComments([...subComments, ...data]);
         }
+        console.log("Test");
         if (data.length < numberOfSubCommentsPerPage) {
           setIsLoadMoreButtonVisible(false);
+        } else {
+            setIsLoadMoreButtonVisible(true);
         }
         setCurrentSubCommentPage(currentPage + 1);
-        console.log(currentPage);
       })
       .catch((error) => {
         console.error(error);
+        handleAddMessage('error', 'Fehler' , error.message);
       });
   };
 
@@ -51,6 +53,8 @@ function SubCommentList({ comment, medium }) {
               subComment={subComment}
               comment={comment}
               medium={medium}
+              handleReload={handleFetchSubCommentsFromComment}
+              handleAddMessage={handleAddMessage}
             ></SubCommentEntry>
           );
         })}

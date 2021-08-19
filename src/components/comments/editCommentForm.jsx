@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-function EditCommentForm({ handleEditComment, comment, handleDeleteComment }) {
+function EditCommentForm({ handleEditComment, comment, handleDeleteComment}) {
   const [body, setBody] = useState(comment.textOfComment);
 
   return (

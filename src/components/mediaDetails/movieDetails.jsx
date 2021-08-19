@@ -99,8 +99,6 @@ const MovieDetails = ({handleAddMessage}) => {
       givenPoints: valueRate * 2,
     };
 
-    console.log(newRate);
-
     fetch(`http://localhost:5000/rest/ratings/add`, {
       method: "POST",
       headers: {
@@ -110,16 +108,13 @@ const MovieDetails = ({handleAddMessage}) => {
       body: JSON.stringify(newRate),
     })
       .then((data) => {
-        console.log(data);
-        // close the Form for NewRate
         setHandleToggleRating(false);
-        //Reload page, to get actual average rating
+        handleAddMessage('success', 'Erfolg', 'Die Bewertung wurde angelegt');
         fetchMedium();
       })
       .catch((error) => {
-        setHandleError(
-          "Das Formular konnte nicht abgeschickt werden (" + handleError + ")"
-        );
+        handleAddMessage('error', 'Fehler', 'Der Kommentar konnte nicht angelegt werden');
+
       });
   };
 
@@ -142,14 +137,12 @@ const MovieDetails = ({handleAddMessage}) => {
       body: JSON.stringify(newComment),
     })
       .then((data) => {
-        console.log(data);
         setHandleToggleComment(false);
+        handleAddMessage('success', 'Erfolg', 'Der Kommentar wurde hizugefügt');
         fetchMedium();
       })
       .catch((error) => {
-        setHandleError(
-          "Das Formular konnte nicht abgeschickt werden (" + handleError + ")"
-        );
+        handleAddMessage('error', 'Fehler', 'Der Kommentar konnte nicht angelegt werden');
       });
   };
 
@@ -263,6 +256,7 @@ const MovieDetails = ({handleAddMessage}) => {
                 <NewRatingForm
                   handleSubmitFormRating={handleSubmitFormRating}
                   medium={medium}
+                  handleAddMessage={handleAddMessage}
                 ></NewRatingForm>
               </div>
             )}
@@ -272,6 +266,7 @@ const MovieDetails = ({handleAddMessage}) => {
                 <NewCommentForm
                   handleSubmitFormComment={handleSubmitFormComment}
                   medium={medium}
+                  handleAddMessage={handleAddMessage}
                 ></NewCommentForm>
               </div>
             )}
@@ -282,6 +277,7 @@ const MovieDetails = ({handleAddMessage}) => {
                 mediumId={id}
                 commentCount={commentCount}
                 medium={medium}
+                handleAddMessage={handleAddMessage}
               ></TabBar>
             </div>
 

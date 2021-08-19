@@ -9,16 +9,21 @@ import { Button } from "@material-ui/core";
 import SubCommentList from "./subCommentList";
 import NewSubCommentForm from "./newSubCommentForm";
 
-function SubCommentEntry({ subComment, comment, medium }) {
-    const [handleToggleEdit, setHandleToggleEdit] = useState(false);
-    const [handleToggleSubComment, setHandleToggleSubComment] = useState(false);
-    const [handleError, setHandleError] = useState(null);
-  
-    const history = useHistory();
-    const [isSubCommentListVisible, setIsSubCommentListVisible] = useState(false);
-  
-  
-    const handleEditComment = (e, body, currentUser, postNumbers, commentId) => {
+function SubCommentEntry({
+  subComment,
+  comment,
+  medium,
+  handleReload,
+  handleAddMessage,
+}) {
+  const [handleToggleEdit, setHandleToggleEdit] = useState(false);
+  const [handleToggleSubComment, setHandleToggleSubComment] = useState(false);
+  const [handleError, setHandleError] = useState(null);
+
+  const history = useHistory();
+  const [isSubCommentListVisible, setIsSubCommentListVisible] = useState(false);
+
+  const handleEditComment = (e, body, currentUser, postNumbers, commentId) => {
     e.preventDefault();
 
     let updatedComment = {
@@ -38,12 +43,18 @@ function SubCommentEntry({ subComment, comment, medium }) {
     })
       .then((data) => {
         setHandleToggleEdit(false);
-        //Reload page, to get updated comment
-        history.go();
+        handleAddMessage(
+          "success",
+          "Aktualisiert",
+          "Der Kommentar wurde aktualisiert"
+        );
+        handleReload(true);
       })
       .catch((error) => {
-        setHandleError(
-          "Das Formular konnte nicht abgeschickt werden (" + handleError + ")"
+        handleAddMessage(
+          "error",
+          "Fehler",
+          "Der Kommentar konnte nicht aktualisiert werden."
         );
       });
   };
@@ -61,9 +72,15 @@ function SubCommentEntry({ subComment, comment, medium }) {
           throw Error("Fehler beim Löschen des Kommentars");
         }
         setHandleToggleEdit(false);
+        handleAddMessage(
+          "success",
+          "Gelöscht",
+          "Der Kommentar wurde erfolgreich gelöscht"
+        );
+        handleReload(true);
       })
       .catch((error) => {
-        console.error(error);
+        handleAddMessage("error", "Fehler", error.message);
       });
   };
 
@@ -83,7 +100,6 @@ function SubCommentEntry({ subComment, comment, medium }) {
       mediumMappingId: mediumToComment,
       parentMappingId: parentComment,
     };
-    console.log(newSubComment);
 
     fetch(`http://localhost:5000/rest/comments/add`, {
       method: "POST",
@@ -95,10 +111,18 @@ function SubCommentEntry({ subComment, comment, medium }) {
     })
       .then((data) => {
         setHandleToggleSubComment(false);
+        handleAddMessage(
+          "success",
+          "Hinzugefügt",
+          "Der Kommentar wurde erfolgreich hinzugefügt"
+        );
+        handleReload(true);
       })
       .catch((error) => {
-        setHandleError(
-          "Das Formular konnte nicht abgeschickt werden (" + handleError + ")"
+        handleAddMessage(
+          "error",
+          "Fehler",
+          "Der Kommentar konnte nicht hinzugefügt werden"
         );
       });
   };
@@ -106,7 +130,8 @@ function SubCommentEntry({ subComment, comment, medium }) {
   return (
     <div className="subComment">
       <h3>
-        #{subComment.id} - AW #{subComment.commentParentId}: {subComment.userUserName}
+        #{subComment.id} - AW #{subComment.commentParentId}:{" "}
+        {subComment.userUserName}
       </h3>
       <label>{subComment.textOfComment}</label>
 
@@ -139,6 +164,14 @@ function SubCommentEntry({ subComment, comment, medium }) {
           comment={subComment}
         />
       )}
+
+      {handleToggleSubComment && (
+        <NewSubCommentForm
+          handleSubComment={handleSubComment}
+          comment={subComment}
+          medium={medium}
+        ></NewSubCommentForm>
+      )}
       {!isSubCommentListVisible && (
         <Button
           onClick={() => {
@@ -149,15 +182,7 @@ function SubCommentEntry({ subComment, comment, medium }) {
         </Button>
       )}
       {isSubCommentListVisible && (
-        <SubCommentList comment={subComment}></SubCommentList>
-      )}
-
-      {handleToggleSubComment && (
-        <NewSubCommentForm
-          handleSubComment={handleSubComment}
-          comment={subComment}
-          medium={medium}
-        ></NewSubCommentForm>
+        <SubCommentList comment={subComment} handleAddMessage={handleAddMessage} medium={medium}></SubCommentList>
       )}
     </div>
   );

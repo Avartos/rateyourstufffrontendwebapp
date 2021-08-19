@@ -11,7 +11,7 @@ import authorization from "../../core/authorization";
 import { useEffect } from "react";
 import { Button } from "@material-ui/core";
 
-const CommentEntry = ({ comment, medium }) => {
+const CommentEntry = ({ comment, medium, handleReload, handleAddMessage }) => {
   const [handleToggleEdit, setHandleToggleEdit] = useState(false);
   const [handleToggleSubComment, setHandleToggleSubComment] = useState(false);
   const [handleError, setHandleError] = useState(null);
@@ -45,13 +45,11 @@ const CommentEntry = ({ comment, medium }) => {
     })
       .then((data) => {
         setHandleToggleEdit(false);
-        //Reload page, to get updated comment
-        history.go();
+        handleAddMessage('success', 'Aktualisiert', 'Der Kommentar wurde aktualisiert.')
+        handleReload(true);
       })
       .catch((error) => {
-        setHandleError(
-          "Das Formular konnte nicht abgeschickt werden (" + handleError + ")"
-        );
+        handleAddMessage('error', 'Fehler', 'Fehler beim Aktualisieren des Kommentars');
       });
   };
 
@@ -68,9 +66,12 @@ const CommentEntry = ({ comment, medium }) => {
           throw Error("Fehler beim Löschen des Kommentars");
         }
         setHandleToggleEdit(false);
+        handleAddMessage('success', 'Gelöscht', 'Der Kommentar wurde erfolgreich gelöscht');
+        handleReload(true);
       })
       .catch((error) => {
         console.error(error);
+        handleAddMessage('error', 'Fehler', error.message);
       });
   };
 
@@ -101,11 +102,11 @@ const CommentEntry = ({ comment, medium }) => {
     })
       .then((data) => {
         setHandleToggleSubComment(false);
+        handleAddMessage('success', 'Hinzugefügt', 'Der Kommentar wurde erfolgreich hinzugefügt');
+        handleReload(true);
       })
       .catch((error) => {
-        setHandleError(
-          "Das Formular konnte nicht abgeschickt werden (" + handleError + ")"
-        );
+        handleAddMessage('error', 'Fehler', error.message);
       });
   };
 
@@ -155,7 +156,7 @@ const CommentEntry = ({ comment, medium }) => {
         </Button>
       )}
       {isSubCommentListVisible && (
-        <SubCommentList comment={comment} medium={medium}></SubCommentList>
+        <SubCommentList comment={comment} medium={medium} handleAddMessage={handleAddMessage}></SubCommentList>
       )}
 
       {handleToggleSubComment && (
