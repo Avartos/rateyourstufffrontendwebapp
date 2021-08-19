@@ -163,7 +163,7 @@ const CollectionDetails = ({ handleAddMessage }) => {
       {!isEditModeActive &&
         collection &&
         collection.userId == helper.getUserId() && (
-          <Button
+          <Button 
             onClick={() => {
               setIsEditModeActive(true);
             }}
@@ -172,12 +172,12 @@ const CollectionDetails = ({ handleAddMessage }) => {
           </Button>
         )}
       {isEditModeActive && (
-        <Button onClick={handleSubmitChanges}>
+        <Button variant="contained" color="primary" onClick={handleSubmitChanges}>
           Neue Bezeichnung übernehmen
         </Button>
       )}
       {isEditModeActive && (
-        <Button
+        <Button variant="contained" color="primary"
           onClick={() => {
             setIsEditModeActive(false);
             setCollectionTitle(collection.title);
@@ -188,7 +188,7 @@ const CollectionDetails = ({ handleAddMessage }) => {
       )}
 
       {isEditModeActive && (
-        <Button
+        <Button variant="contained" color="secondary"
           onClick={() => {
             setIsEditModeActive(false);
             handleDeleteCollection();
@@ -210,6 +210,7 @@ const CollectionDetails = ({ handleAddMessage }) => {
               />
               {isEditModeActive && (
                 <Button
+                variant="contained" color="primary"
                   onClick={() => {
                     handleDeleteMedium(medium.id);
                   }}
