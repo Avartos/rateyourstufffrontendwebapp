@@ -1,136 +1,156 @@
-import React, {useState} from "react";
-import {Divider} from "@material-ui/core";
-import CreateIcon from '@material-ui/icons/Create';
-import ReplyIcon from '@material-ui/icons/Reply';
+import React, { useState } from "react";
+import { Divider } from "@material-ui/core";
+import CreateIcon from "@material-ui/icons/Create";
+import ReplyIcon from "@material-ui/icons/Reply";
 import EditCommentForm from "../comments/editCommentForm";
 import { useHistory } from "react-router";
 import NewSubCommentForm from "../comments/newSubCommentForm";
 import useFetch from "../../hooks/useFetch";
 import SubCommentList from "../comments/subCommentList";
+import authorization from "../../core/authorization";
+import { useEffect } from "react";
+import { Button } from "@material-ui/core";
 
-const CommentEntry = ({comment, medium}) => {
-    const [handleToggleEdit, setHandleToggleEdit] = useState(false);
-    const [handleToggleSubComment, setHandleToggleSubComment] = useState(false);
-    const [handleError, setHandleError] = useState(null);
-    const [subComments, setSubComments] = useState([]);
-    const numberOfSubCommentsPerPage = 2;
-    const [currentSubCommentPage, setCurrentSubCommentPage] = useState(0);
-    const history = useHistory();
+const CommentEntry = ({ comment, medium }) => {
+  const [handleToggleEdit, setHandleToggleEdit] = useState(false);
+  const [handleToggleSubComment, setHandleToggleSubComment] = useState(false);
+  const [handleError, setHandleError] = useState(null);
 
-    
+  const history = useHistory();
+  const [isSubCommentListVisible, setIsSubCommentListVisible] = useState(false);
 
-    const handleEditComment = (e, body, currentUser, mediumToComment, postNumbers, commentId) => {
-        e.preventDefault();
+  const handleEditComment = (
+    e,
+    body,
+    currentUser,
+    mediumToComment,
+    postNumbers,
+    commentId
+  ) => {
+    e.preventDefault();
 
-        let updatedComment = {
-            id: commentId,
-            textOfComment: body,
-            numberOfPosts: postNumbers,
-            userMappingId: currentUser,
-            mediumMappingId: mediumToComment,
-        };
-
-        fetch(`http://localhost:5000/rest/comments`, {
-            method: "PUT",
-            headers: { "Content-Type": "application/json",
-                "Authorization": sessionStorage.getItem("Bearer ")},
-            body: JSON.stringify(updatedComment),
-        })
-            .then((data) => {
-                setHandleToggleEdit(false);
-                //Reload page, to get updated comment
-                history.go();
-            })
-            .catch((error) => {
-                setHandleError(
-                    "Das Formular konnte nicht abgeschickt werden (" + handleError + ")"
-                );
-            });
+    let updatedComment = {
+      id: commentId,
+      textOfComment: body,
+      numberOfPosts: postNumbers,
+      userMappingId: currentUser,
+      mediumMappingId: mediumToComment,
     };
 
+    fetch(`http://localhost:5000/rest/comments`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: sessionStorage.getItem("Bearer "),
+      },
+      body: JSON.stringify(updatedComment),
+    })
+      .then((data) => {
+        setHandleToggleEdit(false);
+        //Reload page, to get updated comment
+        history.go();
+      })
+      .catch((error) => {
+        setHandleError(
+          "Das Formular konnte nicht abgeschickt werden (" + handleError + ")"
+        );
+      });
+  };
 
-    const handleSubComment = (e,body, currentUser,mediumToComment, parentComment) => {
-        e.preventDefault();
+  const handleSubComment = (
+    e,
+    body,
+    currentUser,
+    mediumToComment,
+    parentComment
+  ) => {
+    e.preventDefault();
 
-        let newSubComment = {
-            textOfComment: body,
-            numberOfPosts: 0,
-            userMappingId: currentUser,
-            mediumMappingId: mediumToComment,
-            parentMappingId:parentComment,
-        };
-
-        fetch(`http://localhost:5000/rest/comments/add`, {
-            method: "POST",
-            headers: { "Content-Type": "application/json",
-                "Authorization": sessionStorage.getItem("Bearer ")},
-            body: JSON.stringify(newSubComment),
-        })
-            .then((data) => {
-                setHandleToggleSubComment(false);
-                //Reload page, to get actual average rating
-                // history.go();
-            })
-            .catch((error) => {
-                setHandleError(
-                    "Das Formular konnte nicht abgeschickt werden (" + handleError + ")"
-                );
-            });
+    let newSubComment = {
+      textOfComment: body,
+      numberOfPosts: 0,
+      userMappingId: currentUser,
+      mediumMappingId: mediumToComment,
+      parentMappingId: parentComment,
     };
 
-    const handleFetchSubCommentsFromComment =() => {
-        fetch(`http://localhost:5000/rest/comments/all/subcomments/${comment.commentParentId}?page=${currentSubCommentPage}&size=${numberOfSubCommentsPerPage}`)
-            .then ( res => {
-                    if (!res.ok){
-                        throw Error("unable to fetch ratings");
-                    }
-                    return res.json()
-                }
-            )
-            .then (data => {
-                setSubComments([...subComments,...data]);
-                setCurrentSubCommentPage(currentSubCommentPage+1);
-            })
-            .catch (error => {
-                console.error(error);
-            })
-    };
+    fetch(`http://localhost:5000/rest/comments/add`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: sessionStorage.getItem("Bearer "),
+      },
+      body: JSON.stringify(newSubComment),
+    })
+      .then((data) => {
+        setHandleToggleSubComment(false);
+      })
+      .catch((error) => {
+        setHandleError(
+          "Das Formular konnte nicht abgeschickt werden (" + handleError + ")"
+        );
+      });
+  };
 
-    return (
-        <React.Fragment>
-            <h3>{comment.userUserName}</h3>
-            <label>{comment.textOfComment}</label>
+  return (
+    <React.Fragment>
+      <h3>
+        #{comment.id} {comment.userUserName}
+      </h3>
+      <label>{comment.textOfComment}</label>
 
-            {comment.userId == sessionStorage.getItem("id") &&
-            <CreateIcon className="editAndReplyButton" onClick={() => {
-                setHandleToggleEdit(!handleToggleEdit);
-                if (handleToggleEdit === true) {
-                    setHandleToggleEdit(!handleToggleEdit);
-                }
-            }}>
-            </CreateIcon>
+      {comment.userId === parseInt(authorization.getUserId()) && (
+        <CreateIcon
+          className="editAndReplyButton"
+          onClick={() => {
+            setHandleToggleEdit(!handleToggleEdit);
+            if (handleToggleEdit === true) {
+              setHandleToggleEdit(!handleToggleEdit);
             }
+          }}
+        ></CreateIcon>
+      )}
 
-            <ReplyIcon className="editAndReplyButton" onClick={() => {
-                setHandleToggleSubComment(!handleToggleSubComment);
-                if (handleToggleSubComment === true) {
-                    setHandleToggleSubComment(!handleToggleSubComment);
-                }
-            }}>
-            </ReplyIcon>
+      <ReplyIcon
+        className="editAndReplyButton"
+        onClick={() => {
+          setHandleToggleSubComment(!handleToggleSubComment);
+          if (handleToggleSubComment === true) {
+            setHandleToggleSubComment(!handleToggleSubComment);
+          }
+        }}
+      ></ReplyIcon>
+      {!isSubCommentListVisible && (
+        <Button
+          onClick={() => {
+            setIsSubCommentListVisible(true);
+          }}
+        >
+          Antworten anzeigen
+        </Button>
+      )}
+      {isSubCommentListVisible && (
+        <SubCommentList comment={comment}></SubCommentList>
+      )}
 
-            <SubCommentList subComments={subComments} handleFetchSubComments={handleFetchSubCommentsFromComment} comment={comment} ></SubCommentList>
+      {handleToggleEdit && (
+        <EditCommentForm
+          handleEditComment={handleEditComment}
+          comment={comment}
+          medium={medium}
+        />
+      )}
 
-            {handleToggleEdit &&(
-            <EditCommentForm handleEditComment={handleEditComment} comment={comment} medium={medium}/>
-            )}
-
-            {handleToggleSubComment &&
-                <NewSubCommentForm handleSubComment={handleSubComment} comment={comment} medium={medium}></NewSubCommentForm>
-            }
-            <Divider />
-        </React.Fragment>
-    );
+      {handleToggleSubComment && (
+        <NewSubCommentForm
+          handleSubComment={handleSubComment}
+          comment={comment}
+          medium={medium}
+        ></NewSubCommentForm>
+      )}
+      <Divider />
+    </React.Fragment>
+  );
 };
- 
+
 export default CommentEntry;

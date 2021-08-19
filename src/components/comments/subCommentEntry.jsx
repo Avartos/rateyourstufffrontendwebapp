@@ -1,14 +1,12 @@
-import React from 'react';
+import React from "react";
 
-function SubCommentEntry({subComment, comment}) {
-    console.log(subComment.id);
-    return (
-
-        <div>
-                    <h3>{subComment.userUserName}</h3>
-                    <label>{subComment.textOfComment}</label>
-        </div>
-    );
+function SubCommentEntry({ subComment, comment }) {
+  return (
+    <div className="subComment">
+      <h3>AW #{subComment.commentParentId}:  {subComment.userUserName}</h3>
+      <label>{subComment.textOfComment}</label>
+    </div>
+  );
 }
 
 export default SubCommentEntry;
