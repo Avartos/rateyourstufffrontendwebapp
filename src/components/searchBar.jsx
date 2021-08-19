@@ -1,5 +1,5 @@
 const SearchBar = () => (
-  <form action="rateyourstufffrontendwebapp/searchResults/" method="get" className="searchBar">
+  <form action="/rateyourstufffrontendwebapp/searchResults/" method="get" className="searchBar">
     <label htmlFor="header-search">
             <span className="visually-hidden">Search media</span>
         </label>
