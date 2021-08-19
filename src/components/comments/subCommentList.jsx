@@ -3,7 +3,7 @@ import SubCommentEntry from "./subCommentEntry";
 import { useState } from "react";
 import { useEffect } from "react";
 
-function SubCommentList({ comment }) {
+function SubCommentList({ comment, medium }) {
   const [subComments, setSubComments] = useState([]);
   const numberOfSubCommentsPerPage = 2;
   const [currentSubCommentPage, setCurrentSubCommentPage] = useState(0);
@@ -26,8 +26,8 @@ function SubCommentList({ comment }) {
         } else {
           setSubComments([...subComments, ...data]);
         }
-        if(data.length < numberOfSubCommentsPerPage) {
-            setIsLoadMoreButtonVisible(false);
+        if (data.length < numberOfSubCommentsPerPage) {
+          setIsLoadMoreButtonVisible(false);
         }
         setCurrentSubCommentPage(currentPage + 1);
         console.log(currentPage);
@@ -37,9 +37,9 @@ function SubCommentList({ comment }) {
       });
   };
 
-  useEffect(()=> {
-      handleFetchSubCommentsFromComment(true);
-  }, [])
+  useEffect(() => {
+    handleFetchSubCommentsFromComment(true);
+  }, []);
 
   return (
     <div>
@@ -50,6 +50,7 @@ function SubCommentList({ comment }) {
               key={subComment.id}
               subComment={subComment}
               comment={comment}
+              medium={medium}
             ></SubCommentEntry>
           );
         })}

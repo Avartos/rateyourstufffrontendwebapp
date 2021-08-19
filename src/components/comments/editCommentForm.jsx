@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-function EditCommentForm({ handleEditComment, comment, medium }) {
+function EditCommentForm({ handleEditComment, comment, handleDeleteComment }) {
   const [body, setBody] = useState(comment.textOfComment);
 
   return (
@@ -12,7 +12,6 @@ function EditCommentForm({ handleEditComment, comment, medium }) {
             e,
             body,
             comment.userMappingId,
-            medium.id,
             comment.numberOfPosts,
             comment.id
           );
@@ -29,6 +28,7 @@ function EditCommentForm({ handleEditComment, comment, medium }) {
           <button className="primaryButton">Ändern</button>
         </div>
       </form>
+      <button className="primaryButton" onClick={handleDeleteComment}>Löschen</button>
     </div>
   );
 }

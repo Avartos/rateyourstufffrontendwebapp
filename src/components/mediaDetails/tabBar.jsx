@@ -7,12 +7,10 @@ import CommentList from "./commentList";
 
 const TabBar = ({ ratingCount, commentCount, medium, mediumId }) => {
   const [ratings, setRatings] = useState([]);
-  
+
   const numberOfRatingsPerPage = 2;
   const [currentRatingPage, setCurrentRatingPage] = useState(0);
   const [showValue, setShowValue] = useState(0);
-  
-  
 
   const [value, setValue] = useState(0);
 
@@ -43,8 +41,6 @@ const TabBar = ({ ratingCount, commentCount, medium, mediumId }) => {
   useEffect(() => {
     fetchRatingsFromMedium();
   }, []);
-
-  
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -80,10 +76,7 @@ const TabBar = ({ ratingCount, commentCount, medium, mediumId }) => {
 
       <TabPanel value={value} index={1}>
         {showValue === 0 && (
-          <CommentList
-            medium={medium}
-            handleReloadData={handleReloadData}
-          >
+          <CommentList medium={medium} handleReloadData={handleReloadData}>
             Kommentare
           </CommentList>
         )}

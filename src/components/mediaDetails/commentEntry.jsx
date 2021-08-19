@@ -23,7 +23,6 @@ const CommentEntry = ({ comment, medium }) => {
     e,
     body,
     currentUser,
-    mediumToComment,
     postNumbers,
     commentId
   ) => {
@@ -34,7 +33,6 @@ const CommentEntry = ({ comment, medium }) => {
       textOfComment: body,
       numberOfPosts: postNumbers,
       userMappingId: currentUser,
-      mediumMappingId: mediumToComment,
     };
 
     fetch(`http://localhost:5000/rest/comments`, {
@@ -54,6 +52,25 @@ const CommentEntry = ({ comment, medium }) => {
         setHandleError(
           "Das Formular konnte nicht abgeschickt werden (" + handleError + ")"
         );
+      });
+  };
+
+  const handleDeleteComment = () => {
+    fetch(`http://localhost:5000/rest/comments/${comment.id}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: sessionStorage.getItem("Bearer "),
+      },
+    })
+      .then((res) => {
+        if (!res.ok) {
+          throw Error("Fehler beim Löschen des Kommentars");
+        }
+        setHandleToggleEdit(false);
+      })
+      .catch((error) => {
+        console.error(error);
       });
   };
 
@@ -120,6 +137,14 @@ const CommentEntry = ({ comment, medium }) => {
           }
         }}
       ></ReplyIcon>
+
+      {handleToggleEdit && (
+        <EditCommentForm
+          handleEditComment={handleEditComment}
+          handleDeleteComment={handleDeleteComment}
+          comment={comment}
+        />
+      )}
       {!isSubCommentListVisible && (
         <Button
           onClick={() => {
@@ -130,15 +155,7 @@ const CommentEntry = ({ comment, medium }) => {
         </Button>
       )}
       {isSubCommentListVisible && (
-        <SubCommentList comment={comment}></SubCommentList>
-      )}
-
-      {handleToggleEdit && (
-        <EditCommentForm
-          handleEditComment={handleEditComment}
-          comment={comment}
-          medium={medium}
-        />
+        <SubCommentList comment={comment} medium={medium}></SubCommentList>
       )}
 
       {handleToggleSubComment && (
