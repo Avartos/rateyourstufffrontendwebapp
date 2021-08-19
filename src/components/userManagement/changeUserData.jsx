@@ -3,6 +3,7 @@ import {useState} from "react";
 /**
  * Component which gives the user posibilities to change his personal data
  * @param user given from backend (Database)
+ * @param handleAddMessage given from central message handler
  * @returns {JSX.Element} changeUserData
  * @constructor
  */
