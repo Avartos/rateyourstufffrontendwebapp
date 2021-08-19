@@ -18,9 +18,10 @@ const CollectionList = ({ handleAddMessage }) => {
   const [isCollectionFormVisible, setIsCollectionFormVisible] = useState(false);
   const [isLoadMoreButtonVisible, setIsLoadMoreButtonVisible] = useState(true);
 
-  const fetchCollections = () => {
+  const fetchCollections = (isInitialFetch = false) => {
+    const currentCollectionPage = isInitialFetch ? 0 : currentPage;
     fetch(
-      `http://localhost:5000/rest/collections/user/${helper.getUserId()}?size=${COLLECTIONS_PER_PAGE}&page=${currentPage}`
+      `http://localhost:5000/rest/collections/user/${helper.getUserId()}?size=${COLLECTIONS_PER_PAGE}&page=${currentCollectionPage}`
     )
       .then((res) => {
         if (!res.ok) {
@@ -32,8 +33,12 @@ const CollectionList = ({ handleAddMessage }) => {
         if(data.length < COLLECTIONS_PER_PAGE) {
           setIsLoadMoreButtonVisible(false);
         }
-        setCollections([...collections, ...data]);
-        setCurrentPage(currentPage+1);
+        if(isInitialFetch) {
+          setCollections(data);
+        } else {
+          setCollections([...collections, ...data]);
+        }
+        setCurrentPage(currentCollectionPage+1);
       })
       .catch((err) => {
         console.error(err);
@@ -45,7 +50,7 @@ const CollectionList = ({ handleAddMessage }) => {
 
   const handleCloseForm = () => {
     setIsCollectionFormVisible(false);
-    fetchCollections();
+    fetchCollections(true);
   };
 
   return (
@@ -61,7 +66,7 @@ const CollectionList = ({ handleAddMessage }) => {
           : "Formular schließen"}
       </Button>
       {isCollectionFormVisible && (
-        <AddCollectionForm handleCloseForm={handleCloseForm} />
+        <AddCollectionForm handleCloseForm={handleCloseForm}/>
       )}
       <div className="collectionList">
         {collections.map((collection) => {
