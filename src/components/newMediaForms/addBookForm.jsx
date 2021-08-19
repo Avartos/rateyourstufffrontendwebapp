@@ -10,8 +10,8 @@ import isbnCheck from "../../core/isbnCheck";
 
 /**
  * This Component is used to add a new book to the database
- * @param {*} param0 
- * @returns 
+ * @param {*} param0
+ * @returns
  */
 const AddBookForm = ({ handleAddMessage }) => {
   const [mediumName, setMediumName] = useState("");
@@ -76,12 +76,11 @@ const AddBookForm = ({ handleAddMessage }) => {
 
   const handleSubmitForm = (e) => {
     e.preventDefault();
-    if(!isValidIsbn) {
-      handleAddMessage('error', 'Fehler', 'Die eingegebene ISBN ist ungültig');
+    if (!isValidIsbn) {
+      handleAddMessage("error", "Fehler", "Die eingegebene ISBN ist ungültig");
       return;
     }
 
-    
     let book = {
       mediumName: mediumName,
       releaseDate: releaseDate,
@@ -113,30 +112,39 @@ const AddBookForm = ({ handleAddMessage }) => {
         return res.json();
       })
       .then((data) => {
-        const formData = new FormData();
-        formData.append("image", mediumPoster);
-        fetch(`http://localhost:5000/rest/books/images/${data.id}`, {
-          method: "POST",
-          headers: {
-            Authorization: sessionStorage.getItem("Bearer "),
-          },
-          body: formData,
-        })
-          .then((response) => {
-            if (!response.ok) {
-              throw Error("Bildupload fehlgeschlagen");
-            }
-            handleAddMessage(
-              "success",
-              "Buch angelegt",
-              "Das neue Buch wurde erfolgreich angelegt."
-            );
-            history.push(`/detail/book/${data.id}`);
+        if (mediumPoster) {
+          const formData = new FormData();
+          formData.append("image", mediumPoster);
+          fetch(`http://localhost:5000/rest/books/images/${data.id}`, {
+            method: "POST",
+            headers: {
+              Authorization: sessionStorage.getItem("Bearer "),
+            },
+            body: formData,
           })
-          .catch((error) => {
-            handleAddMessage("error", "Fehler", error.message);
-            console.error(error);
-          });
+            .then((response) => {
+              if (!response.ok) {
+                throw Error("Bildupload fehlgeschlagen");
+              }
+              handleAddMessage(
+                "success",
+                "Buch angelegt",
+                "Das neue Buch wurde erfolgreich angelegt."
+              );
+              history.push(`/detail/book/${data.id}`);
+            })
+            .catch((error) => {
+              handleAddMessage("error", "Fehler", error.message);
+              console.error(error);
+            });
+        } else {
+          handleAddMessage(
+            "success",
+            "Buch angelegt",
+            "Das neue Buch wurde erfolgreich angelegt."
+          );
+          history.push(`/detail/book/${data.id}`);
+        }
       })
       .catch((error) => {
         handleAddMessage("error", "Fehler", error.message);
@@ -164,6 +172,7 @@ const AddBookForm = ({ handleAddMessage }) => {
       );
     } else {
       setCurrentImage(URL.createObjectURL(event.target.files[0]));
+      setMediumPoster(event.target.files[0]);
     }
   };
 
@@ -188,7 +197,6 @@ const AddBookForm = ({ handleAddMessage }) => {
         type="file"
         onChange={(e) => {
           handleSelectImage(e);
-          setMediumPoster(e.target.files[0]);
         }}
       />
 

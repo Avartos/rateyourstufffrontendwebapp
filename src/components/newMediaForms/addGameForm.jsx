@@ -9,10 +9,10 @@ import ImagePreview from "../formComponents/imagePreview";
 
 /**
  * This component is used to add a new game to the database
- * @param {*} param0 
- * @returns 
+ * @param {*} param0
+ * @returns
  */
-const AddGameForm = ({handleAddMessage}) => {
+const AddGameForm = ({ handleAddMessage }) => {
   const [mediumName, setMediumName] = useState("");
   const [releaseDate, setReleaseDate] = useState("");
   const [description, setDescription] = useState("");
@@ -55,7 +55,7 @@ const AddGameForm = ({handleAddMessage}) => {
         setter(data);
       })
       .catch((err) => {
-        handleAddMessage('error', 'Fehler', err.message);
+        handleAddMessage("error", "Fehler", err.message);
         console.error(err);
       });
   };
@@ -122,31 +122,43 @@ const AddGameForm = ({handleAddMessage}) => {
       body: JSON.stringify(game),
     })
       .then((res) => {
-        if(res.status === 418) {
-          throw Error ('Das Medium existiert bereits');
-        }
-        else if (!res.ok) {
-          throw Error ('Unbekannter Fehler beim Anlegen des Mediums');
+        if (res.status === 418) {
+          throw Error("Das Medium existiert bereits");
+        } else if (!res.ok) {
+          throw Error("Unbekannter Fehler beim Anlegen des Mediums");
         }
         return res.json();
       })
       .then((data) => {
-        const formData = new FormData();
-        formData.append("image", mediumPoster);
-        fetch(`http://localhost:5000/rest/games/images/${data.id}`, {
-          method: "POST",
-          headers: {
-            Authorization: sessionStorage.getItem("Bearer "),
-          },
-          body: formData,
-        })
-          .then((response) => {
-            handleAddMessage('success', 'Buch angelegt', 'Das neue Spiel wurde erfolgreich angelegt.');
-            history.push(`/detail/game/${data.id}`);
+        if (mediumPoster) {
+          const formData = new FormData();
+          formData.append("image", mediumPoster);
+          fetch(`http://localhost:5000/rest/games/images/${data.id}`, {
+            method: "POST",
+            headers: {
+              Authorization: sessionStorage.getItem("Bearer "),
+            },
+            body: formData,
           })
-          .catch((error) => {
-            console.error(error);
-          });
+            .then((response) => {
+              handleAddMessage(
+                "success",
+                "Buch angelegt",
+                "Das neue Spiel wurde erfolgreich angelegt."
+              );
+              history.push(`/detail/game/${data.id}`);
+            })
+            .catch((error) => {
+              console.error(error);
+            });
+        } else {
+          handleAddMessage(
+            "success",
+            "Buch angelegt",
+            "Das neue Spiel wurde erfolgreich angelegt."
+          );
+          history.push(`/detail/game/${data.id}`);
+        }
       })
       .catch((error) => {
         console.error(error);
@@ -155,13 +167,25 @@ const AddGameForm = ({handleAddMessage}) => {
 
   const handleSelectImage = (event) => {
     const file = event.target.files[0];
-    if(file.size/1024 >= 3000) {
-      handleAddMessage('error', 'Fehler', 'Bilder dürfen eine Dateigröße von 3MB nicht überschreiten!');
-    } else if(file.type !== 'image/png' && file.type !== 'image/jpeg' && file.type !== 'image/jpg') {
-      handleAddMessage('error', 'Fehler', 'Bitte laden Sie nur .jpg oder .png Dateien hoch!');
-    }
-    else {
+    if (file.size / 1024 >= 3000) {
+      handleAddMessage(
+        "error",
+        "Fehler",
+        "Bilder dürfen eine Dateigröße von 3MB nicht überschreiten!"
+      );
+    } else if (
+      file.type !== "image/png" &&
+      file.type !== "image/jpeg" &&
+      file.type !== "image/jpg"
+    ) {
+      handleAddMessage(
+        "error",
+        "Fehler",
+        "Bitte laden Sie nur .jpg oder .png Dateien hoch!"
+      );
+    } else {
       setCurrentImage(URL.createObjectURL(event.target.files[0]));
+      setMediumPoster(event.target.files[0]);
     }
   };
 
@@ -173,7 +197,7 @@ const AddGameForm = ({handleAddMessage}) => {
         type="file"
         onChange={(e) => {
           handleSelectImage(e);
-          setMediumPoster(e.target.files[0]);
+          
         }}
       />
 

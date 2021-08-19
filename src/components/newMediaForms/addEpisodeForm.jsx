@@ -8,10 +8,10 @@ import { useParams } from "react-router";
 
 /**
  * This component is used to add a new component to the database
- * @param {*} param0 
- * @returns 
+ * @param {*} param0
+ * @returns
  */
-const AddEpisodeForm = ({handleAddMessage}) => {
+const AddEpisodeForm = ({ handleAddMessage }) => {
   const [mediumName, setMediumName] = useState("");
   const [releaseDate, setReleaseDate] = useState("");
   const [description, setDescription] = useState("");
@@ -46,7 +46,7 @@ const AddEpisodeForm = ({handleAddMessage}) => {
         setter(data);
       })
       .catch((err) => {
-        handleAddMessage('error', 'Fehler', err.message);
+        handleAddMessage("error", "Fehler", err.message);
         console.error(err);
       });
   };
@@ -88,31 +88,43 @@ const AddEpisodeForm = ({handleAddMessage}) => {
       body: JSON.stringify(episode),
     })
       .then((res) => {
-        if(res.status === 418) {
-          throw Error ('Das Medium existiert bereits');
-        }
-        else if (!res.ok) {
-          throw Error ('Unbekannter Fehler beim Anlegen des Mediums');
+        if (res.status === 418) {
+          throw Error("Das Medium existiert bereits");
+        } else if (!res.ok) {
+          throw Error("Unbekannter Fehler beim Anlegen des Mediums");
         }
         return res.json();
       })
       .then((data) => {
-        const formData = new FormData();
-        formData.append("image", mediumPoster);
-        fetch(`http://localhost:5000/rest/episodes/images/${data.id}`, {
-          method: "POST",
-          headers: {
-            Authorization: sessionStorage.getItem("Bearer "),
-          },
-          body: formData,
-        })
-          .then((response) => {
-            handleAddMessage('success', 'Episode angelegt', 'Die neue Episode wurde erfolgreich angelegt.');
-            history.push(`/detail/episode/${data.id}`);
+        if (mediumPoster) {
+          const formData = new FormData();
+          formData.append("image", mediumPoster);
+          fetch(`http://localhost:5000/rest/episodes/images/${data.id}`, {
+            method: "POST",
+            headers: {
+              Authorization: sessionStorage.getItem("Bearer "),
+            },
+            body: formData,
           })
-          .catch((error) => {
-            console.error(error);
-          });
+            .then((response) => {
+              handleAddMessage(
+                "success",
+                "Episode angelegt",
+                "Die neue Episode wurde erfolgreich angelegt."
+              );
+              history.push(`/detail/episode/${data.id}`);
+            })
+            .catch((error) => {
+              console.error(error);
+            });
+        } else {
+          handleAddMessage(
+            "success",
+            "Episode angelegt",
+            "Die neue Episode wurde erfolgreich angelegt."
+          );
+          history.push(`/detail/episode/${data.id}`);
+        }
       })
       .catch((error) => {
         console.error(error);
@@ -121,13 +133,25 @@ const AddEpisodeForm = ({handleAddMessage}) => {
 
   const handleSelectImage = (event) => {
     const file = event.target.files[0];
-    if(file.size/1024 >= 3000) {
-      handleAddMessage('error', 'Fehler', 'Bilder dürfen eine Dateigröße von 3MB nicht überschreiten!');
-    } else if(file.type !== 'image/png' && file.type !== 'image/jpeg' && file.type !== 'image/jpg') {
-      handleAddMessage('error', 'Fehler', 'Bitte laden Sie nur .jpg oder .png Dateien hoch!');
-    }
-    else {
+    if (file.size / 1024 >= 3000) {
+      handleAddMessage(
+        "error",
+        "Fehler",
+        "Bilder dürfen eine Dateigröße von 3MB nicht überschreiten!"
+      );
+    } else if (
+      file.type !== "image/png" &&
+      file.type !== "image/jpeg" &&
+      file.type !== "image/jpg"
+    ) {
+      handleAddMessage(
+        "error",
+        "Fehler",
+        "Bitte laden Sie nur .jpg oder .png Dateien hoch!"
+      );
+    } else {
       setCurrentImage(URL.createObjectURL(event.target.files[0]));
+      setMediumPoster(event.target.files[0]);
     }
   };
 
@@ -139,7 +163,7 @@ const AddEpisodeForm = ({handleAddMessage}) => {
         type="file"
         onChange={(e) => {
           handleSelectImage(e);
-          setMediumPoster(e.target.files[0]);
+          
         }}
       />
 

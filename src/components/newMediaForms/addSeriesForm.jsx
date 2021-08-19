@@ -10,8 +10,8 @@ import ImagePreview from "../formComponents/imagePreview";
 
 /**
  * This component can be used to add a new series to the database
- * @param {*} param0 
- * @returns 
+ * @param {*} param0
+ * @returns
  */
 const AddSeriesForm = ({ handleAddMessage }) => {
   const [mediumName, setMediumName] = useState("");
@@ -105,27 +105,36 @@ const AddSeriesForm = ({ handleAddMessage }) => {
         return res.json();
       })
       .then((data) => {
-        const formData = new FormData();
-        formData.append("image", mediumPoster);
-        fetch(`http://localhost:5000/rest/series/images/${data.id}`, {
-          method: "POST",
-          headers: {
-            Authorization: sessionStorage.getItem("Bearer "),
-          },
-          body: formData,
-        })
-          .then((response) => {
-            handleAddMessage(
-              "success",
-              "Serie angelegt",
-              "Die neue Serie wurde erfolgreich angelegt."
-            );
-            history.push(`/detail/series/${data.id}`);
+        if (mediumPoster) {
+          const formData = new FormData();
+          formData.append("image", mediumPoster);
+          fetch(`http://localhost:5000/rest/series/images/${data.id}`, {
+            method: "POST",
+            headers: {
+              Authorization: sessionStorage.getItem("Bearer "),
+            },
+            body: formData,
           })
-          .catch((error) => {
-            handleAddMessage("error", "Fehler", error.message);
-            console.error(error);
-          });
+            .then((response) => {
+              handleAddMessage(
+                "success",
+                "Serie angelegt",
+                "Die neue Serie wurde erfolgreich angelegt."
+              );
+              history.push(`/detail/series/${data.id}`);
+            })
+            .catch((error) => {
+              handleAddMessage("error", "Fehler", error.message);
+              console.error(error);
+            });
+        } else {
+          handleAddMessage(
+            "success",
+            "Serie angelegt",
+            "Die neue Serie wurde erfolgreich angelegt."
+          );
+          history.push(`/detail/series/${data.id}`);
+        }
       })
       .catch((error) => {
         handleAddMessage("error", "Fehler", error.message);
@@ -135,13 +144,25 @@ const AddSeriesForm = ({ handleAddMessage }) => {
 
   const handleSelectImage = (event) => {
     const file = event.target.files[0];
-    if(file.size/1024 >= 3000) {
-      handleAddMessage('error', 'Fehler', 'Bilder dürfen eine Dateigröße von 3MB nicht überschreiten!');
-    } else if(file.type !== 'image/png' && file.type !== 'image/jpeg' && file.type !== 'image/jpg') {
-      handleAddMessage('error', 'Fehler', 'Bitte laden Sie nur .jpg oder .png Dateien hoch!');
-    }
-    else {
+    if (file.size / 1024 >= 3000) {
+      handleAddMessage(
+        "error",
+        "Fehler",
+        "Bilder dürfen eine Dateigröße von 3MB nicht überschreiten!"
+      );
+    } else if (
+      file.type !== "image/png" &&
+      file.type !== "image/jpeg" &&
+      file.type !== "image/jpg"
+    ) {
+      handleAddMessage(
+        "error",
+        "Fehler",
+        "Bitte laden Sie nur .jpg oder .png Dateien hoch!"
+      );
+    } else {
       setCurrentImage(URL.createObjectURL(event.target.files[0]));
+      setMediumPoster(event.target.files[0]);
     }
   };
 
@@ -153,7 +174,6 @@ const AddSeriesForm = ({ handleAddMessage }) => {
         type="file"
         onChange={(e) => {
           handleSelectImage(e);
-          setMediumPoster(e.target.files[0]);
         }}
       />
 
