@@ -21,9 +21,8 @@ const BoolOutput = (isTrue) => {
   return "Nein";
 };
 
-const BookDetails = ({handleAddMessage}) => {
+const BookDetails = ({ handleAddMessage }) => {
   const { id } = useParams();
-
 
   const history = useHistory();
   const [handleError, setHandleError] = useState(null);
@@ -37,21 +36,21 @@ const BookDetails = ({handleAddMessage}) => {
   const fetchMedium = () => {
     setIsPending(true);
     fetch(`http://localhost:5000/rest/books/${id}`)
-    .then(res => {
-      if(!res.ok) {
-        throw Error ('Fehler beim Abrufen des Mediums');
-      }
-      return res.json();
-    })
-    .then(data => {
-      setMedium(data);
-      setIsPending(false);
-    })
-    .catch(error => {
-      handleAddMessage('error', 'Fehler', error.message);
-      history.push('/404');
-    })
-  }
+      .then((res) => {
+        if (!res.ok) {
+          throw Error("Fehler beim Abrufen des Mediums");
+        }
+        return res.json();
+      })
+      .then((data) => {
+        setMedium(data);
+        setIsPending(false);
+      })
+      .catch((error) => {
+        handleAddMessage("error", "Fehler", error.message);
+        history.push("/404");
+      });
+  };
 
   useEffect(fetchMedium, []);
 
@@ -167,12 +166,18 @@ const BookDetails = ({handleAddMessage}) => {
                 ></img>
               </div>
               <div className="details">
-              <div className="titleWithEdit">
+                <div className="titleWithEdit">
                   <h2 className="title">{medium.mediumName}</h2>
-                    {authorization.isLoggedIn() && <span className="mediumEditButton"
-                      onClick={() => {history.push(`/edit/book/${id}`);}}>
+                  {authorization.isLoggedIn() && (
+                    <span
+                      className="mediumEditButton"
+                      onClick={() => {
+                        history.push(`/edit/book/${id}`);
+                      }}
+                    >
                       <PencilIcon />
-                    </span>}
+                    </span>
+                  )}
                 </div>
                 <div className="detailField">
                   <span className="smallHeading">Genres</span>
@@ -220,30 +225,32 @@ const BookDetails = ({handleAddMessage}) => {
                     maxValue={medium.max_RATING_POINTS}
                     showValue={true}
                   />
-                  <div className="showButton">
-                    <button
-                      className="primaryButton"
-                      onClick={() => {
-                        setHandleToggleRating(!handleToggleRating);
-                        if (handleToggleComment === true) {
-                          setHandleToggleComment(!handleToggleComment);
-                        }
-                      }}
-                    >
-                      Neue Bewertung
-                    </button>
-                    <button
-                      className="primaryButton"
-                      onClick={() => {
-                        setHandleToggleComment(!handleToggleComment);
-                        if (handleToggleRating === true) {
+                  {authorization.isLoggedIn() && (
+                    <div className="showButton">
+                      <button
+                        className="primaryButton"
+                        onClick={() => {
                           setHandleToggleRating(!handleToggleRating);
-                        }
-                      }}
-                    >
-                      Neuer Kommentar
-                    </button>
-                  </div>
+                          if (handleToggleComment === true) {
+                            setHandleToggleComment(!handleToggleComment);
+                          }
+                        }}
+                      >
+                        Neue Bewertung
+                      </button>
+                      <button
+                        className="primaryButton"
+                        onClick={() => {
+                          setHandleToggleComment(!handleToggleComment);
+                          if (handleToggleRating === true) {
+                            setHandleToggleRating(!handleToggleRating);
+                          }
+                        }}
+                      >
+                        Neuer Kommentar
+                      </button>
+                    </div>
+                  )}
                 </div>
               </div>
             </div>

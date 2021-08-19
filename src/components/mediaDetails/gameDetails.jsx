@@ -228,7 +228,7 @@ const GameDetails = ({handleAddMessage}) => {
                     showValue={true}
                   />
 
-                  <div className="showButton">
+                  {authorization.isLoggedIn() && <div className="showButton">
                     <button
                       className="primaryButton"
                       onClick={() => {
@@ -251,7 +251,7 @@ const GameDetails = ({handleAddMessage}) => {
                     >
                       Neuer Kommentar
                     </button>
-                  </div>
+                  </div>}
                 </div>
               </div>
             </div>

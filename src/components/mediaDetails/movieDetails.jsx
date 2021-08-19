@@ -214,7 +214,7 @@ const MovieDetails = ({handleAddMessage}) => {
                     maxValue={medium.max_RATING_POINTS}
                     showValue={true}
                   />
-                  <div className="showButton">
+                  {authorization.isLoggedIn() && <div className="showButton">
                     <button
                       className="primaryButton"
                       onClick={() => {
@@ -237,7 +237,7 @@ const MovieDetails = ({handleAddMessage}) => {
                     >
                       Neuer Kommentar
                     </button>
-                  </div>
+                  </div>}
                 </div>
               </div>
             </div>
