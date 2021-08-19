@@ -165,7 +165,7 @@ const EpisodeDetails = ({ handleAddMessage }) => {
                     <span
                       className="mediumEditButton"
                       onClick={() => {
-                        history.push(`/edit/movie/${id}`);
+                        history.push(`/edit/episode/${id}`);
                       }}
                     >
                       <PencilIcon />
