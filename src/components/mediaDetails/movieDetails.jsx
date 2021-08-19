@@ -281,6 +281,7 @@ const MovieDetails = ({handleAddMessage}) => {
                 ratingCount={ratingCount}
                 mediumId={id}
                 commentCount={commentCount}
+                medium={medium}
               ></TabBar>
             </div>
 

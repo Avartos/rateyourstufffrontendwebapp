@@ -304,6 +304,7 @@ const GameDetails = ({handleAddMessage}) => {
               <TabBar
                 ratingCount={ratingCount}
                 mediumId={id}
+                medium={medium}
                 commentCount={commentCount}
               ></TabBar>
             </div>
