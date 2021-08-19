@@ -23,9 +23,8 @@ const BoolOutput = (isTrue) => {
   return "Nein";
 };
 
-const SeriesDetails = ({handleAddMessage}) => {
+const SeriesDetails = ({ handleAddMessage }) => {
   const { id } = useParams();
-
 
   const history = useHistory();
   const [handleError, setHandleError] = useState(null);
@@ -40,23 +39,23 @@ const SeriesDetails = ({handleAddMessage}) => {
   const fetchMedium = () => {
     setIsPending(true);
     fetch(`http://localhost:5000/rest/series/${id}`)
-    .then(res => {
-      if(!res.ok) {
-        throw Error ('Fehler beim Abrufen des Mediums');
-      }
-      return res.json();
-    })
-    .then(data => {
-      setMedium(data);
-      setIsPending(false);
-    })
-    .catch(error => {
-      handleAddMessage('error', 'Fehler', error.message);
-      history.push('/404');
-    })
-  }
+      .then((res) => {
+        if (!res.ok) {
+          throw Error("Fehler beim Abrufen des Mediums");
+        }
+        return res.json();
+      })
+      .then((data) => {
+        setMedium(data);
+        setIsPending(false);
+      })
+      .catch((error) => {
+        handleAddMessage("error", "Fehler", error.message);
+        history.push("/404");
+      });
+  };
 
-  useEffect(fetchMedium,[]);
+  useEffect(fetchMedium, []);
 
   const fetchRatingCount = () => {
     fetch(`http://localhost:5000/rest/ratings/count/${id}`)
@@ -171,12 +170,18 @@ const SeriesDetails = ({handleAddMessage}) => {
                 ></img>
               </div>
               <div className="details">
-              <div className="titleWithEdit">
+                <div className="titleWithEdit">
                   <h2 className="title">{medium.mediumName}</h2>
-                    {authorization.isLoggedIn() && <span className="mediumEditButton"
-                      onClick={() => {history.push(`/edit/series/${id}`);}}>
+                  {authorization.isLoggedIn() && (
+                    <span
+                      className="mediumEditButton"
+                      onClick={() => {
+                        history.push(`/edit/series/${id}`);
+                      }}
+                    >
                       <PencilIcon />
-                    </span>}
+                    </span>
+                  )}
                 </div>
                 <div className="detailField">
                   <span className="smallHeading">Genres</span>
@@ -219,30 +224,32 @@ const SeriesDetails = ({handleAddMessage}) => {
                     showValue={true}
                   />
 
-                  {authorization.isLoggedIn() && <div className="showButton">
-                    <button
-                      className="primaryButton"
-                      onClick={() => {
-                        setHandleToggleRating(!handleToggleRating);
-                        if (handleToggleComment === true) {
-                          setHandleToggleComment(!handleToggleComment);
-                        }
-                      }}
-                    >
-                      Neue Bewertung
-                    </button>
-                    <button
-                      className="primaryButton"
-                      onClick={() => {
-                        setHandleToggleComment(!handleToggleComment);
-                        if (handleToggleRating === true) {
+                  {authorization.isLoggedIn() && (
+                    <div className="showButton">
+                      <button
+                        className="primaryButton"
+                        onClick={() => {
                           setHandleToggleRating(!handleToggleRating);
-                        }
-                      }}
-                    >
-                      Neuer Kommentar
-                    </button>
-                  </div>}
+                          if (handleToggleComment === true) {
+                            setHandleToggleComment(!handleToggleComment);
+                          }
+                        }}
+                      >
+                        Neue Bewertung
+                      </button>
+                      <button
+                        className="primaryButton"
+                        onClick={() => {
+                          setHandleToggleComment(!handleToggleComment);
+                          if (handleToggleRating === true) {
+                            setHandleToggleRating(!handleToggleRating);
+                          }
+                        }}
+                      >
+                        Neuer Kommentar
+                      </button>
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
@@ -323,6 +330,7 @@ const SeriesDetails = ({handleAddMessage}) => {
                 ratingCount={ratingCount}
                 mediumId={id}
                 commentCount={commentCount}
+                medium={medium}
               ></TabBar>
             </div>
 

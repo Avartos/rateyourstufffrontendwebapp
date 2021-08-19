@@ -264,7 +264,7 @@ const EpisodeDetails = ({handleAddMessage}) => {
             )}
 
             <div className="body">
-              <TabBar ratingCount={ratingCount} mediumId={id} commentCount={commentCount}></TabBar>
+              <TabBar ratingCount={ratingCount} mediumId={id} medium={medium} commentCount={commentCount}></TabBar>
             </div>
 
             <div className="detailGroup">
