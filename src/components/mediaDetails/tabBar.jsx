@@ -5,7 +5,13 @@ import React, { useEffect, useState } from "react";
 import RatingList from "./ratingsList";
 import CommentList from "./commentList";
 
-const TabBar = ({ ratingCount, commentCount, medium, mediumId }) => {
+const TabBar = ({
+  ratingCount,
+  commentCount,
+  medium,
+  mediumId,
+  handleAddMessage,
+}) => {
   const [ratings, setRatings] = useState([]);
 
   const numberOfRatingsPerPage = 2;
@@ -35,6 +41,11 @@ const TabBar = ({ ratingCount, commentCount, medium, mediumId }) => {
         setCurrentRatingPage(currentPage + 1);
       })
       .catch((error) => {
+        handleAddMessage(
+          "error",
+          "Fehler",
+          "Beim Abrufen der Bewertungen ist ein Fehler aufgetreten"
+        );
         console.error(error);
       });
   };
@@ -58,8 +69,8 @@ const TabBar = ({ ratingCount, commentCount, medium, mediumId }) => {
         onChange={handleChange}
         aria-label="simple tabs example"
       >
-        <Tab label={`Bewertungen (${ratingCount})`} />
-        <Tab label={`Kommentare (${commentCount})`} />
+        <Tab label={`Bewertungen (${medium.numberOfRatings})`} />
+        <Tab label={`Kommentare (${medium.numberOfComments})`} />
       </Tabs>
       <TabPanel value={value} index={0}>
         {showValue === 0 && (
@@ -68,6 +79,7 @@ const TabBar = ({ ratingCount, commentCount, medium, mediumId }) => {
             medium={medium}
             handleFetchRatings={fetchRatingsFromMedium}
             handleReloadData={handleReloadData}
+            handleAddMessage={handleAddMessage}
           >
             Bewertungen
           </RatingList>
@@ -76,7 +88,11 @@ const TabBar = ({ ratingCount, commentCount, medium, mediumId }) => {
 
       <TabPanel value={value} index={1}>
         {showValue === 0 && (
-          <CommentList medium={medium} handleReloadData={handleReloadData}>
+          <CommentList
+            medium={medium}
+            handleReloadData={handleReloadData}
+            handleAddMessage={handleAddMessage}
+          >
             Kommentare
           </CommentList>
         )}

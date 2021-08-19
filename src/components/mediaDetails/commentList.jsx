@@ -3,20 +3,21 @@ import CommentEntry from "./commentEntry";
 import { useState } from "react";
 import { useEffect } from "react";
 
-const CommentList = ({ handleFetchComments, medium }) => {
+const CommentList = ({ handleFetchComments, medium, handleAddMessage }) => {
   const numberOfCommentsPerPage = 2;
   const [currentCommentPage, setCurrentCommentPage] = useState(0);
   const [comments, setComments] = useState([]);
-  const [isLoadMoreButtonVisible, setIsLoadMorebUttonVisible] = useState(true);
+  const [isLoadMoreButtonVisible, setIsLoadMoreButtonVisible] = useState(true);
 
   const fetchCommentsFromMedium = (isInitialFetch = false) => {
     const currentPage = isInitialFetch ? 0 : currentCommentPage;
+    
     fetch(
       `http://localhost:5000/rest/comments/all/medium/${medium.id}?page=${currentPage}&size=${numberOfCommentsPerPage}`
     )
       .then((res) => {
         if (!res.ok) {
-          throw Error("unable to fetch ratings");
+          throw Error('Fehler beim Abrufen der Kommentare');
         }
         return res.json();
       })
@@ -27,11 +28,15 @@ const CommentList = ({ handleFetchComments, medium }) => {
           setComments([...comments, ...data]);
         }
         if (data < numberOfCommentsPerPage) {
-          setIsLoadMorebUttonVisible(false);
+          setIsLoadMoreButtonVisible(false);
+        } else {
+            setIsLoadMoreButtonVisible(true);
         }
+
         setCurrentCommentPage(currentPage + 1);
       })
       .catch((error) => {
+        handleAddMessage(error.message)
         console.error(error);
       });
   };
@@ -47,6 +52,8 @@ const CommentList = ({ handleFetchComments, medium }) => {
             key={comment.id}
             comment={comment}
             medium={medium}
+            handleReload={fetchCommentsFromMedium}
+            handleAddMessage={handleAddMessage}
           ></CommentEntry>
         );
       })}

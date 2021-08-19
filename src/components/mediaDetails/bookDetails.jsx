@@ -88,35 +88,6 @@ const BookDetails = ({ handleAddMessage }) => {
   };
   useEffect(fetchCommentCount, []);
 
-  const handleSubmitFormComment = (e, body, currentUser, mediumToComment) => {
-    e.preventDefault();
-
-    let newComment = {
-      textOfComment: body,
-      numberOfPosts: 0,
-      userMappingId: currentUser,
-      mediumMappingId: mediumToComment,
-    };
-
-    fetch(`http://localhost:5000/rest/comments/add`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: sessionStorage.getItem("Bearer "),
-      },
-      body: JSON.stringify(newComment),
-    })
-      .then((data) => {
-        setHandleToggleComment(false);
-        fetchMedium();
-      })
-      .catch((error) => {
-        setHandleError(
-          "Das Formular konnte nicht abgeschickt werden (" + handleError + ")"
-        );
-      });
-  };
-
   const handleSubmitFormRating = (
     e,
     body,
@@ -144,12 +115,40 @@ const BookDetails = ({ handleAddMessage }) => {
     })
       .then((data) => {
         setHandleToggleRating(false);
+        handleAddMessage('success', 'Erfolg', 'Die Bewertung wurde angelegt');
         fetchMedium();
       })
       .catch((error) => {
-        setHandleError(
-          "Das Formular konnte nicht abgeschickt werden (" + handleError + ")"
-        );
+        handleAddMessage('error', 'Fehler', 'Der Kommentar konnte nicht angelegt werden');
+
+      });
+  };
+
+  const handleSubmitFormComment = (e, body, currentUser, mediumToComment) => {
+    e.preventDefault();
+
+    let newComment = {
+      textOfComment: body,
+      numberOfPosts: 0,
+      userMappingId: currentUser,
+      mediumMappingId: mediumToComment,
+    };
+
+    fetch(`http://localhost:5000/rest/comments/add`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: sessionStorage.getItem("Bearer "),
+      },
+      body: JSON.stringify(newComment),
+    })
+      .then((data) => {
+        setHandleToggleComment(false);
+        handleAddMessage('success', 'Erfolg', 'Der Kommentar wurde hizugefügt');
+        fetchMedium();
+      })
+      .catch((error) => {
+        handleAddMessage('error', 'Fehler', 'Der Kommentar konnte nicht angelegt werden');
       });
   };
 
@@ -288,6 +287,7 @@ const BookDetails = ({ handleAddMessage }) => {
                 <NewRatingForm
                   handleSubmitFormRating={handleSubmitFormRating}
                   medium={medium}
+                  handleAddMessage={handleAddMessage}
                 ></NewRatingForm>
               </div>
             )}
@@ -297,6 +297,7 @@ const BookDetails = ({ handleAddMessage }) => {
                 <NewCommentForm
                   handleSubmitFormComment={handleSubmitFormComment}
                   medium={medium}
+                  handleAddMessage={handleAddMessage}
                 ></NewCommentForm>
               </div>
             )}

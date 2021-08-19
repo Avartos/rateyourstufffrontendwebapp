@@ -118,13 +118,12 @@ const SeriesDetails = ({ handleAddMessage }) => {
     })
       .then((data) => {
         setHandleToggleRating(false);
-        //Reload page, to get actual average rating
+        handleAddMessage('success', 'Erfolg', 'Die Bewertung wurde angelegt');
         fetchMedium();
       })
       .catch((error) => {
-        setHandleError(
-          "Das Formular konnte nicht abgeschickt werden (" + handleError + ")"
-        );
+        handleAddMessage('error', 'Fehler', 'Der Kommentar konnte nicht angelegt werden');
+
       });
   };
 
@@ -148,12 +147,11 @@ const SeriesDetails = ({ handleAddMessage }) => {
     })
       .then((data) => {
         setHandleToggleComment(false);
+        handleAddMessage('success', 'Erfolg', 'Der Kommentar wurde hizugefügt');
         fetchMedium();
       })
       .catch((error) => {
-        setHandleError(
-          "Das Formular konnte nicht abgeschickt werden (" + handleError + ")"
-        );
+        handleAddMessage('error', 'Fehler', 'Der Kommentar konnte nicht angelegt werden');
       });
   };
 
@@ -312,6 +310,7 @@ const SeriesDetails = ({ handleAddMessage }) => {
                 <NewRatingForm
                   handleSubmitFormRating={handleSubmitFormRating}
                   medium={medium}
+                  handleAddMessage={handleAddMessage}
                 ></NewRatingForm>
               </div>
             )}
@@ -321,6 +320,7 @@ const SeriesDetails = ({ handleAddMessage }) => {
                 <NewCommentForm
                   handleSubmitFormComment={handleSubmitFormComment}
                   medium={medium}
+                  handleAddMessage={handleAddMessage}
                 ></NewCommentForm>
               </div>
             )}
@@ -331,6 +331,7 @@ const SeriesDetails = ({ handleAddMessage }) => {
                 mediumId={id}
                 commentCount={commentCount}
                 medium={medium}
+                handleAddMessage={handleAddMessage}
               ></TabBar>
             </div>
 

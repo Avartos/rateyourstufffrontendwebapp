@@ -8,7 +8,7 @@ import { useHistory } from "react-router";
 const RatingsEntry = ({
   rating,
   medium,
-  handleUpdateMedium,
+  handleAddMessage,
   handleReloadData,
 }) => {
   const [toggleEdit, setToggleEdit] = useState(false);
@@ -44,12 +44,11 @@ const RatingsEntry = ({
     })
       .then((data) => {
         setToggleEdit(false);
+        handleAddMessage('success', 'Aktualisiert', 'Die Bewertung wurde aktualisiert');
         handleReloadData();
       })
       .catch((error) => {
-        setHandleError(
-          "Das Formular konnte nicht abgeschickt werden (" + handleError + ")"
-        );
+        handleAddMessage('error', 'Fehler', 'Fehler beim Aktualisieren der Bewertung');
       });
   };
 
@@ -64,10 +63,12 @@ const RatingsEntry = ({
         if (!res.ok) {
           throw Error("Fehler beim Löschen der Bewertung");
         }
+        handleAddMessage('success', 'Gelöscht', 'Die Bewertung wurde gelöscht');
         handleReloadData();
       })
       .catch((error) => {
         console.error(error.message);
+        handleAddMessage('error', 'Fehler', error.message);
       });
   };
 

@@ -6,6 +6,7 @@ const RatingList = ({
   ratings,
   handleFetchRatings,
   handleReloadData,
+  handleAddMessage,
 }) => {
   return (
     <React.Fragment>
@@ -16,6 +17,7 @@ const RatingList = ({
             medium={medium}
             rating={rating}
             handleReloadData={handleReloadData}
+            handleAddMessage={handleAddMessage}
           ></RatingsEntry>
         );
       })}
