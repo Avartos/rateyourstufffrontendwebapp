@@ -30,21 +30,7 @@ function Togglebar(props) {
                     <HomeIcon/>
                 </ToggleLink>
 
-                <ToggleLink
-                    title="News"
-                    target="/news"
-                    handleSetVisible={props.handleSetVisible}
-                >
-                    <NewsIcon/>
-                </ToggleLink>
 
-                <ToggleLink
-                    title="History"
-                    target="/history"
-                    handleSetVisible={props.handleSetVisible}
-                >
-                    <HistoryIcon/>
-                </ToggleLink>
                 <hr width="95%" align="center" size="1"></hr>
                 {helper.isLoggedIn() && (
                     <React.Fragment>
@@ -54,22 +40,6 @@ function Togglebar(props) {
                             handleSetVisible={props.handleSetVisible}
                         >
                             <MyAccountIcon/>
-                        </ToggleLink>
-
-                        <ToggleLink
-                            title="Freunde"
-                            target="/myFriends"
-                            handleSetVisible={props.handleSetVisible}
-                        >
-                            <MyFriendsIcon/>
-                        </ToggleLink>
-
-                        <ToggleLink
-                            title="Bewertungen"
-                            target="/myRatings"
-                            handleSetVisible={props.handleSetVisible}
-                        >
-                            <MyRatingsIcon/>
                         </ToggleLink>
 
                         <ToggleLink

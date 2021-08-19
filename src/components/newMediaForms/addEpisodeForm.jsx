@@ -107,7 +107,7 @@ const AddEpisodeForm = ({handleAddMessage}) => {
           body: formData,
         })
           .then((response) => {
-            handleAddMessage('success', 'Buch angelegt', 'Das neue Buch wurde erfolgreich angelegt.');
+            handleAddMessage('success', 'Episode angelegt', 'Die neue Episode wurde erfolgreich angelegt.');
             history.push(`/detail/episode/${data.id}`);
           })
           .catch((error) => {
