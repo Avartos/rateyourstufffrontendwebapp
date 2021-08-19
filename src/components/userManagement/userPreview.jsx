@@ -51,7 +51,7 @@ const UserPreview = ({user, handleAddMessage}) => {
     const handleUserUpdate = (e, userId, roleId) => {
         e.preventDefault();
         const updatedUser = {id: userId, roleMappingId: roleId};
-        fetch('http://localhost:5000/user/customUpdate', {
+        fetch('http://localhost:5000/user/roleUpdate', {
             method: 'PUT',
             headers: {
                 "Content-Type": "application/json",
