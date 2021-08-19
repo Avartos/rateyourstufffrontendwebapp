@@ -42,11 +42,16 @@ const isBusiness = () => {
     }
 }
 
+const getUserId = () => {
+    return sessionStorage.getItem('id');
+}
+
 const authorization = {
     isLoggedIn,
     isAdmin,
     isUser,
-    isBusiness
+    isBusiness,
+    getUserId
 }
 
 export default authorization;
