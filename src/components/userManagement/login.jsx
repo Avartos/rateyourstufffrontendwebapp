@@ -34,7 +34,6 @@ const Login = ({ handleAddMessage }) => {
       })
       .then((data) => {
         decodedData = decodeJWT(data.jwt);
-        console.log(decodedData);
         sessionStorage.setItem("id", decodedData.id);
         sessionStorage.setItem("username", username);
         sessionStorage.setItem("role", decodedData.role);

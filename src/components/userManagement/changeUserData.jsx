@@ -200,7 +200,7 @@ const ChangeUserData = ({user, handleAddMessage}) => {
                                value={passwordHashReference}
                                onChange={(e) => {setPasswordReference(e.target.value); setHasAccountBeenChanged(true)}}
                         />
-                        <button className={'changeButton ' + (!hasAccountBeenChanged ? 'disabled' : '')} disabled={!hasAccountBeenChanged}>Save Password</button>
+                        <button className={'changeButton ' + (!hasAccountBeenChanged ? 'disabled' : '')} disabled={!hasAccountBeenChanged}>Update Account</button>
                         {error}
                     </form>
                 </div>
