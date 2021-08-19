@@ -249,7 +249,7 @@ const EditGameForm = ({handleAddMessage}) => {
       />
 
       <DefaultTextField
-        title="Geschätzte Spieldauer (Minuten)"
+        title="Geschätzte Spieldauer (Stunden)"
         value={averagePlaytime}
         setter={setAveragePlaytime}
         type="number"

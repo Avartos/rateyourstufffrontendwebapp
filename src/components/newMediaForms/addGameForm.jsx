@@ -221,7 +221,7 @@ const AddGameForm = ({ handleAddMessage }) => {
       />
 
       <DefaultTextField
-        title="Geschätzte Spieldauer (Minuten)"
+        title="Geschätzte Spieldauer (Stunden)"
         value={duration}
         setter={setDuration}
         type="number"
