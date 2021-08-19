@@ -308,6 +308,7 @@ const BookDetails = ({ handleAddMessage }) => {
                 medium={medium}
                 mediumId={id}
                 commentCount={commentCount}
+                handleAddMessage={handleAddMessage}
               ></TabBar>
             </div>
 
