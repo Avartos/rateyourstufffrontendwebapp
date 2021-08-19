@@ -259,7 +259,7 @@ const EditMovieForm = ({handleAddMessage}) => {
       />
 
       <Button variant="contained" color="primary" type="submit">
-        Film hinzufügen
+        Film aktualisieren
       </Button>
     </form>
   );
