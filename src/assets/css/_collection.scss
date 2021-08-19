@@ -92,9 +92,18 @@
   justify-content: left;
   width: 100%;
   margin: 0 auto;
+  * {
+    color: white !important;
+  }
 }
 
 .collectionDetails {
   width: 80%;
   margin: 0 auto;
+}
+
+.addMediumToCollectionForm {
+  * {
+    color: white !important;
+  }
 }

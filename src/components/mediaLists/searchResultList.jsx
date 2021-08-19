@@ -4,6 +4,7 @@ import MediaEntry from "../welcomePage/mediaEntry";
 
 
 import {useLocation} from "react-router";
+import { SpaRounded } from "@material-ui/icons";
 
 
 const SearchList = () => {
@@ -55,6 +56,7 @@ const SearchList = () => {
       <div className="list">
         <h1>searchResults</h1>
         <div className="largeMediaList">
+          {!isPending && !error && media.length === 0 &&<span>Ihre Suche erzielte leider keine Treffer!</span>}
           {!isPending &&
             !error &&
             media.map((medium) => {

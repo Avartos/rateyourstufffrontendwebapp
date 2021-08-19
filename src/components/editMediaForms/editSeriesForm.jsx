@@ -8,6 +8,7 @@ import { Button } from "@material-ui/core";
 import DefaultCheckBox from "../formComponents/defaultCheckBox";
 import ImagePreview from "../formComponents/imagePreview";
 import { useParams } from "react-router";
+import { Event } from "@material-ui/icons";
 
 /**
  * This component can be used to edit a series from the database
@@ -50,7 +51,7 @@ const EditSeriesForm = ({handleAddMessage}) => {
         setDescription(data.shortDescription);
         setLanguages(data.languages);
         setGenres(data.genres);
-        setPicturePath(data.picturePath);
+        setPicturePath(data.picturePath ? data.picturePath : '');
         setAgeRestriction(data.ageRestriction);
         setNetwork(data.networkNetworkTitle);
         setCurrentImage(`http://localhost:5000/${data.picturePath}`);
@@ -186,6 +187,7 @@ const EditSeriesForm = ({handleAddMessage}) => {
     }
     else {
       setCurrentImage(URL.createObjectURL(event.target.files[0]));
+      setMediumPoster(Event.target.files[0]);
     }
   };
 
@@ -197,7 +199,7 @@ const EditSeriesForm = ({handleAddMessage}) => {
         type="file"
         onChange={(e) => {
           handleSelectImage(e);
-          setMediumPoster(e.target.files[0]);
+          
         }}
       />
 

@@ -11,7 +11,7 @@ const Logout = ({handleAddMessage}) => {
         <div className="loggedOut">
             {sessionStorage.clear()}
             {handleAddMessage('info', 'Abgemeldet')}
-            {setTimeout(() => _router.go(), 1000)}
+            { _router.go()}
         </div>
     )
 }

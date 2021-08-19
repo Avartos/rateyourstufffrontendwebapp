@@ -48,12 +48,23 @@ const SmallCollectionList = ({ mediumId }) => {
           })}
       </div>
       {authorization.isLoggedIn() && (
-        <AddMediumToCollectionForm mediumId={mediumId} handleUpdateCollectionData={fetchCollections} />
+        <AddMediumToCollectionForm
+          mediumId={mediumId}
+          handleUpdateCollectionData={fetchCollections}
+        />
       )}
 
-      {collections.length >= 0 && 
-        <Button onClick={() => {history.push(`/collections/medium/${mediumId}`)}}>Alle Sammlungen anzeigen</Button>
-      }
+      {collections.length >= 0 && (
+        <div className="addMediumButton">
+          <Button
+            onClick={() => {
+              history.push(`/collections/medium/${mediumId}`);
+            }}
+          >
+            Alle Sammlungen anzeigen
+          </Button>
+        </div>
+      )}
     </React.Fragment>
   );
 };

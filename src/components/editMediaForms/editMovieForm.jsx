@@ -56,7 +56,7 @@ const EditMovieForm = ({handleAddMessage}) => {
         if (data.networkNetworkTitle) setNetwork(data.networkNetworkTitle);
         setLanguages(data.languages);
         setGenres(data.genres);
-        setPicturePath(data.picturePath);
+        setPicturePath(data.picturePath ? data.picturePath : '');
       })
       .catch((error) => {
         handleAddMessage("error", "Fehler", error.message);
@@ -184,6 +184,7 @@ const EditMovieForm = ({handleAddMessage}) => {
     }
     else {
       setCurrentImage(URL.createObjectURL(event.target.files[0]));
+      setMediumPoster(event.target.files[0]);
     }
   };
 
@@ -195,7 +196,7 @@ const EditMovieForm = ({handleAddMessage}) => {
         type="file"
         onChange={(e) => {
           handleSelectImage(e);
-          setMediumPoster(e.target.files[0]);
+          
         }}
       />
 

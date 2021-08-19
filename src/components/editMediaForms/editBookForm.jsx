@@ -49,7 +49,7 @@ const EditBookForm = ({ handleAddMessage }) => {
         setDescription(data.shortDescription);
         setLanguages(data.languages);
         setGenres(data.genres);
-        setPicturePath(data.picturePath);
+        setPicturePath(data.picturePath ? data.picturePath : '');
         setNumberOfPages(data.numberOfPages);
         setISBN(data.isbn);
         handleCheckIfISBNIsValid(data.isbn);
@@ -225,6 +225,7 @@ const EditBookForm = ({ handleAddMessage }) => {
       );
     } else {
       setCurrentImage(URL.createObjectURL(event.target.files[0]));
+      setMediumPoster(event.target.files[0]);
     }
   };
 
@@ -239,7 +240,7 @@ const EditBookForm = ({ handleAddMessage }) => {
         type="file"
         onChange={(e) => {
           handleSelectImage(e);
-          setMediumPoster(e.target.files[0]);
+          
         }}
       />
 

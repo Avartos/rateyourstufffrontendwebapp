@@ -73,16 +73,16 @@ const AddMediumToCollectionForm = ({ mediumId, handleUpdateCollectionData, handl
           <span>Dieses Medium zu einer Sammlung hinzufügen?</span>
           <div className="collectionSelection">
             <Autocomplete
-              id="combo-box-demo"
               options={collections}
               getOptionLabel={(option) => option ? option.title : ''}
               style={{ width: 300 }}
               value={currentCollection}
+              title="Sammlung wählen"
               onChange={(e, value) => {
                 setCurrentCollection(value);
               }}
               renderInput={(params) => (
-                <TextField {...params} label="Combo box" variant="outlined"/>
+                <TextField {...params} label="Sammlung wählen" variant="outlined"/>
               )}
             />
             {currentCollection && (

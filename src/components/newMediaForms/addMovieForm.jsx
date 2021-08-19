@@ -101,7 +101,8 @@ const AddMovieForm = ({ handleAddMessage }) => {
         return res.json();
       })
       .then((data) => {
-        const formData = new FormData();
+        if(mediumPoster) {
+          const formData = new FormData();
         formData.append("image", mediumPoster);
         fetch(`http://localhost:5000/rest/movies/images/${data.id}`, {
           method: "POST",
@@ -122,6 +123,15 @@ const AddMovieForm = ({ handleAddMessage }) => {
             handleAddMessage("error", "Fehler", error.message);
             console.error(error);
           });
+        } else {
+          handleAddMessage(
+            "success",
+            "Buch angelegt",
+            "Der neue Filme wurde erfolgreich angelegt."
+          );
+          history.push(`/detail/movie/${data.id}`);
+        }
+        
       })
       .catch((error) => {
         handleAddMessage("error", "Fehler", error.message);
@@ -138,6 +148,7 @@ const AddMovieForm = ({ handleAddMessage }) => {
     }
     else {
       setCurrentImage(URL.createObjectURL(event.target.files[0]));
+      setMediumPoster(event.target.files[0]);
     }
   };
 
@@ -149,7 +160,7 @@ const AddMovieForm = ({ handleAddMessage }) => {
         type="file"
         onChange={(e) => {
           handleSelectImage(e);
-          setMediumPoster(e.target.files[0]);
+          
         }}
       />
 
