@@ -6,13 +6,14 @@ import EditCommentForm from "../comments/editCommentForm";
 import { useHistory } from "react-router";
 import NewSubCommentForm from "../comments/newSubCommentForm";
 import useFetch from "../../hooks/useFetch";
+import SubCommentList from "../comments/subCommentList";
 
 const CommentEntry = ({comment, medium}) => {
     const [handleToggleEdit, setHandleToggleEdit] = useState(false);
     const [handleToggleSubComment, setHandleToggleSubComment] = useState(false);
     const [handleError, setHandleError] = useState(null);
-    const numberOfSubCommentsPerPage = 2;
     const [subComments, setSubComments] = useState([]);
+    const numberOfSubCommentsPerPage = 2;
     const [currentSubCommentPage, setCurrentSubCommentPage] = useState(0);
     const history = useHistory();
 
@@ -28,7 +29,6 @@ const CommentEntry = ({comment, medium}) => {
             userMappingId: currentUser,
             mediumMappingId: mediumToComment,
         };
-
 
         fetch(`http://localhost:5000/rest/comments`, {
             method: "PUT",
@@ -78,8 +78,8 @@ const CommentEntry = ({comment, medium}) => {
             });
     };
 
-    const handleFetchSubCommentsfromComment =() => {
-        fetch(`http://localhost:5000/rest/comments/all/medium/?page=${currentSubCommentPage}&size=${numberOfSubCommentsPerPage}`)
+    const handleFetchSubCommentsFromComment =() => {
+        fetch(`http://localhost:5000/rest/comments/all/subcomments/${comment.commentParentId}?page=${currentSubCommentPage}&size=${numberOfSubCommentsPerPage}`)
             .then ( res => {
                     if (!res.ok){
                         throw Error("unable to fetch ratings");
@@ -89,7 +89,7 @@ const CommentEntry = ({comment, medium}) => {
             )
             .then (data => {
                 setSubComments([...subComments,...data]);
-                setCurrentSubCommentPage(currentSubCommentPage+1)
+                setCurrentSubCommentPage(currentSubCommentPage+1);
             })
             .catch (error => {
                 console.error(error);
@@ -119,6 +119,7 @@ const CommentEntry = ({comment, medium}) => {
             }}>
             </ReplyIcon>
 
+            <SubCommentList subComments={subComments} handleFetchSubComments={handleFetchSubCommentsFromComment} comment={comment} ></SubCommentList>
 
             {handleToggleEdit &&(
             <EditCommentForm handleEditComment={handleEditComment} comment={comment} medium={medium}/>
