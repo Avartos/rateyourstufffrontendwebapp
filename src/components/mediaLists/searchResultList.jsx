@@ -56,7 +56,7 @@ const SearchList = () => {
       <div className="list">
         <h1>searchResults</h1>
         <div className="largeMediaList">
-          {!isPending && !error && <span>Ihre Suche erzielte leider keine Treffer!</span>}
+          {!isPending && !error && media.length === 0 &&<span>Ihre Suche erzielte leider keine Treffer!</span>}
           {!isPending &&
             !error &&
             media.map((medium) => {
