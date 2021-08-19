@@ -1,6 +1,6 @@
 {
   "files": {
-    "main.css": "/rateyourstufffrontendwebapp/static/css/main.0a74ee21.chunk.css",
+    "main.css": "/rateyourstufffrontendwebapp/static/css/main.df129f12.chunk.css",
     "main.js": "/rateyourstufffrontendwebapp/static/js/main.4e6eddb4.chunk.js",
     "main.js.map": "/rateyourstufffrontendwebapp/static/js/main.4e6eddb4.chunk.js.map",
     "runtime-main.js": "/rateyourstufffrontendwebapp/static/js/runtime-main.b586cbec.js",
@@ -10,7 +10,7 @@
     "static/js/3.118ee8ae.chunk.js": "/rateyourstufffrontendwebapp/static/js/3.118ee8ae.chunk.js",
     "static/js/3.118ee8ae.chunk.js.map": "/rateyourstufffrontendwebapp/static/js/3.118ee8ae.chunk.js.map",
     "index.html": "/rateyourstufffrontendwebapp/index.html",
-    "static/css/main.0a74ee21.chunk.css.map": "/rateyourstufffrontendwebapp/static/css/main.0a74ee21.chunk.css.map",
+    "static/css/main.df129f12.chunk.css.map": "/rateyourstufffrontendwebapp/static/css/main.df129f12.chunk.css.map",
     "static/js/2.79b66081.chunk.js.LICENSE.txt": "/rateyourstufffrontendwebapp/static/js/2.79b66081.chunk.js.LICENSE.txt",
     "static/media/books.fad26ce6.svg": "/rateyourstufffrontendwebapp/static/media/books.fad26ce6.svg",
     "static/media/games.b99276ff.svg": "/rateyourstufffrontendwebapp/static/media/games.b99276ff.svg",
@@ -29,7 +29,7 @@
   "entrypoints": [
     "static/js/runtime-main.b586cbec.js",
     "static/js/2.79b66081.chunk.js",
-    "static/css/main.0a74ee21.chunk.css",
+    "static/css/main.df129f12.chunk.css",
     "static/js/main.4e6eddb4.chunk.js"
   ]
 }
