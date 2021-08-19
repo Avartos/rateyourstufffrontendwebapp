@@ -47,7 +47,7 @@ const EditEpisodeForm = ({ handleAddMessage }) => {
         setDescription(data.shortDescription);
         setLanguages(data.languages);
         setGenres(data.genres);
-        setPicturePath(data.picturePath);
+        setPicturePath(data.picturePath ? data.picturePath : '');
         setCurrentImage(`http://localhost:5000/${data.picturePath}`);
         setSeasonId(data.seasonId);
         setEpisodeNumber(data.episodeNumber);
@@ -189,6 +189,7 @@ const EditEpisodeForm = ({ handleAddMessage }) => {
       );
     } else {
       setCurrentImage(URL.createObjectURL(event.target.files[0]));
+      setMediumPoster(event.target.files[0]);
     }
   };
 
@@ -202,7 +203,7 @@ const EditEpisodeForm = ({ handleAddMessage }) => {
         type="file"
         onChange={(e) => {
           handleSelectImage(e);
-          setMediumPoster(e.target.files[0]);
+          
         }}
       />
 
